@@ -1,0 +1,24 @@
+<template>
+  <div
+    class="rounded-borders custom-outline col q-py-sm q-pl-sm q-pr-xs flex justify-between items-center"
+  >
+    <div class="">{{ button.label }}</div>
+    <div class="flex items-center">
+      <RouteMenu :block="block" :button="button" />
+      <ButtonMenu :block="block" :button="button" />
+    </div>
+  </div>
+</template>
+<script setup lang="ts">
+import { defineProps, PropType } from "vue";
+
+import ButtonMenu from "./ButtonMenu.vue";
+import RouteMenu from "./RouteMenu.vue";
+
+import { Button, Block } from "../../../types/types";
+
+defineProps({
+  button: Object as PropType<Button>,
+  block: Object as PropType<Block>,
+});
+</script>

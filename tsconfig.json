@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "quotemark": [
+    [true, "double"],
+    [true, "single"]
+  ]
+}
