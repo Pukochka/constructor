@@ -3,31 +3,22 @@ export interface SvgStore {
 }
 
 export interface Svg {
-  circle: CircleHelper;
+  collections: AssamblyElements[];
   cursor_path: boolean;
-  g_lines: GLine[];
   moving_line: number;
-}
-
-export interface Circle {
-  x: number;
-  y: number;
-  id: number;
-  button_id: number;
-}
-
-export interface CircleHelper {
   radius: number;
-  dpi_y: number;
-  circles: Circle[];
+  mass: Array<number>
 }
 
-export interface GLine {
-  id: number;
+export interface AssamblyElements {
+  button_id: number;
   start_x: number;
   start_y: number;
-  now_x: number;
-  now_y: number;
-  end_x: number;
-  end_y: number;
+  action: boolean;
+  path: Path;
+  polygon_points: string;
+}
+
+export interface Path {
+  beizer_curve: string;
 }

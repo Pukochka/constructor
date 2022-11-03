@@ -23,7 +23,19 @@ export const useSelectStore = defineStore({
     SelectedCommand: (state) => state.select.command,
     SelectedBlock: (state) => state.select.block,
     SelectedButton: (state) => state.select.button,
-    SelectedReplics: (state) => state.select.tabs.replics
+    SelectedReplics: (state) => state.select.tabs.replics,
+    SelectCommandButtonsId: (state) => {
+      const buttons_id = []
+      state.select.command.columns.forEach(item => {
+        item.blocks.forEach(block => {
+          block.buttons.forEach(btn => {
+            buttons_id.push(btn.id)
+          })
+        })
+      })
+      console.log(buttons_id);
+      return buttons_id;
+    }
   },
   actions: {
     SelectState(value: StateTypes, section: StateValues) {

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="custom-outline rounded-borders q-mb-xl"
+    class="custom-outline rounded-borders q-mb-xl bg-white z-100"
     style="max-width: 370px; min-width: 370px"
   >
     <div class="q-pa-sm q-px-md flex justify-between">
@@ -77,4 +77,8 @@ const props = defineProps({
   block: Object as PropType<Block>,
 });
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.z-100 {
+  z-index: 100;
+}
+</style>

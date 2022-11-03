@@ -1,11 +1,15 @@
 <template>
-  <div ref="svghelper">
+  <div class="flex items-center" ref="svghelper">
     <q-btn dense color="red" size="6px" round unelevated :outline="has_button_connection">
       <q-tooltip anchor="top middle" self="bottom middle"
         >{{ has_button_connection ? "Указать путь" : "Показать путь" }}
       </q-tooltip>
       <q-menu>
         <q-list dense style="min-width: 100px">
+          <q-item class="text-primary items-center" clickable v-close-popup>
+            <q-icon name="menu" />
+            <q-item-section class="q-ml-sm">Связать с другой командой</q-item-section>
+          </q-item>
           <q-item
             class="text-primary items-center"
             clickable
@@ -19,9 +23,7 @@
             class="text-primary items-center"
             clickable
             v-close-popup
-            @click="
-              StartCursorFollowing(button_coords.id, button_coords.x, button_coords.y)
-            "
+            @click="StartCursorFollowing(new_assambly)"
           >
             <q-icon name="lan" />
             <q-item-section class="q-ml-sm">Связь с блоком</q-item-section>
@@ -32,7 +34,16 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { defineProps, PropType, computed, ref, onMounted, onUnmounted } from "vue";
+import {
+  defineProps,
+  PropType,
+  computed,
+  watch,
+  ref,
+  onMounted,
+  onUnmounted,
+  onUpdated,
+} from "vue";
 
 import { useDialogsStore, useSvgStore } from "../../../stores/index";
 
@@ -45,30 +56,56 @@ const props = defineProps({
   block: Object as PropType<Block>,
 });
 
-const button_coords = ref({
-  id: Date.now(),
-  button_id: props.button.id,
-  x: null,
-  y: null,
-});
-
-const { ChangeVisibilityDialogs } = useDialogsStore();
-const { DetermingCircle, DeativateCircle, StartCursorFollowing } = useSvgStore();
-const svg = useSvgStore();
-
-const CreateCircle = () => {
-  const el = document.getElementById("SvgArea");
-  const parent = el.getBoundingClientRect();
-  const { x, y } = svghelper.value.getBoundingClientRect();
-  button_coords.value.x = x - parent.x + svg.svg.circle.radius;
-  button_coords.value.y = y - parent.y + svg.svg.circle.dpi_y;
-
-  DetermingCircle(button_coords.value);
+const new_assambly = {
+  button_id: null,
+  start_x: null,
+  start_y: null,
+  action: false,
+  path: {
+    beizer_curve: "",
+  },
+  polygon_points: "",
 };
 
-onMounted(() => CreateCircle());
+const parent = ref<DOMRect>();
 
-onUnmounted(() => DeativateCircle(button_coords.value.id));
+const { ChangeVisibilityDialogs } = useDialogsStore();
+const {
+  DetermingCollection,
+  UpdateCollection,
+  StartCursorFollowing,
+  MassP,
+} = useSvgStore();
+const svg = useSvgStore();
+
+const CreateCircle = (parent: DOMRect, id: number) => {
+  const { x, y } = svghelper.value.getBoundingClientRect();
+  new_assambly.start_x = x - parent.x + svg.gett.radius;
+  new_assambly.start_y = y - parent.y + svg.gett.radius;
+  new_assambly.button_id = id;
+  // console.log(new_assambly);
+  DetermingCollection(new_assambly);
+  // UpdateCollection();
+};
+
+onUpdated(() => {
+  CreateCircle(parent.value, props.button.id);
+  UpdateCollection();
+  MassP(props.button.id);
+});
+
+onMounted(() => {
+  parent.value = document.getElementById("SvgArea").getBoundingClientRect();
+  CreateCircle(parent.value, props.button.id);
+  MassP(props.button.id);
+  // console.log(svg.gett.collections);
+});
+
+onUnmounted(() => {
+  UpdateCollection();
+});
+
+// watch(svg.gett.collections, () => console.log(svg.gett.collections));
 
 const has_button_connection = computed(() => !props.button.connection);
 </script>

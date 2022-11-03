@@ -58,13 +58,13 @@ export const Commands: Command[] = [
               {
                 type: 0,
                 label: 'Согласен',
-                id: 0,
+                id: 2,
                 connection: null
               },
               {
                 type: 0,
                 label: 'Не согласен',
-                id: 1,
+                id: 3,
                 connection: null
               },
             ]
@@ -82,13 +82,13 @@ export const Commands: Command[] = [
               {
                 type: 0,
                 label: 'Соглаfsdсен',
-                id: 0,
+                id: 4,
                 connection: null
               },
               {
                 type: 0,
                 label: 'Не со423гласен',
-                id: 1,
+                id: 5,
                 connection: null
               },
             ]
@@ -112,13 +112,13 @@ export const Commands: Command[] = [
               {
                 type: 0,
                 label: 'Согласен',
-                id: 0,
+                id: 6,
                 connection: null
               },
               {
                 type: 0,
                 label: 'Не согласен',
-                id: 1,
+                id: 7,
                 connection: null
               },
             ]
@@ -136,13 +136,13 @@ export const Commands: Command[] = [
               {
                 type: 0,
                 label: 'Согласен',
-                id: 0,
+                id: 8,
                 connection: null
               },
               {
                 type: 0,
                 label: 'Не согласен',
-                id: 1,
+                id: 9,
                 connection: null
               },
             ]
@@ -172,13 +172,13 @@ export const Commands: Command[] = [
               {
                 type: 0,
                 label: 'Согласен',
-                id: 0,
+                id: 10,
                 connection: null
               },
               {
                 type: 0,
                 label: 'Не согласен',
-                id: 1,
+                id: 11,
                 connection: null
               },
             ]

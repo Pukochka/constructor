@@ -4,8 +4,8 @@
   >
     <div class="">{{ button.label }}</div>
     <div class="flex items-center">
-      <RouteMenu :block="block" :button="button" />
       <ButtonMenu :block="block" :button="button" />
+      <RouteMenu :block="block" :button="button" />
     </div>
   </div>
 </template>

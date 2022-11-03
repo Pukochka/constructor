@@ -29,7 +29,7 @@ export const useMainStore = defineStore('MainStore', {
     GetBlockConfig: (state) => {
       if (state.block_type === 0) return { type: state.block_type, ...state.input }
       if (state.block_type === 1) return { type: state.block_type, ...state.uploader }
-    }
+    },
   },
   actions: {
     SelectBlockType(value: number) {

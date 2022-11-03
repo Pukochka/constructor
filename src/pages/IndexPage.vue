@@ -2,41 +2,41 @@
   <q-page class="row flex-center">
     <div class="col-10">
       <HeaderOptions />
-      <div class="row">
-        <div
-          class="col-12 rounded-borders custom-outline overflow-scroll-x q-px-md q-pt-md scroll-style-default"
-          style="height: 550px"
+      <div>
+        <q-scroll-area
+          :thumb-style="thumbStyle"
+          visible
+          style="height: 550px; width: 100%"
+          class="row relative-position rounded-borders custom-outline"
         >
-          <div class="relative-position">
-            <SvgTemplate />
-            <div class="row no-wrap q-col-gutter-xl">
-              <div class="column" v-for="(item, index) in filtered_commands" :key="index">
-                <BlockView v-for="block in item.blocks" :key="block.id" :block="block" />
-                <div class="row q-mt-sm q-mb-xl">
-                  <q-btn
-                    rounded
-                    flat
-                    color="primary"
-                    label="Добавить экран"
-                    class="col-12"
-                    @click="AddBlockInColumn(item)"
-                  />
-                </div>
-              </div>
-              <div class="" style="width: 370px">
+          <SvgTemplate />
+          <div class="row no-wrap q-pa-md q-col-gutter-xl">
+            <div class="column" v-for="(item, index) in filtered_commands" :key="index">
+              <BlockView v-for="block in item.blocks" :key="block.id" :block="block" />
+              <div class="row q-mt-sm q-mb-xl">
                 <q-btn
-                  no-wrap
                   rounded
-                  class="full-width"
                   flat
                   color="primary"
                   label="Добавить экран"
-                  @click="AddBlockWithLine"
+                  class="col-12"
+                  @click="AddBlockInColumn(item)"
                 />
               </div>
             </div>
+            <div class="" style="width: 370px">
+              <q-btn
+                no-wrap
+                rounded
+                class="full-width"
+                flat
+                color="primary"
+                label="Добавить экран"
+                @click="AddBlockWithLine"
+              />
+            </div>
           </div>
-        </div>
+        </q-scroll-area>
       </div>
     </div>
     <AddCommand />
@@ -65,6 +65,17 @@ import { Column } from "../types/types";
 const select = useSelectStore();
 const main = useMainStore();
 const { ChangeVisibilityDialogs } = useDialogsStore();
+
+const thumbStyle = {
+  right: "4px",
+  height: "5px",
+  bottom: "4px",
+  borderRadius: "5px",
+  backgroundColor: "rgb(144, 140, 140)",
+  width: "5px",
+  opacity: 0.75,
+  zIndex: 100,
+};
 
 const filtered_commands = computed(
   () => main.all_commands.find((item) => item.id === select.SelectedCommand.id).columns
