@@ -8,8 +8,9 @@ interface Dialogs {
   add_button: boolean;
   add_block: boolean;
   edit_button: boolean;
+  edit_block: boolean;
   set_connection: boolean;
   set_route: boolean;
 }
 
-export type DialogNames = 'add_scenary' | 'add_command' | 'add_button' | 'add_block' | 'edit_button' | 'set_connection' | 'set_route';
+export type DialogNames = 'add_scenary' | 'add_command' | 'add_button' | 'add_block' | 'edit_button' | 'set_connection' | 'set_route' | 'edit_block';

@@ -92,6 +92,7 @@ function WatchParseRoute({
         data: select.options,
         select: select.options[0],
       };
+      end_route = current.select.route;
     }
   } else {
     end_route = select.route;
@@ -110,6 +111,7 @@ function WatchParseRoute({
     danger,
   };
 }
+
 function ParseRoute(
   { select, current, clckAction, parsed_arr, end_route, danger },
   select_route

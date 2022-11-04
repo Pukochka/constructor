@@ -20,7 +20,7 @@ export const useMainStore = defineStore('MainStore', {
         value: null,
         name: null,
         required() {
-          return this.src && this.name
+          return this.value
         }
       }
     } as MainStore),

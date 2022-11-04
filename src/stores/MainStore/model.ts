@@ -15,7 +15,7 @@ export interface TextInput {
 }
 
 export interface Uploader {
-  value: string | ArrayBuffer;
+  value: string;
   name: number;
   required: Required
 }

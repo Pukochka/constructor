@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
-import { useSelectStore } from "../index";
+// import { useSelectStore } from "../index";
 import type { SvgStore, AssamblyElements } from './model';
 
 export const useSvgStore = defineStore({
@@ -20,7 +20,7 @@ export const useSvgStore = defineStore({
   },
   actions: {
     ToggleAction(id: number, value: boolean) {
-      console.log(id, this.svg.collections);
+      // console.log(id, this.svg.collections);
       this.svg.collections.find(item => item.button_id === id).action = value
     },
     DetermingCollection(elements: AssamblyElements) {
@@ -30,13 +30,13 @@ export const useSvgStore = defineStore({
       this.svg.collections = this.svg.collections.filter(item => item.button_id === id)
     },
     UpdateCollection() {
-      const select = useSelectStore();
+      // const select = useSelectStore();
       const current_collection = []
-      for (const item of select.SelectCommandButtonsId) {
-        console.log(item);
-        console.log(this.svg.collections.find(col => col.button_id === item));
-        current_collection.push()
-      }
+      // for (const item of select.SelectCommandButtonsId) {
+      //   // console.log(item);
+      //   // console.log(this.svg.collections.find(col => col.button_id === item));
+      //   current_collection.push()
+      // }
       this.svg.collections = current_collection
       console.log(this.svg.collections);
     },

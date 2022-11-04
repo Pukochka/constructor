@@ -1,5 +1,5 @@
 <template>
-  <div class="q-py-lg flex items-center justify-between">
+  <div class="q-py-lg flex items-center justify-between" v-if="!no_header">
     <div class="flex items-center">
       <q-icon name="image" size="26px" />
       <div class="q-pl-sm text-h6">Изображение</div>
@@ -10,13 +10,13 @@
       flat
       round
       icon="close"
-      @click="ChangeVisibilityDialogs(false, 'add_block')"
+      @click="ChangeVisibilityDialogs(false, dialog_name)"
     />
   </div>
   <div class="full-width q-pa-sm">
     <div class="column">
       <q-btn
-        v-if="!main.uploader.value"
+        v-if="!is_visible_image"
         color="primary"
         flat
         label="Выбрать файл"
@@ -32,7 +32,7 @@
         />
       </q-btn>
       <div class="q-my-sm">
-        <div class="text-caption q-my-sm" v-if="!main.uploader.value">
+        <div class="text-caption q-my-sm" v-if="!is_visible_image">
           <div class="">Допускаются файлы: .jpg, .png и .gif</div>
           <div class="">Размер файла не должен превышать 10 Мб</div>
         </div>
@@ -66,11 +66,21 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onUnmounted } from "vue";
-import { useDialogsStore, useMainStore } from "../../../stores/index";
+import { onUnmounted, defineProps, PropType, onMounted, computed } from "vue";
+import { useDialogsStore, useMainStore, useSelectStore } from "../../../stores/index";
+import { DialogNames } from "../../../stores/DialogStore/model";
 
-const { ChangeVisibilityDialogs } = useDialogsStore();
+defineProps({
+  dialog_name: String as PropType<DialogNames>,
+  no_header: Boolean,
+});
+
 const main = useMainStore();
+const store = useDialogsStore();
+const select = useSelectStore();
+const { ChangeVisibilityDialogs } = useDialogsStore();
+
+const is_visible_image = computed(() => main.uploader.value);
 
 const ReadFile = (e) => {
   const file = e.target.files[0];
@@ -81,9 +91,9 @@ const ReadFile = (e) => {
   reader.onload = function () {
     main.uploader = {
       name: file.name,
-      value: reader.result,
+      value: `${reader.result}`,
       required() {
-        return this.value && this.name;
+        return this.value;
       },
     };
   };
@@ -94,17 +104,21 @@ const DeleteImage = () => {
     value: null,
     name: null,
     required() {
-      return this.value && this.name;
+      return this.value;
     },
   };
 };
+
+onMounted(() => {
+  if (store.Dialogs.edit_block) main.uploader.value = select.SelectedBlock.options;
+});
 
 onUnmounted(() => {
   main.uploader = {
     value: null,
     name: null,
     required() {
-      return this.value && this.name;
+      return this.value;
     },
   };
 });

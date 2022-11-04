@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="q-px-md q-pb-md">
-      <div class="q-py-sm">
+      <div class="q-py-sm" @click="EditBlock">
         <TextBlock :block="block" v-if="block.type === 0" />
         <ImageBlock :block="block" v-if="block.type === 1" />
       </div>
@@ -65,6 +65,10 @@ import EditBlockName from "../Edit/EditBlockName.vue";
 
 import { useDialogsStore, useSelectStore } from "../../stores/index";
 
+const props = defineProps({
+  block: Object as PropType<Block>,
+});
+
 const { ChangeVisibilityDialogs } = useDialogsStore();
 const { SelectState } = useSelectStore();
 
@@ -73,9 +77,10 @@ const AddButton = () => {
   ChangeVisibilityDialogs(true, "add_button");
 };
 
-const props = defineProps({
-  block: Object as PropType<Block>,
-});
+const EditBlock = () => {
+  SelectState(props.block, "block");
+  ChangeVisibilityDialogs(true, "edit_block");
+};
 </script>
 <style lang="scss">
 .z-100 {

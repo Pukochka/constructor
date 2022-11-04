@@ -26,7 +26,7 @@ export interface Block {
   /** buttons - массив кнопок */
   buttons: Button[];
   /** options - в зависимости от типа строка или base64 */
-  options: string | ArrayBuffer;
+  options: string;
   /** block_options - название экрана/свободного сообщения */
   block_options: BlockOptions;
   /** id - id экрана/свободных сообщения*/
@@ -73,19 +73,19 @@ export interface Connection {
    * */
   type: number;
   /** to - для отрисовки линии или парса routes */
-  to: RouteTo;
+  to: string;
   /** info - инфо про связанный с кнопкой экран/свободного сообщение */
   info: ConnectionInfo;
 }
 
-export interface RouteTo {
-  /** command_id - id команды */
-  command_id: number;
-  /** block_id - id экрана/свободного сообщения */
-  block_id: number;
-  /** button_id - id кнопки */
-  button_id: number;
-}
+// export interface RouteTo {
+//   /** command_id - id команды */
+//   command_id: number;
+//   /** block_id - id экрана/свободного сообщения */
+//   block_id: number;
+//   /** button_id - id кнопки */
+//   button_id: number;
+// }
 
 export interface ConnectionInfo {
   /** block_name - название экрана/свободного сообщения */

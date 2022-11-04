@@ -1,8 +1,20 @@
 <template>
   <q-dialog v-model="store.Dialogs.edit_button" position="top" persistent>
     <q-card style="width: 50%" class="q-pa-md">
-      <q-input outlined v-model="text" label="Изменение текта кнопки" />
-      <div class="flex justify-end q-mt-sm">
+      <div class="flex justify-between items-center">
+        <div class="text-h5">Изменение кнопки</div>
+        <q-btn dense flat round icon="close" color="primary" v-close-popup />
+      </div>
+      <div class="q-py-sm">
+        <q-input
+          autofocus
+          outlined
+          v-model="text.value"
+          label="Изменение текта кнопки"
+          :rules="[() => text.required() || 'Введено неверное количество символов']"
+        />
+      </div>
+      <div class="flex justify-end">
         <q-btn
           class="q-mr-sm"
           rounded
@@ -13,6 +25,7 @@
         />
         <q-btn
           rounded
+          :disable="!text.required()"
           color="primary"
           label="Сохранить"
           @click="EditButton"
@@ -25,12 +38,23 @@
 <script setup lang="ts">
 import { ref, onUpdated } from "vue";
 import { useDialogsStore, useSelectStore, useMainStore } from "../../stores/index";
+import { TextInput } from "../../stores/MainStore/model";
+
 const store = useDialogsStore();
 const select = useSelectStore();
 const main = useMainStore();
-const text = ref<string>("");
+
+const text = ref<TextInput>({
+  value: "",
+  max: 100,
+  min: 1,
+  required() {
+    return this.max > this.value.length && this.min < this.value.length;
+  },
+});
+
 onUpdated(() => {
-  text.value = select.SelectedButton.label;
+  text.value.value = select.SelectedButton.label;
 });
 
 const EditButton = () => {
@@ -38,6 +62,7 @@ const EditButton = () => {
     .find((item) => item.id === select.SelectedCommand.id)
     .columns.find((item) => item.id === select.SelectedBlock.column_id)
     .blocks.find((item) => item.id === select.SelectedBlock.id)
-    .buttons.find((item) => item.id === select.SelectedButton.id).label = text.value;
+    .buttons.find((item) => item.id === select.SelectedButton.id).label =
+    text.value.value;
 };
 </script>

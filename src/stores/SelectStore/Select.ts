@@ -33,7 +33,6 @@ export const useSelectStore = defineStore({
           })
         })
       })
-      console.log(buttons_id);
       return buttons_id;
     }
   },

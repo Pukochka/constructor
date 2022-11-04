@@ -19,7 +19,10 @@
             />
             <q-item
               v-else
-              @click="route_state = !route_state"
+              @click="
+                route_state = !route_state;
+                main.clckAction = true;
+              "
               clickable
               class="text-center"
             >
@@ -38,10 +41,20 @@
           </q-item>
         </div>
         <div class="">
-          <SearchMenu v-model="search_state" />
+          <SearchMenu v-model="search_state" @select="SelectItem" :text="text" />
         </div>
         <div class="">
-          <RouteMenu v-model="route_state" @select="SelectItem" />
+          <RouteMenu
+            v-model="route_state"
+            @select="SelectItem"
+            :select_item="main.select"
+          />
+        </div>
+        <div
+          class="text-center q-pt-sm text-caption text-red text-bold"
+          v-if="main.danger"
+        >
+          Для того чтобы добавить товар или категорию, создайте товар или категорию.
         </div>
         <div class="" v-if="main_current.data && !main.danger">
           <div class="q-py-sm">Выброр категории</div>
@@ -50,12 +63,17 @@
               main.current.select["text"] ?? main.current.select["title"]
             }}</q-item-section>
           </q-item>
-          <DefinedMenu :current="main_current" @select="CurrentSelectItem" />
+          <DefinedMenu
+            :current="main_current"
+            @select="CurrentSelectItem"
+            :select_item="main.current.select"
+          />
         </div>
       </div>
       <div class="row q-gutter-sm justify-end">
         <q-btn unelevated rounded flat label="Отмена" color="primary" v-close-popup />
         <q-btn
+          :disable="main.danger || !main_end_route"
           unelevated
           rounded
           label="Сохранить"
@@ -68,8 +86,8 @@
   </q-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, watch, computed, nextTick } from "vue";
-import { useDialogsStore } from "../../stores/index";
+import { ref, watch, computed, nextTick, onUpdated } from "vue";
+import { useDialogsStore, useSelectStore, useMainStore } from "../../stores/index";
 import { TextInput } from "../../stores/MainStore/model";
 import { Routes } from "../../data/Routes";
 import { RoutesSelect, RoutesOptionsStatic, RoutesOptionsEdit } from "../../types/types";
@@ -80,6 +98,8 @@ import SearchMenu from "./SetRouteMenus/SearchMenu.vue";
 import RouteMenu from "./SetRouteMenus/RoutesMenu.vue";
 
 const store = useDialogsStore();
+const select = useSelectStore();
+const main_store = useMainStore();
 
 const search_state = ref<boolean>(false);
 const route_state = ref<boolean>(false);
@@ -101,11 +121,16 @@ const main = ref<RoutesSelect>({
   },
   clckAction: false,
   parsed_arr: [],
-  end_route: "",
+  end_route: null,
   danger: false,
 });
 
 const main_current = computed(() => main.value.current);
+const main_current_select = computed(() => main.value.current.select);
+const main_end_route = computed(() => {
+  if (main.value.end_route) return true;
+  else return false;
+});
 
 function SelectItem(item: RoutesSelect) {
   main.value = ParseRoute(main.value, item);
@@ -124,9 +149,48 @@ function CurrentSelectItem(item: RoutesOptionsStatic | RoutesOptionsEdit) {
   }
 }
 
-watch(main.value.select, (item) => (main.value = WatchParseRoute(main.value, item)));
+watch(
+  main.value.select,
+  () => (main.value = WatchParseRoute(main.value, main.value.select))
+);
+
+watch(main_current_select, (val) => CurrentSelectItem(val));
 
 const SaveConnection = () => {
-  console.log(1);
+  main_store.all_commands
+    .find((item) => item.id === select.SelectedCommand.id)
+    .columns.find((item) => item.id === select.SelectedBlock.column_id)
+    .blocks.find((item) => item.id === select.SelectedBlock.id)
+    .buttons.find((item) => item.id === select.SelectedButton.id).connection.to =
+    main.value.end_route;
 };
+
+onUpdated(() => {
+  if (select.SelectedButton.connection.to && store.Dialogs.set_route) {
+    const parser_sintax = {
+      route: select.SelectedButton.connection.to,
+      text: select.SelectedButton.label,
+    };
+    main.value = ParseRoute(main.value, parser_sintax);
+    nextTick((main.value = WatchParseRoute(main.value, parser_sintax)));
+  } else {
+    route_state.value = false;
+    search_state.value = false;
+    main.value = {
+      select: {
+        text: "Выберите путь",
+        type_value: -1,
+        route: null,
+      },
+      current: {
+        data: null,
+        select: null,
+      },
+      clckAction: false,
+      parsed_arr: [],
+      end_route: "",
+      danger: false,
+    };
+  }
+});
 </script>

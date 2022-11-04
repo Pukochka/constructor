@@ -23,13 +23,21 @@ export const Commands: Command[] = [
                 type: 0,
                 label: 'Согласен',
                 id: 0,
-                connection: null
+                connection: {
+                  to: null,
+                  type: 0,
+                  info: null
+                }
               },
               {
                 type: 0,
                 label: 'Не согласен',
                 id: 1,
-                connection: null
+                connection: {
+                  to: null,
+                  type: 0,
+                  info: null
+                }
               },
             ]
           }
@@ -59,13 +67,21 @@ export const Commands: Command[] = [
                 type: 0,
                 label: 'Согласен',
                 id: 2,
-                connection: null
+                connection: {
+                  to: null,
+                  type: 0,
+                  info: null
+                }
               },
               {
                 type: 0,
                 label: 'Не согласен',
                 id: 3,
-                connection: null
+                connection: {
+                  to: null,
+                  type: 0,
+                  info: null
+                }
               },
             ]
           },
@@ -83,13 +99,21 @@ export const Commands: Command[] = [
                 type: 0,
                 label: 'Соглаfsdсен',
                 id: 4,
-                connection: null
+                connection: {
+                  to: null,
+                  type: 0,
+                  info: null
+                }
               },
               {
                 type: 0,
                 label: 'Не со423гласен',
                 id: 5,
-                connection: null
+                connection: {
+                  to: null,
+                  type: 0,
+                  info: null
+                }
               },
             ]
           }
@@ -113,13 +137,21 @@ export const Commands: Command[] = [
                 type: 0,
                 label: 'Согласен',
                 id: 6,
-                connection: null
+                connection: {
+                  to: null,
+                  type: 0,
+                  info: null
+                }
               },
               {
                 type: 0,
                 label: 'Не согласен',
                 id: 7,
-                connection: null
+                connection: {
+                  to: null,
+                  type: 0,
+                  info: null
+                }
               },
             ]
           },
@@ -137,13 +169,21 @@ export const Commands: Command[] = [
                 type: 0,
                 label: 'Согласен',
                 id: 8,
-                connection: null
+                connection: {
+                  to: null,
+                  type: 0,
+                  info: null
+                }
               },
               {
                 type: 0,
                 label: 'Не согласен',
                 id: 9,
-                connection: null
+                connection: {
+                  to: null,
+                  type: 0,
+                  info: null
+                }
               },
             ]
           }
@@ -173,13 +213,21 @@ export const Commands: Command[] = [
                 type: 0,
                 label: 'Согласен',
                 id: 10,
-                connection: null
+                connection: {
+                  to: null,
+                  type: 0,
+                  info: null
+                }
               },
               {
                 type: 0,
                 label: 'Не согласен',
                 id: 11,
-                connection: null
+                connection: {
+                  to: null,
+                  type: 0,
+                  info: null
+                }
               },
             ]
           }

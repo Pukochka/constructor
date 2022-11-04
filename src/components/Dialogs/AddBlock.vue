@@ -29,6 +29,7 @@
           class="q-px-md"
           dense
           rounded
+          :disable="!main.GetBlockConfig.required()"
           label="Сохранить"
           color="primary"
           @click="AddBlock"

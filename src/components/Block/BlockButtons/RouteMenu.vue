@@ -7,7 +7,7 @@
       round
       unelevated
       :outline="has_button_connection"
-      @click="ChangeVisibilityDialogs(true, 'set_route')"
+      @click="ChangeVisibilityDialogs(true, 'set_route', button)"
     >
       <q-tooltip anchor="top middle" self="bottom middle"
         >{{ has_button_connection ? "Указать путь" : "Показать путь" }}
@@ -89,9 +89,7 @@ const CreateCircle = (parent: DOMRect, id: number) => {
   new_assambly.start_x = x - parent.x + svg.gett.radius;
   new_assambly.start_y = y - parent.y + svg.gett.radius;
   new_assambly.button_id = id;
-  // console.log(new_assambly);
   DetermingCollection(new_assambly);
-  // UpdateCollection();
 };
 
 onUpdated(() => {
@@ -102,14 +100,11 @@ onUpdated(() => {
 onMounted(() => {
   parent.value = document.getElementById("SvgArea").getBoundingClientRect();
   CreateCircle(parent.value, props.button.id);
-  // console.log(svg.gett.collections);
 });
 
 onUnmounted(() => {
   UpdateCollection();
 });
 
-// watch(svg.gett.collections, () => console.log(svg.gett.collections));
-
-const has_button_connection = computed(() => !props.button.connection);
+const has_button_connection = computed(() => !props.button.connection.to);
 </script>

@@ -2,10 +2,8 @@
   <q-tab-panels v-model="store.SelectedReplics" animated>
     <q-tab-panel name="all" class="q-pa-none">
       <div class="q-pl-md q-py-lg flex items-center justify-between">
-        <div class="flex items-center text-h6">
-          <q-icon name="smart_toy" />
-
-          <div class="q-ml-sm">Реплика бота</div>
+        <div class="flex items-center text-h5">
+          <div class="">Реплика бота</div>
         </div>
         <q-btn
           color="primary"
@@ -38,18 +36,18 @@
       </q-list>
     </q-tab-panel>
     <q-tab-panel name="text" class="q-pa-none">
-      <Text />
+      <TextReplic dialog_name="add_block" />
     </q-tab-panel>
     <q-tab-panel name="image" class="q-pa-none">
-      <Image />
+      <ImageReplic dialog_name="add_block" />
     </q-tab-panel>
   </q-tab-panels>
 </template>
 <script setup lang="ts">
 import { useSelectStore, useDialogsStore, useMainStore } from "../../stores/index";
 
-import Image from "./BotReplics/ImageReplic.vue";
-import Text from "./BotReplics/TextReplic.vue";
+import TextReplic from "./BotReplics/TextReplic.vue";
+import ImageReplic from "./BotReplics/ImageReplic.vue";
 
 const { SelectBlockType } = useMainStore();
 const { ChangeVisibilityDialogs } = useDialogsStore();

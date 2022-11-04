@@ -44,6 +44,7 @@
     <AddButton />
     <EditButton />
     <SetRoute />
+    <EditBlock />
   </q-page>
 </template>
 
@@ -57,6 +58,7 @@ import AddCommand from "../components/Dialogs/AddBlock.vue";
 import AddBlock from "../components/Dialogs/AddCommand.vue";
 import AddButton from "../components/Dialogs/AddButton.vue";
 import EditButton from "../components/Dialogs/EditButton.vue";
+import EditBlock from "../components/Dialogs/EditBlock.vue";
 import SetRoute from "../components/Dialogs/SetRoute.vue";
 import SvgTemplate from "../components/Svg/SvgTemplate.vue";
 
@@ -68,12 +70,12 @@ const { ChangeVisibilityDialogs } = useDialogsStore();
 
 const thumbStyle = {
   right: "4px",
-  height: "5px",
+  height: "6px",
   bottom: "4px",
   padding: "2px",
   "border-radius": "5px",
-  "background-color": "rgb(84, 72, 72)",
-  width: "5px",
+  "background-color": "rgb(7, 34, 49)",
+  width: "6px",
   "z-index": 100,
 };
 
@@ -94,6 +96,6 @@ const AddBlockWithLine = () => {
 <style lang="scss">
 .overflow-scroll-x {
   overflow-x: scroll;
-  color: rgb(84, 72, 72);
+  color: rgb(7, 34, 49);
 }
 </style>
