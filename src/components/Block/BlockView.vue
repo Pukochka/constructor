@@ -1,6 +1,6 @@
 <template>
   <div
-    class="custom-outline rounded-borders q-mb-xl bg-white z-100"
+    class="shadow-1 rounded-borders q-mb-xl bg-white z-100"
     style="max-width: 370px; min-width: 370px"
   >
     <div class="q-pa-sm q-px-md flex justify-between">

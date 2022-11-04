@@ -13,6 +13,8 @@
       v-else
       @click="edit_state = !edit_state"
     >
+      <q-icon name="drag_indicator" />
+
       <div class="ellipsis">{{ block.block_options.name }}</div>
       <q-tooltip anchor="top middle" self="bottom middle">
         Редактировать название экрана

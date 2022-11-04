@@ -3,7 +3,7 @@
     <q-card class="q-px-md q-pb-md" style="width: 50%">
       <BotReplicsView />
 
-      <BotButtonsView v-if="not_all_replics" />
+      <!-- <BotButtonsView v-if="not_all_replics" /> -->
 
       <div class="q-pt-md row q-gutter-x-sm justify-end">
         <q-btn
@@ -38,12 +38,12 @@
   </q-dialog>
 </template>
 <script setup lang="ts">
-import { computed, onBeforeUpdate } from "vue";
+import { onBeforeUpdate, computed } from "vue";
 import { useDialogsStore, useSelectStore, useMainStore } from "../../stores/index";
 import { RndColor } from "../../data/Colors";
 
 import BotReplicsView from "../Replics/BotReplicsView.vue";
-import BotButtonsView from "../Buttons/BotButtonsView.vue";
+// import BotButtonsView from "../Buttons/BotButtonsView.vue";
 
 import { Block, Column } from "../../types/types";
 

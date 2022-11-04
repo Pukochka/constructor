@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-between items-center q-py-sm">
+  <div class="row justify-between items-center q-pa-sm">
     <div class="flex">
       <q-select
         style="width: 150px"
@@ -22,7 +22,7 @@
     </div>
     <div class="row q-gutter-sm">
       <div class="rounded-borders custom-outline">
-        <q-btn color="primary" dense flat icon="open_in_full" />
+        <q-btn color="primary" dense flat icon="fullscreen" />
       </div>
       <div class="rounded-borders custom-outline">
         <q-btn color="primary" dense flat icon="add" />

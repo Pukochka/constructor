@@ -1,6 +1,6 @@
 <template>
   <div
-    class="rounded-borders custom-outline col q-py-sm q-pl-sm q-pr-xs flex justify-between items-center"
+    class="rounded-borders custom-outline col q-py-sm q-pl-sm q-px-sm flex justify-between items-center"
   >
     <div class="">{{ button.label }}</div>
     <div class="flex items-center">

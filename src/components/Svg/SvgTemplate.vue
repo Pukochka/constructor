@@ -88,9 +88,9 @@ watch(useCursor, (val) => {
 }
 .line,
 .arrow {
-  stroke: $grey-4;
+  stroke: $grey-5;
 }
 .arrow {
-  fill: $grey-4;
+  fill: $grey-5;
 }
 </style>

@@ -1,8 +1,7 @@
-import { Command, Scenary } from '../../types/types';
+import { Command } from '../../types/types';
 
 export interface MainStore {
   all_commands: Command[];
-  all_scenaries: Scenary[];
   input: TextInput;
   uploader: Uploader;
   block_type: number;

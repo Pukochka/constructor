@@ -1,11 +1,10 @@
-import type { Command, Scenary, Block, Button, Column } from '../../types/types';
+import type { Command, Block, Button, Column } from '../../types/types';
 
 export interface SelectStore {
   select: Select;
 }
 
 export interface Select {
-  scenary: Scenary;
   command: Command;
   column: Column;
   block: Block;
@@ -20,4 +19,4 @@ export interface Tabs {
 export type NameReplics = 'all' | 'text' | 'image'
 
 export type StateValues = "scenary" | "command" | "column" | "block" | "button"
-export type StateTypes = Scenary | Command | Column | Block | Button 
+export type StateTypes = Command | Column | Block | Button 

@@ -1,13 +1,13 @@
 <template>
-  <q-page class="row flex-center">
-    <div class="col-10">
+  <q-page class="row">
+    <div class="col-12 q-pl-xl">
       <HeaderOptions />
       <div>
         <q-scroll-area
           :thumb-style="thumbStyle"
           visible
-          style="height: 550px; width: 100%"
-          class="row relative-position rounded-borders custom-outline"
+          style="height: calc(100vh - 56px); width: 100%"
+          class="row relative-position rounded-borders bg-grey-3 shadow-1"
         >
           <SvgTemplate />
           <div class="row no-wrap q-pa-md q-col-gutter-xl">
@@ -70,11 +70,11 @@ const thumbStyle = {
   right: "4px",
   height: "5px",
   bottom: "4px",
-  borderRadius: "5px",
-  backgroundColor: "rgb(144, 140, 140)",
+  padding: "2px",
+  "border-radius": "5px",
+  "background-color": "rgb(84, 72, 72)",
   width: "5px",
-  opacity: 0.75,
-  zIndex: 100,
+  "z-index": 100,
 };
 
 const filtered_commands = computed(
@@ -94,5 +94,6 @@ const AddBlockWithLine = () => {
 <style lang="scss">
 .overflow-scroll-x {
   overflow-x: scroll;
+  color: rgb(84, 72, 72);
 }
 </style>

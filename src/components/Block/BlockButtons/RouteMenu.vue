@@ -1,10 +1,18 @@
 <template>
   <div class="flex items-center" ref="svghelper">
-    <q-btn dense color="red" size="6px" round unelevated :outline="has_button_connection">
+    <q-btn
+      dense
+      color="primary"
+      size="6px"
+      round
+      unelevated
+      :outline="has_button_connection"
+      @click="ChangeVisibilityDialogs(true, 'set_route')"
+    >
       <q-tooltip anchor="top middle" self="bottom middle"
         >{{ has_button_connection ? "Указать путь" : "Показать путь" }}
       </q-tooltip>
-      <q-menu>
+      <!-- <q-menu>
         <q-list dense style="min-width: 100px">
           <q-item class="text-primary items-center" clickable v-close-popup>
             <q-icon name="menu" />
@@ -29,7 +37,7 @@
             <q-item-section class="q-ml-sm">Связь с блоком</q-item-section>
           </q-item>
         </q-list>
-      </q-menu>
+      </q-menu> -->
     </q-btn>
   </div>
 </template>
@@ -38,7 +46,6 @@ import {
   defineProps,
   PropType,
   computed,
-  watch,
   ref,
   onMounted,
   onUnmounted,
@@ -73,8 +80,7 @@ const { ChangeVisibilityDialogs } = useDialogsStore();
 const {
   DetermingCollection,
   UpdateCollection,
-  StartCursorFollowing,
-  MassP,
+  // StartCursorFollowing,
 } = useSvgStore();
 const svg = useSvgStore();
 
@@ -91,13 +97,11 @@ const CreateCircle = (parent: DOMRect, id: number) => {
 onUpdated(() => {
   CreateCircle(parent.value, props.button.id);
   UpdateCollection();
-  MassP(props.button.id);
 });
 
 onMounted(() => {
   parent.value = document.getElementById("SvgArea").getBoundingClientRect();
   CreateCircle(parent.value, props.button.id);
-  MassP(props.button.id);
   // console.log(svg.gett.collections);
 });
 
