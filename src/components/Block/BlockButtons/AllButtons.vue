@@ -7,7 +7,7 @@
 </template>
 <script setup lang="ts">
 import { defineProps, PropType } from "vue";
-import { Block } from "../../../types/types";
+import { Block } from "../../../types";
 import CButton from "./SingleButton.vue";
 
 defineProps({

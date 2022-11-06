@@ -2,7 +2,7 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import type { DialogsStore, DialogNames } from './model';
 import { useSelectStore } from "../index";
-import { Button } from "../../types/types";
+import { Button } from "../../types";
 
 export const useDialogsStore = defineStore({
   id: 'DialogsStore',

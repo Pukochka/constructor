@@ -1,3 +1,5 @@
-export default function (current_x: number, current_y: number) {
-  return `${current_x - 5},${current_y - 7} ${current_x + 12},${current_y} ${current_x - 5},${current_y + 7} ${current_x},${current_y}`
+export default function (offsetX: number, offsetY: number, start_x: number) {
+  if (offsetX < start_x) return `${offsetX + 5},${offsetY + 7} ${offsetX - 12},${offsetY} ${offsetX + 5},${offsetY - 7} ${offsetX},${offsetY}`
+  else return `${offsetX - 5},${offsetY - 7} ${offsetX + 12},${offsetY} ${offsetX - 5},${offsetY + 7} ${offsetX},${offsetY}`
+
 }

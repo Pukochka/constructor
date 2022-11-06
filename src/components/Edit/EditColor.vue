@@ -27,7 +27,7 @@
 </template>
 <script setup lang="ts">
 import { Colors } from "../../data/Colors";
-import { useMainStore, useSelectStore } from "../../stores/index";
+import { useMainStore, useSelectStore } from "../../stores";
 
 const main = useMainStore();
 const select = useSelectStore();

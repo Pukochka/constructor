@@ -1,4 +1,4 @@
-import type { Command, Block, Button, Column } from '../../types/types';
+import type { Command, Block, Button, Column } from '../../types';
 
 export interface SelectStore {
   select: Select;

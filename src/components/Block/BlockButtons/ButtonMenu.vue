@@ -36,8 +36,8 @@
 </template>
 <script lang="ts" setup>
 import { defineProps, PropType } from "vue";
-import { Button, Block } from "../../../types/types";
-import { useMainStore, useSelectStore, useDialogsStore } from "../../../stores/index";
+import { Button, Block } from "../../../types";
+import { useMainStore, useSelectStore, useDialogsStore } from "../../../stores";
 
 const props = defineProps({
   button: Object as PropType<Button>,

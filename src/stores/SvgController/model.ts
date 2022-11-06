@@ -7,18 +7,44 @@ export interface Svg {
   cursor_path: boolean;
   moving_line: number;
   radius: number;
-  mass: Array<number>
+  scroll_effect: ScrollEffect;
+  parent: DOMRect
 }
 
 export interface AssamblyElements {
-  button_id: number;
   start_x: number;
   start_y: number;
-  action: boolean;
-  path: Path;
+  path: string;
   polygon_points: string;
 }
 
-export interface Path {
-  beizer_curve: string;
+export interface ScrollEffect {
+  horizontal: number;
+  vertical: number;
+}
+
+export interface ScrollCustomEvent {
+  verticalPosition: number,
+  verticalPercentage: number,
+  verticalSize: number,
+  verticalContainerSize: number,
+  horizontalPosition: number,
+  horizontalPercentage: number,
+  horizontalSize: number,
+  horizontalContainerSize: number,
+  ref: {
+    dark: null | boolean,
+    thumbStyle: {
+      right: string,
+      height: string,
+      bottom: string,
+      padding: string,
+      'border-radius': string,
+      'background-color': string,
+      width: string
+    },
+    delay: number,
+    visible: boolean
+  }
+
 }

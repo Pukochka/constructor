@@ -17,6 +17,7 @@
       <div class="flex justify-end">
         <q-btn rounded flat label="Отмена" color="primary" v-close-popup />
         <q-btn
+          unelevated
           :disable="!text.required()"
           rounded
           label="Добавить"
@@ -30,8 +31,8 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { useDialogsStore, useSelectStore, useMainStore } from "../../stores/index";
-import { TextInput } from "../../stores/MainStore/model";
+import { useDialogsStore, useSelectStore, useMainStore } from "../../stores";
+import { TextInput } from "../../types";
 
 const main = useMainStore();
 const store = useDialogsStore();
@@ -55,6 +56,13 @@ const AddButton = () => {
       to: null,
       type: 0,
       info: null,
+      coords: {
+        start_x: 0,
+        start_y: 0,
+        path: "",
+        polygon: "",
+      },
+      toRoute: null,
     },
   };
   main.all_commands

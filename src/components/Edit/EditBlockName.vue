@@ -2,7 +2,7 @@
   <div
     @mouseenter="animate_edit = true"
     @mouseleave="animate_edit = false"
-    class="rounded-borders q-px-sm flex items-center cursor-pointer text-bold mw z-i-5"
+    class="rounded-borders q-px-sm flex items-center cursor-pointer text-bold mw"
     :style="{ 'background-color': block.block_options.color }"
   >
     <div class="" v-if="edit_state">
@@ -25,8 +25,8 @@
 </template>
 <script setup lang="ts">
 import { defineProps, PropType, ref, watch, onMounted, onUnmounted } from "vue";
-import { Block } from "../../types/types";
-import { useMainStore, useSelectStore } from "../../stores/index";
+import { Block } from "../../types";
+import { useMainStore, useSelectStore } from "../../stores";
 
 const props = defineProps({
   block: Object as PropType<Block>,
@@ -74,8 +74,5 @@ watch(edit_state, (val) => {
 }
 .mw {
   max-width: 90%;
-}
-.z-i-5 {
-  z-index: 5;
 }
 </style>

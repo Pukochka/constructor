@@ -6,34 +6,51 @@
         <q-scroll-area
           :thumb-style="thumbStyle"
           visible
-          style="height: calc(100vh - 56px); width: 100%"
-          class="row relative-position rounded-borders bg-grey-3 shadow-1"
+          @scroll="ScrollPositionEffect"
+          style="height: calc(100vh - 60px); width: 100%"
+          class="bg-grey-3 relative-position"
         >
-          <SvgTemplate />
-          <div class="row no-wrap q-pa-md q-col-gutter-xl">
-            <div class="column" v-for="(item, index) in filtered_commands" :key="index">
-              <BlockView v-for="block in item.blocks" :key="block.id" :block="block" />
-              <div class="row q-mt-sm q-mb-xl">
+          <div
+            class="bg-grey-3"
+            :style="{ 'min-height': '890px', 'min-width': '1325px' }"
+          >
+            <SvgTemplate />
+            <div class="row no-wrap fit q-pa-lg">
+              <div
+                class="flex no-wrap"
+                v-for="(item, index) in filtered_commands"
+                :key="index"
+              >
+                <div class="">
+                  <BlockView
+                    v-for="block in item.blocks"
+                    :key="block.id"
+                    :block="block"
+                  />
+                  <div class="row">
+                    <q-btn
+                      rounded
+                      flat
+                      color="primary"
+                      label="Добавить экран"
+                      class="col-12"
+                      @click="AddBlockInColumn(item)"
+                    />
+                  </div>
+                </div>
+                <div class="q-px-lg"></div>
+              </div>
+              <div style="width: 370px">
                 <q-btn
+                  no-wrap
                   rounded
+                  class="full-width"
                   flat
                   color="primary"
                   label="Добавить экран"
-                  class="col-12"
-                  @click="AddBlockInColumn(item)"
+                  @click="AddBlockWithLine"
                 />
               </div>
-            </div>
-            <div class="" style="width: 370px">
-              <q-btn
-                no-wrap
-                rounded
-                class="full-width"
-                flat
-                color="primary"
-                label="Добавить экран"
-                @click="AddBlockWithLine"
-              />
             </div>
           </div>
         </q-scroll-area>
@@ -50,7 +67,12 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useSelectStore, useMainStore, useDialogsStore } from "../stores/index";
+import {
+  useSelectStore,
+  useMainStore,
+  useDialogsStore,
+  useSvgStore,
+} from "../stores/index";
 
 import HeaderOptions from "../components/HeaderOptions.vue";
 import BlockView from "../components/Block/BlockView.vue";
@@ -62,10 +84,11 @@ import EditBlock from "../components/Dialogs/EditBlock.vue";
 import SetRoute from "../components/Dialogs/SetRoute.vue";
 import SvgTemplate from "../components/Svg/SvgTemplate.vue";
 
-import { Column } from "../types/types";
+import { Column, ScrollCustomEvent } from "../types";
 
 const select = useSelectStore();
 const main = useMainStore();
+const { ChangeScrollEffect } = useSvgStore();
 const { ChangeVisibilityDialogs } = useDialogsStore();
 
 const thumbStyle = {
@@ -76,12 +99,16 @@ const thumbStyle = {
   "border-radius": "5px",
   "background-color": "rgb(7, 34, 49)",
   width: "6px",
-  "z-index": 100,
 };
 
 const filtered_commands = computed(
   () => main.all_commands.find((item) => item.id === select.SelectedCommand.id).columns
 );
+
+function ScrollPositionEffect(e: ScrollCustomEvent) {
+  const { horizontalPosition, verticalPosition } = e;
+  ChangeScrollEffect({ horizontal: horizontalPosition, vertical: verticalPosition });
+}
 
 const AddBlockInColumn = (item: Column) => {
   select.SelectState(item, "column");

@@ -17,7 +17,7 @@
 </template>
 <script lang="ts" setup>
 import { defineProps, PropType } from "vue";
-import { Block } from "../../../types/types";
+import { Block } from "../../../types";
 
 defineProps({
   block: Object as PropType<Block>,

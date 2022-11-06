@@ -44,7 +44,7 @@
   </q-tab-panels>
 </template>
 <script setup lang="ts">
-import { useSelectStore, useDialogsStore, useMainStore } from "../../stores/index";
+import { useSelectStore, useDialogsStore, useMainStore } from "../../stores";
 
 import TextReplic from "./BotReplics/TextReplic.vue";
 import ImageReplic from "./BotReplics/ImageReplic.vue";

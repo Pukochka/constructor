@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import { defineProps, PropType } from "vue";
 import { Routes } from "../../../data/Routes";
-import { MainRoutes } from "../../../types/types";
+import { MainRoutes } from "../../../types";
 
 defineProps({
   select_item: Object as PropType<MainRoutes>,

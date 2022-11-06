@@ -1,77 +1,59 @@
 <template>
-  <svg class="connectons-container fit" :class="{ 'z-max': useCursor }" id="SvgArea">
-    <g v-for="(item, index) in store.gett.collections" :key="index">
-      <circle
-        stroke="transparent"
-        fill="transparent"
-        :cx="item.start_x"
-        :cy="item.start_y"
-        :r="store.gett.radius"
-      />
-      <path
-        class="line"
-        v-if="item.action"
-        stroke-width="1"
-        :d="item.path.beizer_curve"
-        fill="transparent"
-      />
-      <polygon
-        class="arrow"
-        v-if="item.action"
-        :points="item.polygon_points"
-        stroke-width="1"
-      />
-    </g>
-  </svg>
+  <svg class="connectons-container fit" id="SvgArea"></svg>
 </template>
 <script lang="ts" setup>
-import { computed, watch, ref, onMounted } from "vue";
-import { useSvgStore } from "../../stores/index";
+import { computed, watch, onMounted } from "vue";
+import { useSvgStore, useMainStore, useSelectStore } from "../../stores";
 
 import { useBeizerCurvature, usePolygonPoints } from "../../helpers";
 
 const store = useSvgStore();
-const { MoveCursorFollowing } = useSvgStore();
+const main = useMainStore();
+const select = useSelectStore();
+const { MoveCursorFollowing, SetParent } = useSvgStore();
+
 const useCursor = computed(() => store.svg.cursor_path);
+const useScrollEffect = computed(() => store.svg.scroll_effect);
 
 const start_x = computed(
   () =>
-    store.gett.collections.find((item) => item.button_id === store.gett.moving_line)
+    main.all_commands
+      .find((item) => item.id === select.SelectedCommand.id)
+      .columns.find((item) => item.id === select.SelectedBlock.column_id)
+      .blocks.find((item) => item.id === select.SelectedBlock.id)
+      .buttons.find((item) => item.id === select.SelectedButton.id).connection.coords
       .start_x
 );
 const start_y = computed(
   () =>
-    store.gett.collections.find((item) => item.button_id === store.gett.moving_line)
+    main.all_commands
+      .find((item) => item.id === select.SelectedCommand.id)
+      .columns.find((item) => item.id === select.SelectedBlock.column_id)
+      .blocks.find((item) => item.id === select.SelectedBlock.id)
+      .buttons.find((item) => item.id === select.SelectedButton.id).connection.coords
       .start_y
 );
-
-const parent = ref<DOMRect>();
-
-onMounted(
-  () => (parent.value = document.getElementById("SvgArea").getBoundingClientRect())
-);
-
 function FollowingCursor(event: MouseEvent) {
-  const { offsetX, offsetY } = event;
+  const { x, y } = event;
+  const current_x = x + useScrollEffect.value.horizontal - store.gett.parent.x;
+  const current_y = y + useScrollEffect.value.vertical - store.gett.parent.y;
+  const assambly = {
+    start_x: start_x.value,
+    start_y: start_y.value,
+    path: useBeizerCurvature(start_x.value, start_y.value, current_x, current_y),
+    polygon: usePolygonPoints(current_x, current_y, start_x.value),
+  };
 
-  const current_x = offsetX;
-  const current_y = offsetY;
-
-  const polygon_points = usePolygonPoints(current_x, current_y);
-
-  const beizerCurvature = useBeizerCurvature(
-    start_x.value,
-    start_y.value,
-    offsetX,
-    offsetY
-  );
-
-  MoveCursorFollowing(store.svg.moving_line, beizerCurvature, polygon_points);
+  MoveCursorFollowing(assambly);
 }
 
 watch(useCursor, (val) => {
   if (val) document.addEventListener("mousemove", FollowingCursor, false);
   else document.removeEventListener("mousemove", FollowingCursor, false);
+});
+
+onMounted(() => {
+  SetParent(document.getElementById("SvgArea").getBoundingClientRect());
 });
 </script>
 <style lang="scss">

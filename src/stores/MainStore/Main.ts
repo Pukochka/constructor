@@ -8,6 +8,7 @@ export const useMainStore = defineStore('MainStore', {
     ref({
       all_commands: Commands,
       block_type: 0,
+      scale: 1,
       input: {
         value: "",
         max: 100,
@@ -30,10 +31,19 @@ export const useMainStore = defineStore('MainStore', {
       if (state.block_type === 0) return { type: state.block_type, ...state.input }
       if (state.block_type === 1) return { type: state.block_type, ...state.uploader }
     },
+    viewScale: state => state.scale
   },
   actions: {
     SelectBlockType(value: number) {
       this.block_type = value;
+    },
+    AddScale() {
+      if (this.scale >= 1.5) return
+      this.scale += 0.05;
+    },
+    RemoveScale() {
+      if (this.scale <= 0.5) return
+      this.scale -= 0.05;
     }
   },
 });

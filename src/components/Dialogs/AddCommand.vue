@@ -16,6 +16,6 @@
   </q-dialog>
 </template>
 <script setup lang="ts">
-import { useDialogsStore } from "../../stores/index";
+import { useDialogsStore } from "../../stores";
 const store = useDialogsStore();
 </script>

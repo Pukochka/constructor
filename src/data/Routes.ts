@@ -1,4 +1,4 @@
-import { MainRoutes } from "../types/types";
+import { MainRoutes } from "../types";
 export const Routes: MainRoutes[] = [
   {
     text: "Все категории",
@@ -31,16 +31,16 @@ export const Routes: MainRoutes[] = [
     type_value: 2,
     identifier: "&id=",
     options: [
-      {
-        id: 965,
-        title: "Попугаи",
-        description: "Текст",
-      },
-      {
-        id: 845,
-        title: "Тигры",
-        description: "Текст",
-      },
+      // {
+      //   id: 965,
+      //   title: "Попугаи",
+      //   description: "Текст",
+      // },
+      // {
+      //   id: 845,
+      //   title: "Тигры",
+      //   description: "Текст",
+      // },
     ],
   },
   {

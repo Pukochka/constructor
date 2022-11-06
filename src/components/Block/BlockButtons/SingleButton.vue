@@ -11,12 +11,12 @@
 </template>
 <script setup lang="ts">
 import { defineProps, PropType } from "vue";
-import { useSelectStore } from "../../../stores/index";
+import { useSelectStore } from "../../../stores";
 
 import ButtonMenu from "./ButtonMenu.vue";
 import RouteMenu from "./RouteMenu.vue";
 
-import { Button, Block } from "../../../types/types";
+import { Button, Block } from "../../../types";
 
 const { SelectState } = useSelectStore();
 

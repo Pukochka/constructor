@@ -40,13 +40,13 @@
 </template>
 <script setup lang="ts">
 import { onBeforeUpdate, computed } from "vue";
-import { useDialogsStore, useSelectStore, useMainStore } from "../../stores/index";
+import { useDialogsStore, useSelectStore, useMainStore } from "../../stores";
 import { RndColor } from "../../data/Colors";
 
 import BotReplicsView from "../Replics/BotReplicsView.vue";
 // import BotButtonsView from "../Buttons/BotButtonsView.vue";
 
-import { Block, Column } from "../../types/types";
+import { Block, Column } from "../../types";
 
 const main = useMainStore();
 const store = useDialogsStore();
@@ -65,6 +65,7 @@ const AddBlock = () => {
         color: RndColor(),
         name: "Название",
       },
+      connection_count: 0,
       id: Date.now(),
       column_id: select.SelectedColumn.id,
       type: main.GetBlockConfig.type,
@@ -85,6 +86,7 @@ const AddBlock = () => {
             color: RndColor(),
             name: "Название",
           },
+          connection_count: 0,
           id: Date.now(),
           column_id: Date.now(),
           type: main.GetBlockConfig.type,

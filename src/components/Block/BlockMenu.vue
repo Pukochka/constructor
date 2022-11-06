@@ -29,7 +29,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useMainStore, useSelectStore } from "../../stores/index";
+import { useMainStore, useSelectStore } from "../../stores";
 
 import EditColor from "../Edit/EditColor.vue";
 

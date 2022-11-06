@@ -24,6 +24,7 @@
           v-close-popup
         />
         <q-btn
+          unelevated
           rounded
           :disable="!text.required()"
           color="primary"
@@ -37,8 +38,8 @@
 </template>
 <script setup lang="ts">
 import { ref, onUpdated } from "vue";
-import { useDialogsStore, useSelectStore, useMainStore } from "../../stores/index";
-import { TextInput } from "../../stores/MainStore/model";
+import { useDialogsStore, useSelectStore, useMainStore } from "../../stores";
+import { TextInput } from "../../types";
 
 const store = useDialogsStore();
 const select = useSelectStore();

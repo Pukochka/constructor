@@ -1,8 +1,9 @@
-import { Command } from '../../types/types';
+import { Command } from '../../types';
 
 export interface MainStore {
   all_commands: Command[];
   input: TextInput;
+  scale: number;
   uploader: Uploader;
   block_type: number;
 }
@@ -20,6 +21,6 @@ export interface Uploader {
   required: Required
 }
 
-interface Required {
+export interface Required {
   (): boolean
 }

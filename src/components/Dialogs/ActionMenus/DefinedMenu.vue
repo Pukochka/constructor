@@ -25,7 +25,7 @@ import {
   RoutesSelectCurrent,
   RoutesOptionsStatic,
   RoutesOptionsEdit,
-} from "../../../types/types";
+} from "../../../types";
 
 defineProps({
   current: Object as PropType<RoutesSelectCurrent>,

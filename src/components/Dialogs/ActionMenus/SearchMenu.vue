@@ -21,7 +21,12 @@
 <script lang="ts" setup>
 import { defineProps, PropType, computed, ref } from "vue";
 import { Routes } from "../../../data/Routes";
-import { TextInput } from "../../../stores/MainStore/model";
+import {
+  MainRoutes,
+  RoutesOptionsStatic,
+  RoutesOptionsEdit,
+  TextInput,
+} from "../../../types";
 
 const props = defineProps({ text: Object as PropType<TextInput> });
 
@@ -29,7 +34,7 @@ const emit = defineEmits<{
   (e: "select", value): void;
 }>();
 
-const all_routes = ref([]);
+const all_routes = ref<MainRoutes[] | RoutesOptionsStatic[] | RoutesOptionsEdit[]>([]);
 
 for (const route of Routes) {
   if (route.type_value === 0) {

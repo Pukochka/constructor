@@ -1,3 +1,10 @@
+import { DialogNames } from "../stores/DialogStore/model";
+import { TextInput, Required, Uploader } from "../stores/MainStore/model";
+import { StateTypes, NameReplics } from "../stores/SelectStore/model";
+import { AssamblyElements, ScrollCustomEvent, ScrollEffect } from "../stores/SvgController/model";
+
+export type { DialogNames, TextInput, Required, Uploader, StateTypes, NameReplics, AssamblyElements, ScrollCustomEvent, ScrollEffect }
+
 export interface Command {
   /** label - название команды */
   label: string;
@@ -33,6 +40,7 @@ export interface Block {
   id: number;
   /** column_id - id колонки */
   column_id: number;
+  connection_count: number,
 }
 
 export interface BlockOptions {
@@ -68,24 +76,38 @@ export interface Button {
 export interface Connection {
   /**
    * type:
-   * 0 -- Действие из routes;
-   * 1 -- Связь с блоком 
+   * 0 -- Ссылка;
+   * 1 -- Действие;
+   * 2 -- Поделиться;
+   * 3 -- Выбрать текст;
+   * 4 -- Web;
+   * 5 -- Связь с блоком 
    * */
   type: number;
   /** to - для отрисовки линии или парса routes */
   to: string;
   /** info - инфо про связанный с кнопкой экран/свободного сообщение */
   info: ConnectionInfo;
+  /** */
+  coords: Coords;
+  /** */
+  toRoute: RouteTo;
 }
 
-// export interface RouteTo {
-//   /** command_id - id команды */
-//   command_id: number;
-//   /** block_id - id экрана/свободного сообщения */
-//   block_id: number;
-//   /** button_id - id кнопки */
-//   button_id: number;
-// }
+export interface Coords {
+  start_x: number;
+  start_y: number;
+  path: string;
+  polygon: string;
+}
+
+export interface RouteTo {
+  /** command_id - id команды */
+  command_id: number;
+  /** block_id - id экрана/свободного сообщения */
+  block_id: number;
+  column_id: number;
+}
 
 export interface ConnectionInfo {
   /** block_name - название экрана/свободного сообщения */

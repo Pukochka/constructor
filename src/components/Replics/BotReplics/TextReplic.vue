@@ -27,8 +27,8 @@
 </template>
 <script setup lang="ts">
 import { onUnmounted, defineProps, PropType, onMounted } from "vue";
-import { useMainStore, useDialogsStore, useSelectStore } from "../../../stores/index";
-import { DialogNames } from "../../../stores/DialogStore/model";
+import { useMainStore, useDialogsStore, useSelectStore } from "../../../stores";
+import { DialogNames } from "../../../types";
 
 defineProps({
   dialog_name: String as PropType<DialogNames>,

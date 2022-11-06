@@ -1,17 +1,22 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
-// import { useSelectStore } from "../index";
-import type { SvgStore, AssamblyElements } from './model';
+import { useSelectStore, useMainStore } from "../index";
+import type { SvgStore, ScrollEffect } from './model';
+import { Coords } from "../../types";
 
 export const useSvgStore = defineStore({
   id: 'SvgStore',
   state: () =>
     ref({
       svg: {
-        mass: [],
+        parent: null,
         cursor_path: false,
         moving_line: null,
         radius: 7,
+        scroll_effect: {
+          horizontal: 0,
+          vertical: 0,
+        },
         collections: [],
       },
     } as SvgStore),
@@ -19,44 +24,29 @@ export const useSvgStore = defineStore({
     gett: (state) => state.svg,
   },
   actions: {
-    ToggleAction(id: number, value: boolean) {
-      // console.log(id, this.svg.collections);
-      this.svg.collections.find(item => item.button_id === id).action = value
+    SetParent(value: DOMRect) {
+      this.svg.parent = value
     },
-    DetermingCollection(elements: AssamblyElements) {
-      this.svg.collections.push(elements)
-    },
-    UnmountCollection(id: number) {
-      this.svg.collections = this.svg.collections.filter(item => item.button_id === id)
-    },
-    UpdateCollection() {
-      // const select = useSelectStore();
-      const current_collection = []
-      // for (const item of select.SelectCommandButtonsId) {
-      //   // console.log(item);
-      //   // console.log(this.svg.collections.find(col => col.button_id === item));
-      //   current_collection.push()
-      // }
-      this.svg.collections = current_collection
-      console.log(this.svg.collections);
-    },
-    StartCursorFollowing(assambly: AssamblyElements) {
-      this.svg.moving_line = assambly.button_id;
-      this.ToggleAction(assambly.button_id, true)
+    StartCursorFollowing(value: Coords) {
+      const main = useMainStore()
+      const select = useSelectStore()
       this.svg.cursor_path = true;
-      setTimeout(() => document.addEventListener("click", this.EndCursorFollowing, false), 10)
+
+      main.all_commands.find(item => item.id === select.SelectedCommand.id).columns.find(item => item.id === select.SelectedBlock.column_id).blocks.find(item => item.id === select.SelectedBlock.id).buttons.find(item => item.id === select.SelectedButton.id).connection.coords = value
     },
-    EndCursorFollowing() {
+    EndCursorFollowing(current_coords: Coords) {
+      const main = useMainStore()
+      const select = useSelectStore()
       this.svg.cursor_path = false;
-      document.removeEventListener("click", this.EndCursorFollowing, false)
+      main.all_commands.find(item => item.id === select.SelectedCommand.id).columns.find(item => item.id === select.SelectedBlock.column_id).blocks.find(item => item.id === select.SelectedBlock.id).buttons.find(item => item.id === select.SelectedButton.id).connection.coords = current_coords
     },
-    MoveCursorFollowing(id: number, beizer_curve: string, polygon_points: string) {
-      this.svg.collections.find(item => item.button_id === id).path.beizer_curve = beizer_curve;
-      this.svg.collections.find(item => item.button_id === id).polygon_points = polygon_points;
+    MoveCursorFollowing(value: Coords) {
+      const main = useMainStore()
+      const select = useSelectStore()
+      main.all_commands.find(item => item.id === select.SelectedCommand.id).columns.find(item => item.id === select.SelectedBlock.column_id).blocks.find(item => item.id === select.SelectedBlock.id).buttons.find(item => item.id === select.SelectedButton.id).connection.coords = value
     },
-    MassP(id: number) {
-      this.svg.mass.push(id)
-      console.log(this.svg.mass);
+    ChangeScrollEffect(value: ScrollEffect) {
+      this.svg.scroll_effect = value;
     }
   },
 });

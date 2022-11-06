@@ -3,77 +3,58 @@
     <q-card class="q-pa-md" style="width: 50%">
       <div class="flex justify-between items-center">
         <div class="text-h5">Путь кнопки</div>
-        <q-btn dense unelevated round flat color="primary" icon="close" v-close-popup />
+        <q-btn dense round flat color="primary" icon="close" v-close-popup />
       </div>
       <div class="q-py-sm">
-        <div class="q-py-sm">Выбор пути</div>
-        <div class="row items-stretch">
-          <div class="rounded-borders custom-outline col">
-            <q-input
-              v-if="search_state"
-              outlined
-              autofocus
-              v-model="text.value"
-              label="Найти путь или категорию"
-              color="primary"
-            />
-            <q-item
-              v-else
+        <div class="q-py-sm">Выбор действия кнопки</div>
+        <div class="row q-col-gutter-sm">
+          <div class="col-4 flex-grow" v-for="(item, index) in button_types" :key="index">
+            <q-btn
               @click="
-                route_state = !route_state;
-                main.clckAction = true;
+                select_button_type = item.type;
+                route = false;
               "
-              clickable
-              class="text-center"
-            >
-              <q-item-section class="ellipsis">{{ main.select.text }}</q-item-section>
-            </q-item>
+              color="primary"
+              :text-color="select_button_type !== item.type ? 'primary' : 'white'"
+              class="fit"
+              :outline="select_button_type !== item.type"
+              dense
+              rounded
+              unelevated
+              no-wrap
+              no-caps
+              :label="item.text"
+            />
           </div>
-
-          <q-item
-            @click="search_state = !search_state"
-            clickable
-            class="text-center rounded-borders custom-outline"
-          >
-            <div class="flex justify-center items-center">
-              <q-icon name="search" size="26px" />
-            </div>
-          </q-item>
         </div>
         <div class="">
-          <SearchMenu v-model="search_state" @select="SelectItem" :text="text" />
-        </div>
-        <div class="">
-          <RouteMenu
-            v-model="route_state"
-            @select="SelectItem"
-            :select_item="main.select"
+          <Link
+            v-if="select_button_type === 0"
+            @watch_end_route="SaveEndRoute"
+            :route="route"
           />
-        </div>
-        <div
-          class="text-center q-pt-sm text-caption text-red text-bold"
-          v-if="main.danger"
-        >
-          Для того чтобы добавить товар или категорию, создайте товар или категорию.
-        </div>
-        <div class="" v-if="main_current.data && !main.danger">
-          <div class="q-py-sm">Выброр категории</div>
-          <q-item clickable class="text-center rounded-borders custom-outline">
-            <q-item-section>{{
-              main.current.select["text"] ?? main.current.select["title"]
-            }}</q-item-section>
-          </q-item>
-          <DefinedMenu
-            :current="main_current"
-            @select="CurrentSelectItem"
-            :select_item="main.current.select"
+          <Action
+            v-if="select_button_type === 1"
+            @watch_end_route="SaveEndRoute"
+            :route="route"
           />
+          <Share
+            v-if="select_button_type === 2"
+            @watch_end_route="SaveEndRoute"
+            :route="route"
+          />
+          <ChooseText
+            v-if="select_button_type === 3"
+            @watch_end_route="SaveEndRoute"
+            :route="route"
+          />
+          <Web v-if="select_button_type === 4" @watch_end_route="SaveEndRoute" />
         </div>
       </div>
       <div class="row q-gutter-sm justify-end">
         <q-btn unelevated rounded flat label="Отмена" color="primary" v-close-popup />
         <q-btn
-          :disable="main.danger || !main_end_route"
+          :disable="end_route.required()"
           unelevated
           rounded
           label="Сохранить"
@@ -86,111 +67,78 @@
   </q-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, watch, computed, nextTick, onUpdated } from "vue";
-import { useDialogsStore, useSelectStore, useMainStore } from "../../stores/index";
-import { TextInput } from "../../stores/MainStore/model";
-import { Routes } from "../../data/Routes";
-import { RoutesSelect, RoutesOptionsStatic, RoutesOptionsEdit } from "../../types/types";
-import { WatchParseRoute, ParseRoute } from "../../helpers/parser.js";
+import { ref, onBeforeUpdate } from "vue";
+import { useDialogsStore, useMainStore, useSelectStore } from "../../stores";
 
-import DefinedMenu from "./SetRouteMenus/DefinedMenu.vue";
-import SearchMenu from "./SetRouteMenus/SearchMenu.vue";
-import RouteMenu from "./SetRouteMenus/RoutesMenu.vue";
+import Action from "./ButtonTypes/TypeAction.vue";
+import ChooseText from "./ButtonTypes/ChooseText.vue";
+import Link from "./ButtonTypes/TypeLink.vue";
+import Share from "./ButtonTypes/TypeShare.vue";
+import Web from "./ButtonTypes/TypeWeb.vue";
 
 const store = useDialogsStore();
+const main = useMainStore();
 const select = useSelectStore();
-const main_store = useMainStore();
 
-const search_state = ref<boolean>(false);
-const route_state = ref<boolean>(false);
+const button_types = ref([
+  {
+    text: "Ссылка",
+    type: 0,
+  },
+  {
+    text: "Действие",
+    type: 1,
+  },
+  {
+    text: "Поделиться",
+    type: 2,
+  },
+  {
+    text: "Выбрать текст",
+    type: 3,
+  },
+  {
+    text: "Web",
+    type: 4,
+  },
+]);
 
-const text = ref<TextInput>({
+const select_button_type = ref<number>(0);
+const route = ref<boolean>(false);
+const end_route = ref({
   value: "",
   required() {
-    return this.value.length < this.max && this.value.length > this.min;
+    return false;
   },
-  min: 1,
-  max: 100,
 });
 
-const main = ref<RoutesSelect>({
-  select: Routes[0],
-  current: {
-    data: null,
-    select: null,
-  },
-  clckAction: false,
-  parsed_arr: [],
-  end_route: null,
-  danger: false,
-});
-
-const main_current = computed(() => main.value.current);
-const main_current_select = computed(() => main.value.current.select);
-const main_end_route = computed(() => {
-  if (main.value.end_route) return true;
-  else return false;
-});
-
-function SelectItem(item: RoutesSelect) {
-  main.value = ParseRoute(main.value, item);
-  nextTick((main.value = WatchParseRoute(main.value, item)));
+function SaveEndRoute(route) {
+  end_route.value = route;
 }
-
-function CurrentSelectItem(item: RoutesOptionsStatic | RoutesOptionsEdit) {
-  main.value.current.select = item;
-  if (main.value.select.identifier) {
-    main.value.end_route =
-      main.value.select.route +
-      main.value.select.identifier +
-      main.value.current.select["id"];
-  } else if (main.value.select.type == "category") {
-    main.value.end_route = main.value.current.select["route"];
-  }
-}
-
-watch(
-  main.value.select,
-  () => (main.value = WatchParseRoute(main.value, main.value.select))
-);
-
-watch(main_current_select, (val) => CurrentSelectItem(val));
 
 const SaveConnection = () => {
-  main_store.all_commands
-    .find((item) => item.id === select.SelectedCommand.id)
-    .columns.find((item) => item.id === select.SelectedBlock.column_id)
-    .blocks.find((item) => item.id === select.SelectedBlock.id)
-    .buttons.find((item) => item.id === select.SelectedButton.id).connection.to =
-    main.value.end_route;
+  if (!end_route.value.required()) {
+    main.all_commands
+      .find((item) => item.id === select.SelectedCommand.id)
+      .columns.find((item) => item.id === select.SelectedBlock.column_id)
+      .blocks.find((item) => item.id === select.SelectedBlock.id)
+      .buttons.find((item) => item.id === select.SelectedButton.id).type =
+      select_button_type.value;
+    main.all_commands
+      .find((item) => item.id === select.SelectedCommand.id)
+      .columns.find((item) => item.id === select.SelectedBlock.column_id)
+      .blocks.find((item) => item.id === select.SelectedBlock.id)
+      .buttons.find((item) => item.id === select.SelectedButton.id).connection.to =
+      end_route.value.value;
+  }
 };
-
-onUpdated(() => {
-  if (select.SelectedButton.connection.to && store.Dialogs.set_route) {
-    const parser_sintax = {
-      route: select.SelectedButton.connection.to,
-      text: select.SelectedButton.label,
-    };
-    main.value = ParseRoute(main.value, parser_sintax);
-    nextTick((main.value = WatchParseRoute(main.value, parser_sintax)));
+onBeforeUpdate(() => {
+  if (store.Dialogs.set_route && select.SelectedButton.connection.to) {
+    select_button_type.value = select.SelectedButton.type;
+    route.value = true;
   } else {
-    route_state.value = false;
-    search_state.value = false;
-    main.value = {
-      select: {
-        text: "Выберите путь",
-        type_value: -1,
-        route: null,
-      },
-      current: {
-        data: null,
-        select: null,
-      },
-      clckAction: false,
-      parsed_arr: [],
-      end_route: "",
-      danger: false,
-    };
+    select_button_type.value = 0;
+    route.value = false;
   }
 });
 </script>
