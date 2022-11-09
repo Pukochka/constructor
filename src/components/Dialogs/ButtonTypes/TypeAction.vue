@@ -58,7 +58,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, watch, computed, nextTick, onMounted, defineEmits, defineProps } from "vue";
-import { useDialogsStore, useSelectStore } from "../../../stores";
+import { useStatesStore, useSelectStore } from "../../../stores";
 import {
   RoutesSelect,
   RoutesOptionsStatic,
@@ -71,7 +71,7 @@ import DefinedMenu from "../ActionMenus/DefinedMenu.vue";
 import SearchMenu from "../ActionMenus/SearchMenu.vue";
 import RouteMenu from "../ActionMenus/RoutesMenu.vue";
 
-const store = useDialogsStore();
+const store = useStatesStore();
 const select = useSelectStore();
 
 const search_state = ref<boolean>(false);

@@ -67,7 +67,7 @@
 </template>
 <script setup lang="ts">
 import { onUnmounted, defineProps, PropType, onMounted, computed } from "vue";
-import { useDialogsStore, useMainStore, useSelectStore } from "../../../stores";
+import { useStatesStore, useMainStore, useSelectStore } from "../../../stores";
 import { DialogNames } from "../../../types";
 
 defineProps({
@@ -76,9 +76,9 @@ defineProps({
 });
 
 const main = useMainStore();
-const store = useDialogsStore();
+const store = useStatesStore();
 const select = useSelectStore();
-const { ChangeVisibilityDialogs } = useDialogsStore();
+const { ChangeVisibilityDialogs } = useStatesStore();
 
 const is_visible_image = computed(() => main.uploader.value);
 

@@ -8,17 +8,16 @@
   >
     <div class="row q-gutter-sm q-pa-sm">
       <div
-        style="width: 20px; height: 20px"
         clickable
         v-for="(item, index) in Colors"
         :key="index"
-        class="rounded-borders custom-outline q-pa-md cursor-pointer"
+        class="col rounded-borders custom-outline q-pa-md cursor-pointer"
         :style="{ 'background-color': item }"
         @click="EditColor(item)"
       ></div>
     </div>
     <div
-      class="rounded-borders custom-outline q-pa-sm q-ma-sm cursor-pointer text-center"
+      class="rounded-borders custom-outline q-pa-xs q-mx-sm q-mb-sm cursor-pointer text-center"
       @click="EditColor('transparent')"
     >
       Без заливки

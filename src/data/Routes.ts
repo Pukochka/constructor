@@ -31,16 +31,16 @@ export const Routes: MainRoutes[] = [
     type_value: 2,
     identifier: "&id=",
     options: [
-      // {
-      //   id: 965,
-      //   title: "Попугаи",
-      //   description: "Текст",
-      // },
-      // {
-      //   id: 845,
-      //   title: "Тигры",
-      //   description: "Текст",
-      // },
+      {
+        id: 965,
+        title: "Попугаи",
+        description: "Текст",
+      },
+      {
+        id: 845,
+        title: "Тигры",
+        description: "Текст",
+      },
     ],
   },
   {

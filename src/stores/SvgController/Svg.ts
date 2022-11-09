@@ -2,7 +2,7 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import { useSelectStore, useMainStore } from "../index";
 import type { SvgStore, ScrollEffect } from './model';
-import { Coords } from "../../types";
+import { Coords, Button, Block } from "../../types";
 
 export const useSvgStore = defineStore({
   id: 'SvgStore',
@@ -47,6 +47,11 @@ export const useSvgStore = defineStore({
     },
     ChangeScrollEffect(value: ScrollEffect) {
       this.svg.scroll_effect = value;
+    },
+    UpdateButtonConnectionLine(block: Block, button: Button, value: Coords) {
+      const main = useMainStore()
+      const select = useSelectStore()
+      main.all_commands.find(item => item.id === select.SelectedCommand.id).columns.find(item => item.id === block.column_id).blocks.find(item => item.id === block.id).buttons.find(item => item.id === button.id).connection.coords = value
     }
   },
 });

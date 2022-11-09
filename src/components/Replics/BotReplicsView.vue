@@ -44,13 +44,13 @@
   </q-tab-panels>
 </template>
 <script setup lang="ts">
-import { useSelectStore, useDialogsStore, useMainStore } from "../../stores";
+import { useSelectStore, useStatesStore, useMainStore } from "../../stores";
 
 import TextReplic from "./BotReplics/TextReplic.vue";
 import ImageReplic from "./BotReplics/ImageReplic.vue";
 
 const { SelectBlockType } = useMainStore();
-const { ChangeVisibilityDialogs } = useDialogsStore();
+const { ChangeVisibilityDialogs } = useStatesStore();
 const { ChangeReplics } = useSelectStore();
 const store = useSelectStore();
 

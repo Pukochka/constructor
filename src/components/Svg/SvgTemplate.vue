@@ -33,19 +33,46 @@ const start_y = computed(
       .buttons.find((item) => item.id === select.SelectedButton.id).connection.coords
       .start_y
 );
+
+const is_reverse = computed(
+  () =>
+    main.all_commands
+      .find((item) => item.id === select.SelectedCommand.id)
+      .columns.find((item) => item.id === select.SelectedBlock.column_id)
+      .blocks.find((item) => item.id === select.SelectedBlock.id)
+      .buttons.find((item) => item.id === select.SelectedButton.id).connection.reverse
+);
+
 function FollowingCursor(event: MouseEvent) {
   const { x, y } = event;
+
   const current_x = x + useScrollEffect.value.horizontal - store.gett.parent.x;
   const current_y = y + useScrollEffect.value.vertical - store.gett.parent.y;
+
   const assambly = {
     start_x: start_x.value,
     start_y: start_y.value,
+    end_x: current_x,
+    end_y: current_y,
     path: useBeizerCurvature(start_x.value, start_y.value, current_x, current_y),
     polygon: usePolygonPoints(current_x, current_y, start_x.value),
   };
 
+  if (!is_reverse.value && current_x < start_x.value - 169) CreateReverse(true);
+  else if (is_reverse.value && current_x > start_x.value + 169) CreateReverse(false);
+
   MoveCursorFollowing(assambly);
 }
+
+const CreateReverse = (value: boolean) => {
+  main.all_commands
+    .find((item) => item.id === select.SelectedCommand.id)
+    .columns.find((item) => item.id === select.SelectedBlock.column_id)
+    .blocks.find((item) => item.id === select.SelectedBlock.id)
+    .buttons.find(
+      (item) => item.id === select.SelectedButton.id
+    ).connection.reverse = value;
+};
 
 watch(useCursor, (val) => {
   if (val) document.addEventListener("mousemove", FollowingCursor, false);

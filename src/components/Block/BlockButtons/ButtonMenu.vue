@@ -6,11 +6,12 @@
     icon="more_vert"
     size="10px"
     round
+    class="q-mx-xs"
     @click="SelectState(block, 'block')"
   >
     <q-tooltip anchor="top middle" self="bottom middle">Настройки кнопки</q-tooltip>
-    <q-menu>
-      <q-list dense style="min-width: 100px">
+    <q-menu anchor="bottom right" self="top middle">
+      <q-list dense class="q-py-xs">
         <q-item class="text-primary items-center" clickable v-close-popup @click="Edit">
           <q-icon name="edit" />
           <q-item-section class="q-ml-sm">Изменить</q-item-section>
@@ -37,7 +38,7 @@
 <script lang="ts" setup>
 import { defineProps, PropType } from "vue";
 import { Button, Block } from "../../../types";
-import { useMainStore, useSelectStore, useDialogsStore } from "../../../stores";
+import { useMainStore, useSelectStore, useStatesStore } from "../../../stores";
 
 const props = defineProps({
   button: Object as PropType<Button>,
@@ -46,7 +47,7 @@ const props = defineProps({
 
 const main = useMainStore();
 const select = useSelectStore();
-const { ChangeVisibilityDialogs } = useDialogsStore();
+const { ChangeVisibilityDialogs } = useStatesStore();
 const { SelectState } = useSelectStore();
 
 const DeleteButton = () => {

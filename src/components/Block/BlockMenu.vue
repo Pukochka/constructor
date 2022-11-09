@@ -1,6 +1,6 @@
 <template>
-  <q-menu class="non-selectable" anchor="bottom right" self="top right">
-    <q-list dense style="min-width: 100px">
+  <q-menu class="non-selectable" anchor="bottom right" self="top middle">
+    <q-list dense class="q-py-xs">
       <q-item
         clickable
         v-close-popup

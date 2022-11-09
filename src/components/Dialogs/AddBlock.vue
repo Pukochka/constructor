@@ -18,7 +18,7 @@
         />
         <q-btn
           class="q-px-md"
-          outline
+          flat
           dense
           rounded
           label="Отмена"
@@ -40,7 +40,7 @@
 </template>
 <script setup lang="ts">
 import { onBeforeUpdate, computed } from "vue";
-import { useDialogsStore, useSelectStore, useMainStore } from "../../stores";
+import { useStatesStore, useSelectStore, useMainStore } from "../../stores";
 import { RndColor } from "../../data/Colors";
 
 import BotReplicsView from "../Replics/BotReplicsView.vue";
@@ -49,9 +49,9 @@ import BotReplicsView from "../Replics/BotReplicsView.vue";
 import { Block, Column } from "../../types";
 
 const main = useMainStore();
-const store = useDialogsStore();
+const store = useStatesStore();
 const select = useSelectStore();
-const { ChangeVisibilityDialogs } = useDialogsStore();
+const { ChangeVisibilityDialogs } = useStatesStore();
 const { ChangeReplics } = useSelectStore();
 
 const not_all_replics = computed(() => select.SelectedReplics != "all");

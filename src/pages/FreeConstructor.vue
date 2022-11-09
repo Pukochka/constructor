@@ -2,12 +2,13 @@
   <q-page class="row">
     <div class="col-12 q-pl-xl">
       <HeaderOptions />
+      <q-separator />
       <div>
         <q-scroll-area
           :thumb-style="thumbStyle"
           visible
           @scroll="ScrollPositionEffect"
-          style="height: calc(100vh - 60px); width: 100%"
+          style="height: calc(100vh - 52px); width: 100%"
           class="bg-grey-3 relative-position"
         >
           <div
@@ -38,7 +39,7 @@
                     />
                   </div>
                 </div>
-                <div class="q-px-lg"></div>
+                <div class="q-px-xl"></div>
               </div>
               <div style="width: 370px">
                 <q-btn
@@ -62,6 +63,7 @@
     <EditButton />
     <SetRoute />
     <EditBlock />
+    <TestConstructor />
   </q-page>
 </template>
 
@@ -70,7 +72,7 @@ import { computed } from "vue";
 import {
   useSelectStore,
   useMainStore,
-  useDialogsStore,
+  useStatesStore,
   useSvgStore,
 } from "../stores/index";
 
@@ -81,6 +83,7 @@ import AddBlock from "../components/Dialogs/AddCommand.vue";
 import AddButton from "../components/Dialogs/AddButton.vue";
 import EditButton from "../components/Dialogs/EditButton.vue";
 import EditBlock from "../components/Dialogs/EditBlock.vue";
+import TestConstructor from "../components/Dialogs/TestConstructor.vue";
 import SetRoute from "../components/Dialogs/SetRoute.vue";
 import SvgTemplate from "../components/Svg/SvgTemplate.vue";
 
@@ -89,7 +92,7 @@ import { Column, ScrollCustomEvent } from "../types";
 const select = useSelectStore();
 const main = useMainStore();
 const { ChangeScrollEffect } = useSvgStore();
-const { ChangeVisibilityDialogs } = useDialogsStore();
+const { ChangeVisibilityDialogs } = useStatesStore();
 
 const thumbStyle = {
   right: "4px",

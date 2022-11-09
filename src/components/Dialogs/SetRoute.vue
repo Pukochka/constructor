@@ -52,10 +52,21 @@
         </div>
       </div>
       <div class="row q-gutter-sm justify-end">
-        <q-btn unelevated rounded flat label="Отмена" color="primary" v-close-popup />
+        <q-btn
+          class="q-px-md"
+          dense
+          unelevated
+          rounded
+          flat
+          label="Отмена"
+          color="primary"
+          v-close-popup
+        />
         <q-btn
           :disable="end_route.required()"
           unelevated
+          class="q-px-md"
+          dense
           rounded
           label="Сохранить"
           color="primary"
@@ -68,7 +79,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, onBeforeUpdate } from "vue";
-import { useDialogsStore, useMainStore, useSelectStore } from "../../stores";
+import { useStatesStore, useMainStore, useSelectStore } from "../../stores";
 
 import Action from "./ButtonTypes/TypeAction.vue";
 import ChooseText from "./ButtonTypes/ChooseText.vue";
@@ -76,7 +87,7 @@ import Link from "./ButtonTypes/TypeLink.vue";
 import Share from "./ButtonTypes/TypeShare.vue";
 import Web from "./ButtonTypes/TypeWeb.vue";
 
-const store = useDialogsStore();
+const store = useStatesStore();
 const main = useMainStore();
 const select = useSelectStore();
 

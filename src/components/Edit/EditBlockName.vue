@@ -5,6 +5,9 @@
     class="rounded-borders q-px-sm flex items-center cursor-pointer text-bold mw"
     :style="{ 'background-color': block.block_options.color }"
   >
+    <q-tooltip anchor="top middle" self="bottom middle">
+      Редактировать название экрана
+    </q-tooltip>
     <div class="" v-if="edit_state">
       <input class="custom-input" type="text" v-model="edit" />
     </div>
@@ -13,12 +16,9 @@
       v-else
       @click="edit_state = !edit_state"
     >
-      <q-icon name="drag_indicator" />
-
+      <div class="">#</div>
       <div class="ellipsis">{{ block.block_options.name }}</div>
-      <q-tooltip anchor="top middle" self="bottom middle">
-        Редактировать название экрана
-      </q-tooltip>
+
       <q-icon class="q-ml-sm" v-if="animate_edit" name="edit" size="18px"> </q-icon>
     </span>
   </div>

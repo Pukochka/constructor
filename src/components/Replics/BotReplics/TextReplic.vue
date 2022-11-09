@@ -18,6 +18,7 @@
       autofocus
       class="q-my-xs"
       outlined
+      autogrow
       v-model="main.input.value"
       :rules="[() => main.input.required() || 'Введено неверное количество символов']"
       :maxlength="main.input.max"
@@ -27,7 +28,7 @@
 </template>
 <script setup lang="ts">
 import { onUnmounted, defineProps, PropType, onMounted } from "vue";
-import { useMainStore, useDialogsStore, useSelectStore } from "../../../stores";
+import { useMainStore, useStatesStore, useSelectStore } from "../../../stores";
 import { DialogNames } from "../../../types";
 
 defineProps({
@@ -36,9 +37,9 @@ defineProps({
 });
 
 const main = useMainStore();
-const store = useDialogsStore();
+const store = useStatesStore();
 const select = useSelectStore();
-const { ChangeVisibilityDialogs } = useDialogsStore();
+const { ChangeVisibilityDialogs } = useStatesStore();
 
 onMounted(() => {
   if (store.Dialogs.edit_block) main.input.value = select.SelectedBlock.options;

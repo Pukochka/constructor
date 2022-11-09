@@ -1,9 +1,11 @@
 export default function (start_x: number, start_y: number, offsetX: number, offsetY: number) {
-  let accounting_division = offsetX / 1.17
-  let accounting_multiply = start_x * 1.17
+  const coefficient = 1.35;
+
+  let accounting_division = offsetX / coefficient
+  let accounting_multiply = start_x * coefficient
   if (offsetX < start_x) {
-    accounting_division = offsetX * 1.17
-    accounting_multiply = start_x / 1.17
+    accounting_division = offsetX * coefficient
+    accounting_multiply = start_x / coefficient
   }
   return "M" +
     start_x +
@@ -15,7 +17,7 @@ export default function (start_x: number, start_y: number, offsetX: number, offs
     " " +
     start_y +
     "," +
-    (accounting_division) +
+    accounting_division +
     " " +
     offsetY +
     "," +

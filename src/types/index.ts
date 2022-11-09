@@ -1,4 +1,4 @@
-import { DialogNames } from "../stores/DialogStore/model";
+import { DialogNames } from "../stores/StateStore/model";
 import { TextInput, Required, Uploader } from "../stores/MainStore/model";
 import { StateTypes, NameReplics } from "../stores/SelectStore/model";
 import { AssamblyElements, ScrollCustomEvent, ScrollEffect } from "../stores/SvgController/model";
@@ -6,12 +6,38 @@ import { AssamblyElements, ScrollCustomEvent, ScrollEffect } from "../stores/Svg
 export type { DialogNames, TextInput, Required, Uploader, StateTypes, NameReplics, AssamblyElements, ScrollCustomEvent, ScrollEffect }
 
 export interface Command {
-  /** label - название команды */
+  /** message - название команды */
   label: string;
   /** id - id команды */
   id: number;
   /** columns - массив колонок */
   columns: Column[]
+}
+
+export interface SelectRoutes {
+  /** message - название команды */
+  message: string;
+  /** id - id команды */
+  id: number;
+  /** bot_id - id бота */
+  bot_id: number;
+  /** route - путь кнопки */
+  route: string;
+}
+
+export interface SelectedRoute {
+  /** message - название команды */
+  message: string;
+  /** id - id команды */
+  id: number;
+  /** bot_id - id бота */
+  bot_id: number;
+  /** route - путь кнопки */
+  route: string;
+  /** columns - массив колонок */
+  columns: Column[];
+  /**  */
+  error: null;
 }
 
 export interface Column {
@@ -40,6 +66,7 @@ export interface Block {
   id: number;
   /** column_id - id колонки */
   column_id: number;
+  /** connection_count - количество связей с кнопками */
   connection_count: number,
 }
 
@@ -50,27 +77,15 @@ export interface BlockOptions {
   color: string;
 }
 
-// export interface TextReplic {
-//   content: string;
-// }
-
-// export interface ImageReplic {
-//   image: string;
-// }
-
 export interface Button {
-  /**
-   * type:
-   * 0 - кнопка routes;
-   * 1 - связь с блоком
-   * 2 - */
-  type: number;
   /** label - название кнопки */
   label: string;
   /** id - id кнопки */
   id: number;
   /** connection - соединение (routes / связь с блоком) */
   connection: Connection | null | undefined;
+  /** */
+  sort: number;
 }
 
 export interface Connection {
@@ -92,20 +107,23 @@ export interface Connection {
   coords: Coords;
   /** */
   toRoute: RouteTo;
+  /** */
+  reverse: boolean;
 }
 
 export interface Coords {
   start_x: number;
   start_y: number;
+  end_x: number;
+  end_y: number;
   path: string;
   polygon: string;
 }
 
 export interface RouteTo {
-  /** command_id - id команды */
-  command_id: number;
   /** block_id - id экрана/свободного сообщения */
   block_id: number;
+  /** column_id - id колонки*/
   column_id: number;
 }
 

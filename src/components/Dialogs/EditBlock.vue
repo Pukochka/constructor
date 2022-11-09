@@ -27,9 +27,20 @@
         </q-btn>
       </div>
       <div class="row q-gutter-sm justify-end">
-        <q-btn rounded flat label="Отмена" color="primary" v-close-popup />
         <q-btn
           unelevated
+          class="q-px-md"
+          dense
+          rounded
+          flat
+          label="Отмена"
+          color="primary"
+          v-close-popup
+        />
+        <q-btn
+          unelevated
+          class="q-px-md"
+          dense
           rounded
           label="Сохранить"
           color="primary"
@@ -43,12 +54,12 @@
 </template>
 <script lang="ts" setup>
 import { ref, computed, onUpdated, nextTick } from "vue";
-import { useDialogsStore, useSelectStore, useMainStore } from "../../stores";
+import { useStatesStore, useSelectStore, useMainStore } from "../../stores";
 
 import TextReplic from "../Replics/BotReplics/TextReplic.vue";
 import ImageReplic from "../Replics/BotReplics/ImageReplic.vue";
 
-const store = useDialogsStore();
+const store = useStatesStore();
 const select = useSelectStore();
 const main = useMainStore();
 

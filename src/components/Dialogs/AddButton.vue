@@ -14,12 +14,22 @@
           :rules="[() => text.required() || 'Введено неверное количество символов']"
         />
       </div>
-      <div class="flex justify-end">
-        <q-btn rounded flat label="Отмена" color="primary" v-close-popup />
+      <div class="row q-gutter-sm justify-end">
+        <q-btn
+          class="q-px-md"
+          dense
+          rounded
+          flat
+          label="Отмена"
+          color="primary"
+          v-close-popup
+        />
         <q-btn
           unelevated
           :disable="!text.required()"
           rounded
+          class="q-px-md"
+          dense
           label="Добавить"
           color="primary"
           v-close-popup
@@ -31,11 +41,11 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { useDialogsStore, useSelectStore, useMainStore } from "../../stores";
+import { useStatesStore, useSelectStore, useMainStore } from "../../stores";
 import { TextInput } from "../../types";
 
 const main = useMainStore();
-const store = useDialogsStore();
+const store = useStatesStore();
 const select = useSelectStore();
 
 const text = ref<TextInput>({
@@ -49,16 +59,19 @@ const text = ref<TextInput>({
 
 const AddButton = () => {
   const newButton = {
-    type: 0,
     label: text.value.value,
     id: Date.now(),
+    sort: Date.now(),
     connection: {
       to: null,
       type: 0,
       info: null,
+      reverse: false,
       coords: {
         start_x: 0,
         start_y: 0,
+        end_x: 0,
+        end_y: 0,
         path: "",
         polygon: "",
       },
