@@ -67,7 +67,7 @@ export interface Block {
   /** column_id - id колонки */
   column_id: number;
   /** connection_count - количество связей с кнопками */
-  connection_count: number,
+  connected: Array<number>,
 }
 
 export interface BlockOptions {
@@ -86,6 +86,7 @@ export interface Button {
   connection: Connection | null | undefined;
   /** */
   sort: number;
+  element: number;
 }
 
 export interface Connection {
@@ -109,6 +110,7 @@ export interface Connection {
   toRoute: RouteTo;
   /** */
   reverse: boolean;
+
 }
 
 export interface Coords {

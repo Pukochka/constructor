@@ -62,6 +62,7 @@ const AddButton = () => {
     label: text.value.value,
     id: Date.now(),
     sort: Date.now(),
+    element: null,
     connection: {
       to: null,
       type: 0,

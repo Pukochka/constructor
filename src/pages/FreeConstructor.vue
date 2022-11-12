@@ -23,21 +23,7 @@
                 :key="index"
               >
                 <div class="">
-                  <BlockView
-                    v-for="block in item.blocks"
-                    :key="block.id"
-                    :block="block"
-                  />
-                  <div class="row">
-                    <q-btn
-                      rounded
-                      flat
-                      color="primary"
-                      label="Добавить экран"
-                      class="col-12"
-                      @click="AddBlockInColumn(item)"
-                    />
-                  </div>
+                  <ColumnView :columns="item" />
                 </div>
                 <div class="q-px-xl"></div>
               </div>
@@ -48,7 +34,7 @@
                   class="full-width"
                   flat
                   color="primary"
-                  label="Добавить экран"
+                  label="Добавить блок"
                   @click="AddBlockWithLine"
                 />
               </div>
@@ -77,7 +63,7 @@ import {
 } from "../stores/index";
 
 import HeaderOptions from "../components/HeaderOptions.vue";
-import BlockView from "../components/Block/BlockView.vue";
+import ColumnView from "../components/ColumnView.vue";
 import AddCommand from "../components/Dialogs/AddBlock.vue";
 import AddBlock from "../components/Dialogs/AddCommand.vue";
 import AddButton from "../components/Dialogs/AddButton.vue";
@@ -87,7 +73,7 @@ import TestConstructor from "../components/Dialogs/TestConstructor.vue";
 import SetRoute from "../components/Dialogs/SetRoute.vue";
 import SvgTemplate from "../components/Svg/SvgTemplate.vue";
 
-import { Column, ScrollCustomEvent } from "../types";
+import { ScrollCustomEvent } from "../types";
 
 const select = useSelectStore();
 const main = useMainStore();
@@ -112,11 +98,6 @@ function ScrollPositionEffect(e: ScrollCustomEvent) {
   const { horizontalPosition, verticalPosition } = e;
   ChangeScrollEffect({ horizontal: horizontalPosition, vertical: verticalPosition });
 }
-
-const AddBlockInColumn = (item: Column) => {
-  select.SelectState(item, "column");
-  ChangeVisibilityDialogs(true, "add_block");
-};
 
 const AddBlockWithLine = () => {
   select.SelectState({ id: -1, blocks: [], command_id: -1 }, "column");

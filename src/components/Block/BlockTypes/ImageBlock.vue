@@ -1,7 +1,7 @@
 <template>
   <!-- <q-item clickable class="q-pa-none"> -->
   <div class="rounded-borders custom-outline fit">
-    <div class="q-pa-sm flex items-center justify-between">
+    <div class="q-pl-md q-pr-sm q-pt-sm flex items-center justify-between">
       <div class="flex items-center">
         <q-icon name="image" />
         <div class="q-pl-sm">Изображение</div>

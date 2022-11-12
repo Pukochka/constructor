@@ -3,6 +3,7 @@
     ref="block_element"
     class="shadow-1 rounded-borders q-mb-md bg-white relative-position"
     style="max-width: 370px; min-width: 370px"
+    :id="`block_${block.id}`"
   >
     <transition name="fade">
       <div
@@ -31,9 +32,9 @@
           icon="more_vert"
           @click="SelectState(block, 'block')"
         >
-          <BlockMenu />
+          <BlockMenu :block="block" />
           <q-tooltip anchor="top middle" self="bottom middle">
-            Настройки экрана
+            Настройки блока
           </q-tooltip>
         </q-btn>
       </div>
@@ -69,7 +70,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { defineProps, PropType, computed, ref } from "vue";
+import { defineProps, PropType, computed, ref, onUpdated } from "vue";
 import { Block } from "../../types";
 
 import BlockMenu from "./BlockMenu.vue";
@@ -87,12 +88,12 @@ const props = defineProps({
 
 const block_element = ref<Element>();
 
-const { ChangeVisibilityDialogs } = useStatesStore();
-const { SelectState } = useSelectStore();
 const select = useSelectStore();
 const store = useSvgStore();
 const main = useMainStore();
-const { EndCursorFollowing } = useSvgStore();
+const { ChangeVisibilityDialogs } = useStatesStore();
+const { SelectState } = useSelectStore();
+const { EndCursorFollowing, UpdateButtons } = useSvgStore();
 
 const useCursor = computed(() => store.svg.cursor_path);
 
@@ -115,16 +116,42 @@ const start_y = computed(
       .start_y
 );
 
+const is_reverse = computed(
+  () =>
+    main.all_commands
+      .find((item) => item.id === select.SelectedCommand.id)
+      .columns.find((item) => item.id === select.SelectedBlock.column_id)
+      .blocks.find((item) => item.id === select.SelectedBlock.id)
+      .buttons.find((item) => item.id === select.SelectedButton.id).connection.reverse
+);
+
 const AddButton = () => {
   SelectState(props.block, "block");
   ChangeVisibilityDialogs(true, "add_button");
 };
 
+// const ConnectWithBlock = (id:number) =>{
+//   return
+// }
+
 const Connect = () => {
   main.all_commands
     .find((item) => item.id === select.SelectedCommand.id)
     .columns.find((item) => item.id === props.block.column_id)
-    .blocks.find((item) => item.id === props.block.id).connection_count++;
+    .blocks.find((item) => item.id === props.block.id)
+    .connected.push(select.SelectedButton.id);
+
+  main.all_commands
+    .find((item) => item.id === select.SelectedCommand.id)
+    .columns.find((item) => item.id === select.SelectedBlock.column_id)
+    .blocks.find((item) => item.id === select.SelectedBlock.id)
+    .buttons.find(
+      (item) => item.id === select.SelectedButton.id
+    ).element = main.all_commands
+    .find((item) => item.id === select.SelectedCommand.id)
+    .columns.find((item) => item.id === props.block.column_id)
+    .blocks.find((item) => item.id === props.block.id)
+    .connected.indexOf(select.SelectedButton.id);
 
   main.all_commands
     .find((item) => item.id === select.SelectedCommand.id)
@@ -138,30 +165,59 @@ const Connect = () => {
     .blocks.find((item) => item.id === select.SelectedBlock.id)
     .buttons.find(
       (item) => item.id === select.SelectedButton.id
-    ).connection.to = `system/free?id=${select.SelectedButton.id}`;
+    ).connection.to = `system/free?id=${props.block.id}`;
+
+  main.all_commands
+    .find((item) => item.id === select.SelectedCommand.id)
+    .columns.find((item) => item.id === select.SelectedBlock.column_id)
+    .blocks.find((item) => item.id === select.SelectedBlock.id)
+    .buttons.find((item) => item.id === select.SelectedButton.id).connection.toRoute = {
+    block_id: props.block.id,
+    column_id: props.block.column_id,
+  };
 
   const { x, y, width } = block_element.value.getBoundingClientRect();
 
-  const count = props.block.connection_count;
+  const count = props.block.connected.indexOf(select.SelectedButton.id);
+
   let dpi_x = x - store.gett.parent.x - 13 + store.gett.scroll_effect.horizontal;
   const dpi_y = y - store.gett.parent.y + 20 * count + store.gett.scroll_effect.vertical;
 
-  if (dpi_x < start_x.value) {
+  if (is_reverse.value && dpi_x > start_x.value - 86) {
+    dpi_x = x - store.gett.parent.x - 13 + store.gett.scroll_effect.horizontal;
+  } else if (!is_reverse.value && dpi_x < start_x.value + 86) {
+    dpi_x =
+      x - store.gett.parent.x - 13 + store.gett.scroll_effect.horizontal + width + 25;
+  } else if (!is_reverse.value && dpi_x > start_x.value + 86) {
+    dpi_x = x - store.gett.parent.x - 13 + store.gett.scroll_effect.horizontal;
+  } else if (is_reverse.value && dpi_x < start_x.value - 86) {
     dpi_x =
       x - store.gett.parent.x - 13 + store.gett.scroll_effect.horizontal + width + 25;
   }
+  // if (dpi_y > height) {
+  //   console.log(1);
+  //   console.log(props.block.id);
+  //   document.getElementById(`block_${props.block.id}`).style.height = `${height + 10}px`;
+  // }
 
   const current_coords = {
     start_x: start_x.value,
     start_y: start_y.value,
     end_x: dpi_x,
     end_y: dpi_y,
-    path: useBeizerCurvature(start_x.value, start_y.value, dpi_x, dpi_y),
-    polygon: usePolygonPoints(dpi_x, dpi_y, start_x.value),
+    path: useBeizerCurvature(
+      start_x.value,
+      start_y.value,
+      dpi_x,
+      dpi_y,
+      is_reverse.value
+    ),
+    polygon: usePolygonPoints(dpi_x, dpi_y, start_x.value, is_reverse.value),
   };
 
   EndCursorFollowing(current_coords);
 };
+onUpdated(() => UpdateButtons());
 </script>
 <style lang="scss">
 .opacity-1 {

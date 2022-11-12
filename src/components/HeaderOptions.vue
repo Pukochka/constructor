@@ -1,14 +1,6 @@
 <template>
   <div class="row justify-between items-center q-pa-sm" style="height: 50px">
     <div class="flex">
-      <!-- <q-select
-        style="width: 150px"
-        rounded
-        dense
-        outlined
-        v-model="select_state"
-        :options="main.Commands"
-      /> -->
       <q-btn
         color="primary"
         dense
@@ -52,20 +44,13 @@
     <div class="row q-gutter-sm">
       <!-- <div class="rounded-borders custom-outline">
         <q-btn color="primary" dense flat icon="image" @click="CreateColumn" />
-        <q-btn
-          color="primary"
-          dense
-          flat
-          icon="fullscreen"
-          @click="GetItems"
-          :loading="store.Loadings.route.index"
-        />
+        <q-btn color="primary" dense flat icon="fullscreen" @click="GetItems" />
         <q-btn color="primary" dense flat icon="check" @click="Get" />
         <q-btn color="primary" dense flat icon="delete" @click="Delete" />
       </div> -->
       <!-- <q-btn color="white" text-color="black" label="Standard" @click="Show" /> -->
 
-      <q-btn
+      <!-- <q-btn
         dense
         flat
         color="primary"
@@ -75,12 +60,12 @@
         class="q-px-md"
         rounded
         @click="ChangeVisibilityDialogs(true, 'test_constructor')"
-      />
+      /> -->
 
-      <div class="rounded-borders custom-outline">
+      <!-- <div class="rounded-borders custom-outline">
         <q-btn color="primary" dense flat icon="add" @click="main.AddScale" />
         <q-btn color="primary" dense flat icon="remove" @click="main.RemoveScale" />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

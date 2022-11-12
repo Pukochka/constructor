@@ -14,10 +14,9 @@
                 select_button_type = item.type;
                 route = false;
               "
-              color="primary"
+              :color="select_button_type !== item.type ? 'white' : 'primary'"
               :text-color="select_button_type !== item.type ? 'primary' : 'white'"
-              class="fit"
-              :outline="select_button_type !== item.type"
+              class="fit shadow-1"
               dense
               rounded
               unelevated
@@ -133,7 +132,7 @@ const SaveConnection = () => {
       .find((item) => item.id === select.SelectedCommand.id)
       .columns.find((item) => item.id === select.SelectedBlock.column_id)
       .blocks.find((item) => item.id === select.SelectedBlock.id)
-      .buttons.find((item) => item.id === select.SelectedButton.id).type =
+      .buttons.find((item) => item.id === select.SelectedButton.id).connection.type =
       select_button_type.value;
     main.all_commands
       .find((item) => item.id === select.SelectedCommand.id)
@@ -145,7 +144,7 @@ const SaveConnection = () => {
 };
 onBeforeUpdate(() => {
   if (store.Dialogs.set_route && select.SelectedButton.connection.to) {
-    select_button_type.value = select.SelectedButton.type;
+    select_button_type.value = select.SelectedButton.connection.type;
     route.value = true;
   } else {
     select_button_type.value = 0;

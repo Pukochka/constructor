@@ -28,24 +28,28 @@
   <EditColor v-model="edit_color_state" />
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
-import { useMainStore, useSelectStore } from "../../stores";
-
+import { ref, PropType, defineProps } from "vue";
+import { useMainStore, useSelectStore, useSvgStore } from "../../stores";
+import { Block } from "../../types";
 import EditColor from "../Edit/EditColor.vue";
 
 const main = useMainStore();
 const select = useSelectStore();
+const { DeleteBlockAndConnected } = useSvgStore();
 
 const edit_color_state = ref<boolean>(false);
-
+const props = defineProps({
+  block: Object as PropType<Block>,
+});
 const DeleteBlock = () => {
+  if (props.block.connected.length) {
+    DeleteBlockAndConnected(props.block);
+  }
   main.all_commands
     .find((item) => item.id === select.SelectedCommand.id)
-    .columns.find(
-      (item) => item.id === select.SelectedBlock.column_id
-    ).blocks = main.all_commands
+    .columns.find((item) => item.id === props.block.column_id).blocks = main.all_commands
     .find((item) => item.id === select.SelectedCommand.id)
-    .columns.find((item) => item.id === select.SelectedBlock.column_id)
-    .blocks.filter((item) => item.id !== select.SelectedBlock.id);
+    .columns.find((item) => item.id === props.block.column_id)
+    .blocks.filter((item) => item.id !== props.block.id);
 };
 </script>

@@ -1,17 +1,27 @@
 <template>
   <div class="row q-col-gutter-sm" ref="button_container">
     <div class="col-12" v-for="(button, index) in block.buttons" :key="index">
-      <CButton :button="button" :block="block" :button_container="button_container" />
+      <SingleButton
+        :button="button"
+        :block="block"
+        :button_container="button_container"
+      />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { defineProps, PropType, ref } from "vue";
+import { defineProps, PropType, ref, onUpdated } from "vue";
 import { Block } from "../../../types";
-import CButton from "./SingleButton.vue";
+import SingleButton from "./SingleButton.vue";
+import { useSvgStore } from "../../../stores";
 
-const button_container = ref<Element>();
 defineProps({
   block: Object as PropType<Block>,
 });
+
+const button_container = ref<Element>();
+
+const { UpdateButtons } = useSvgStore();
+
+onUpdated(() => UpdateButtons());
 </script>

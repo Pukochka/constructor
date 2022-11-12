@@ -38,7 +38,12 @@
 <script lang="ts" setup>
 import { defineProps, PropType } from "vue";
 import { Button, Block } from "../../../types";
-import { useMainStore, useSelectStore, useStatesStore } from "../../../stores";
+import {
+  useMainStore,
+  useSelectStore,
+  useStatesStore,
+  useSvgStore,
+} from "../../../stores";
 
 const props = defineProps({
   button: Object as PropType<Button>,
@@ -47,10 +52,14 @@ const props = defineProps({
 
 const main = useMainStore();
 const select = useSelectStore();
+const { DeleteConnectionAndUpdateLine } = useSvgStore();
 const { ChangeVisibilityDialogs } = useStatesStore();
 const { SelectState } = useSelectStore();
 
 const DeleteButton = () => {
+  if (props.button.connection.coords.start_x) {
+    DeleteConnectionAndUpdateLine(props.button, props.block);
+  }
   main.all_commands
     .find((item) => item.id === select.SelectedCommand.id)
     .columns.find((item) => item.id === props.block.column_id)

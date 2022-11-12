@@ -9,7 +9,7 @@
         <q-btn
           v-if="not_all_replics"
           class="q-px-md"
-          outline
+          flat
           dense
           rounded
           label="Назад"
@@ -28,6 +28,7 @@
         <q-btn
           class="q-px-md"
           dense
+          unelevated
           rounded
           :disable="!main.GetBlockConfig.required()"
           label="Сохранить"
@@ -65,7 +66,7 @@ const AddBlock = () => {
         color: RndColor(),
         name: "Название",
       },
-      connection_count: 0,
+      connected: [],
       id: Date.now(),
       column_id: select.SelectedColumn.id,
       type: main.GetBlockConfig.type,
@@ -86,7 +87,7 @@ const AddBlock = () => {
             color: RndColor(),
             name: "Название",
           },
-          connection_count: 0,
+          connected: [],
           id: Date.now(),
           column_id: Date.now(),
           type: main.GetBlockConfig.type,

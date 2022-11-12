@@ -49,17 +49,23 @@ function FollowingCursor(event: MouseEvent) {
   const current_x = x + useScrollEffect.value.horizontal - store.gett.parent.x;
   const current_y = y + useScrollEffect.value.vertical - store.gett.parent.y;
 
+  if (!is_reverse.value && current_x < start_x.value - 169) CreateReverse(true);
+  else if (is_reverse.value && current_x > start_x.value + 169) CreateReverse(false);
+
   const assambly = {
     start_x: start_x.value,
     start_y: start_y.value,
     end_x: current_x,
     end_y: current_y,
-    path: useBeizerCurvature(start_x.value, start_y.value, current_x, current_y),
-    polygon: usePolygonPoints(current_x, current_y, start_x.value),
+    path: useBeizerCurvature(
+      start_x.value,
+      start_y.value,
+      current_x,
+      current_y,
+      is_reverse.value
+    ),
+    polygon: usePolygonPoints(current_x, current_y, start_x.value, is_reverse.value),
   };
-
-  if (!is_reverse.value && current_x < start_x.value - 169) CreateReverse(true);
-  else if (is_reverse.value && current_x > start_x.value + 169) CreateReverse(false);
 
   MoveCursorFollowing(assambly);
 }

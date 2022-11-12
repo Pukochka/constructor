@@ -6,7 +6,7 @@
     :style="{ 'background-color': block.block_options.color }"
   >
     <q-tooltip anchor="top middle" self="bottom middle">
-      Редактировать название экрана
+      Редактировать название блока
     </q-tooltip>
     <div class="" v-if="edit_state">
       <input class="custom-input" type="text" v-model="edit" />
