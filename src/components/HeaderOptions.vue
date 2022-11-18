@@ -6,13 +6,14 @@
         dense
         class="q-px-md"
         text-color="primary"
-        :label="select_state.label"
-        :icon="menu_state ? 'keyboard_arrow_down' : 'chevron_right'"
+        icon="chevron_left"
+        label="Назад"
         unelevated
         flat
         rounded
+        @click="ChangeTemplate('select')"
       >
-        <q-menu fit v-model="menu_state">
+        <!-- <q-menu fit v-model="menu_state">
           <q-list class="q-py-xs">
             <q-item
               @click="select_state = item"
@@ -38,7 +39,7 @@
               <q-item-section class="q-pl-sm">Добавить команду</q-item-section>
             </q-item>
           </q-list>
-        </q-menu>
+        </q-menu> -->
       </q-btn>
     </div>
     <div class="row q-gutter-sm">
@@ -48,7 +49,7 @@
         <q-btn color="primary" dense flat icon="check" @click="Get" />
         <q-btn color="primary" dense flat icon="delete" @click="Delete" />
       </div> -->
-      <!-- <q-btn color="white" text-color="black" label="Standard" @click="Show" /> -->
+      <!-- <q-btn dense color="white" text-color="black" label="Standard" @click="Show" /> -->
 
       <!-- <q-btn
         dense
@@ -70,20 +71,18 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import type { Command } from "../types";
+// import { ref, watch } from "vue";
+// import type { Command } from "../types";
 // import { GetRoutes } from "../api";
-import { useSelectStore, useMainStore, useStatesStore } from "../stores";
+import { /*useSelectStore,*/ useDataStore } from "../stores";
 
-const select = useSelectStore();
-const main = useMainStore();
-const { ChangeVisibilityDialogs } = useStatesStore();
+// const select = useSelectStore();
+const { ChangeTemplate } = useDataStore();
+// const { ChangeVisibilityDialogs } = useStatesStore();
 // const store = useStatesStore();
 
-const select_state = ref<Command>(main.Commands[0]);
-const menu_state = ref<boolean>(false);
-
-watch(select_state, () => select.SelectState(select_state.value, "command"));
+// const select_state = ref<Command>(main.Commands[0]);
+// const menu_state = ref<boolean>(false);
 
 // const Show = () => {
 //   console.log(main.all_commands);

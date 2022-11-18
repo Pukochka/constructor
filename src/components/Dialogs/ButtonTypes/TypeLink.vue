@@ -34,7 +34,7 @@ watch(text.value, () => emit("watch_end_route", text.value));
 
 onMounted(() => {
   const value = ref<string>("");
-  if (props.route) value.value = select.SelectedButton.connection.to;
+  if (props.route) value.value = select.SelectedButton.data.action;
   else value.value = "https://";
 
   text.value = {

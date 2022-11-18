@@ -3,37 +3,30 @@
 </template>
 <script lang="ts" setup>
 import { computed, watch, onMounted } from "vue";
-import { useSvgStore, useMainStore, useSelectStore } from "../../stores";
+import { useSvgStore, useDataStore, useSelectStore } from "../../stores";
 
 import { useBeizerCurvature, usePolygonPoints } from "../../helpers";
 
 const store = useSvgStore();
-const main = useMainStore();
-const select = useSelectStore();
 const { MoveCursorFollowing, SetParent } = useSvgStore();
+const main = useDataStore();
+const select = useSelectStore();
 
 const useCursor = computed(() => store.svg.cursor_path);
 const useScrollEffect = computed(() => store.svg.scroll_effect);
 
 const start_x = computed(
-  () =>
-    main.all_commands
-      .find((item) => item.id === select.SelectedCommand.id)
-      .columns.find((item) => item.id === select.SelectedBlock.column_id)
-      .blocks.find((item) => item.id === select.SelectedBlock.id)
-      .buttons.find((item) => item.id === select.SelectedButton.id).connection.coords
-      .start_x
+  () => store.svg.collections.find((item) => item.id === store.gett.moving_line).start_x
 );
 const start_y = computed(
-  () =>
-    main.all_commands
-      .find((item) => item.id === select.SelectedCommand.id)
-      .columns.find((item) => item.id === select.SelectedBlock.column_id)
-      .blocks.find((item) => item.id === select.SelectedBlock.id)
-      .buttons.find((item) => item.id === select.SelectedButton.id).connection.coords
-      .start_y
+  () => store.svg.collections.find((item) => item.id === store.gett.moving_line).start_y
 );
-
+const column_id = computed(
+  () => store.svg.collections.find((item) => item.id === store.gett.moving_line).column_id
+);
+const block_id = computed(
+  () => store.svg.collections.find((item) => item.id === store.gett.moving_line).block_id
+);
 const is_reverse = computed(
   () =>
     main.all_commands
@@ -49,10 +42,14 @@ function FollowingCursor(event: MouseEvent) {
   const current_x = x + useScrollEffect.value.horizontal - store.gett.parent.x;
   const current_y = y + useScrollEffect.value.vertical - store.gett.parent.y;
 
-  if (!is_reverse.value && current_x < start_x.value - 169) CreateReverse(true);
-  else if (is_reverse.value && current_x > start_x.value + 169) CreateReverse(false);
+  if (!is_reverse.value && current_x < start_x.value - 169) ChangeReverse(true);
+  else if (is_reverse.value && current_x > start_x.value + 169) ChangeReverse(false);
 
   const assambly = {
+    id: store.gett.moving_line,
+    column_id: column_id.value,
+    block_id: block_id.value,
+    position: 0,
     start_x: start_x.value,
     start_y: start_y.value,
     end_x: current_x,
@@ -70,7 +67,7 @@ function FollowingCursor(event: MouseEvent) {
   MoveCursorFollowing(assambly);
 }
 
-const CreateReverse = (value: boolean) => {
+function ChangeReverse(value: boolean) {
   main.all_commands
     .find((item) => item.id === select.SelectedCommand.id)
     .columns.find((item) => item.id === select.SelectedBlock.column_id)
@@ -78,7 +75,7 @@ const CreateReverse = (value: boolean) => {
     .buttons.find(
       (item) => item.id === select.SelectedButton.id
     ).connection.reverse = value;
-};
+}
 
 watch(useCursor, (val) => {
   if (val) document.addEventListener("mousemove", FollowingCursor, false);

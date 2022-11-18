@@ -5,27 +5,39 @@ import type { StatesStore, DialogNames } from './model';
 import { InlineMethods } from './../../api/Inline';
 import { RouteMethods } from './../../api/Route';
 import { ColumnMethods } from './../../api/Column';
-import { Button } from "../../types";
-
-import { useSelectStore } from "../index";
-
+import { MessageMethods } from './../../api/Message';
 
 export const useStatesStore = defineStore({
   id: 'StatesStore',
   state: () =>
     ref({
       dialogs: {
-        add_scenary: false,
-        add_command: false,
+        add_route: false,
         add_button: false,
-        add_block: false,
+        add_message: false,
+        settings_buttons: false,
+        change_type: false,
         edit_button: false,
-        edit_block: false,
+        edit_route: false,
+        edit_message: false,
         set_route: false,
         set_connection: false,
         test_constructor: false,
       },
       loadings: {
+        message: {
+          index: false,
+          get: false,
+          colors: false,
+          types: false,
+          'update-text': false,
+          'update-title': false,
+          'add-inline-menu': false,
+          'delete-inline-menu': false,
+          duplicate: false,
+          'update-type': false,
+          delete: false,
+        },
         route: {
           index: false,
           view: false,
@@ -61,10 +73,11 @@ export const useStatesStore = defineStore({
     Loadings: (state) => state.loadings,
   },
   actions: {
-    ChangeVisibilityDialogs(value: boolean, section: DialogNames, select?: Button) {
-      const { SelectState } = useSelectStore()
+    ChangeVisibilityDialogs(value: boolean, section: DialogNames) {
       this.dialogs[section] = value;
-      if (select) SelectState(select, 'button');
+    },
+    ChangeLoadingMessage(value: boolean, section: MessageMethods) {
+      this.loadings.inline[section] = value;
     },
     ChangeLoadingRoute(value: boolean, section: RouteMethods) {
       this.loadings.route[section] = value;
@@ -75,5 +88,6 @@ export const useStatesStore = defineStore({
     ChangeLoadingInline(value: boolean, section: InlineMethods) {
       this.loadings.inline[section] = value;
     },
+
   },
 });

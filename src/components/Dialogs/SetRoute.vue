@@ -69,7 +69,7 @@
           rounded
           label="Сохранить"
           color="primary"
-          v-close-popup
+          :loading="loading"
           @click="SaveConnection"
         />
       </div>
@@ -78,7 +78,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, onBeforeUpdate } from "vue";
-import { useStatesStore, useMainStore, useSelectStore } from "../../stores";
+import { useStatesStore, useSelectStore, useDataStore } from "../../stores";
 
 import Action from "./ButtonTypes/TypeAction.vue";
 import ChooseText from "./ButtonTypes/ChooseText.vue";
@@ -86,9 +86,10 @@ import Link from "./ButtonTypes/TypeLink.vue";
 import Share from "./ButtonTypes/TypeShare.vue";
 import Web from "./ButtonTypes/TypeWeb.vue";
 
+import { GetInlineMenu } from "../../api";
 const store = useStatesStore();
-const main = useMainStore();
 const select = useSelectStore();
+const { UpdateInlineMenu } = useDataStore();
 
 const button_types = ref([
   {
@@ -115,6 +116,8 @@ const button_types = ref([
 
 const select_button_type = ref<number>(0);
 const route = ref<boolean>(false);
+const loading = ref<boolean>(false);
+
 const end_route = ref({
   value: "",
   required() {
@@ -127,24 +130,27 @@ function SaveEndRoute(route) {
 }
 
 const SaveConnection = () => {
+  loading.value = true;
   if (!end_route.value.required()) {
-    main.all_commands
-      .find((item) => item.id === select.SelectedCommand.id)
-      .columns.find((item) => item.id === select.SelectedBlock.column_id)
-      .blocks.find((item) => item.id === select.SelectedBlock.id)
-      .buttons.find((item) => item.id === select.SelectedButton.id).connection.type =
-      select_button_type.value;
-    main.all_commands
-      .find((item) => item.id === select.SelectedCommand.id)
-      .columns.find((item) => item.id === select.SelectedBlock.column_id)
-      .blocks.find((item) => item.id === select.SelectedBlock.id)
-      .buttons.find((item) => item.id === select.SelectedButton.id).connection.to =
-      end_route.value.value;
+    GetInlineMenu("update-data-and-type", {
+      id: select.SelectedButton.id,
+      text: select.SelectedButton.data.text,
+      action: end_route.value.value,
+      type: select_button_type.value,
+    }).then((response) => {
+      if (JSON.parse(response.data).result) {
+        loading.value = false;
+        UpdateInlineMenu(select.SelectedMessage.id, JSON.parse(response.data).data[0]);
+        store.ChangeVisibilityDialogs(false, "set_route");
+      } else {
+        console.warn("eeerrr");
+      }
+    });
   }
 };
 onBeforeUpdate(() => {
-  if (store.Dialogs.set_route && select.SelectedButton.connection.to) {
-    select_button_type.value = select.SelectedButton.connection.type;
+  if (store.Dialogs.set_route && select.SelectedButton.type !== 6) {
+    select_button_type.value = select.SelectedButton.type;
     route.value = true;
   } else {
     select_button_type.value = 0;

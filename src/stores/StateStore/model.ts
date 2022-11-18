@@ -5,21 +5,40 @@ export interface StatesStore {
 }
 
 export interface Dialogs {
-  add_scenary: boolean;
-  add_command: boolean;
+  add_route: boolean;
+  edit_route: boolean;
   add_button: boolean;
-  add_block: boolean;
+  settings_buttons: boolean;
+  change_type: boolean;
+  add_message: boolean;
   edit_button: boolean;
-  edit_block: boolean;
+  edit_message: boolean;
   set_connection: boolean;
   set_route: boolean;
   test_constructor: boolean;
 }
 
+export type DialogNames = 'add_route' | 'add_button' | 'add_message' | 'edit_button' | 'change_type' | 'settings_buttons' | 'set_connection' | 'set_route' | 'edit_route' | 'test_constructor' | 'edit_message';
+
 interface Loadings {
+  message: MessageQueries;
   route: RouteQueries;
   column: ColumnQueries;
   inline: InlineQueries;
+}
+
+interface MessageQueries {
+  index: boolean;
+  get: boolean;
+  colors: boolean;
+  types: boolean;
+  'update-text': boolean;
+  'update-title': boolean;
+  'add-inline-menu': boolean;
+  'delete-inline-menu': boolean;
+  duplicate: boolean;
+  'update-type': boolean;
+  delete: boolean;
 }
 
 interface RouteQueries {
@@ -53,4 +72,4 @@ interface InlineQueries {
   view: boolean;
 }
 
-export type DialogNames = 'add_scenary' | 'add_command' | 'add_button' | 'add_block' | 'edit_button' | 'set_connection' | 'set_route' | 'edit_block' | 'test_constructor';
+

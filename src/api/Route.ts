@@ -17,5 +17,6 @@ export interface PostParams {
   route_id?: number;
   type?: number;
   message?: string;
+  message_type?: number;
   route?: string;
 }

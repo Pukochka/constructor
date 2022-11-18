@@ -1,14 +1,11 @@
-import type { Command, Block, Button, Column } from '../../types';
+import type { RouteInstance, MessageInstance, ColumnInstance, InlineMenuButtonInstance, InlineMenuLineInstance } from '../../types';
 
 export interface SelectStore {
-  select: Select;
-}
-
-export interface Select {
-  command: Command;
-  column: Column;
-  block: Block;
-  button: Button,
+  route: RouteInstance;
+  column: ColumnInstance;
+  message: MessageInstance;
+  button: InlineMenuButtonInstance,
+  line: InlineMenuLineInstance,
   tabs: Tabs;
 }
 
@@ -18,5 +15,5 @@ export interface Tabs {
 
 export type NameReplics = 'all' | 'text' | 'image'
 
-export type StateValues = "scenary" | "command" | "column" | "block" | "button"
-export type StateTypes = Command | Column | Block | Button 
+export type StateValues = "route" | "column" | "button" | 'message' | 'line'
+export type StateTypes = RouteInstance | MessageInstance | ColumnInstance | InlineMenuButtonInstance | InlineMenuLineInstance

@@ -14,8 +14,8 @@ export default store((/* { ssrContext } */) => {
 });
 
 import { useStatesStore } from './StateStore/States';
-import { useMainStore } from './MainStore/Main';
+import { useDataStore } from './DataStore/Data';
 import { useSelectStore } from './SelectStore/Select';
 import { useSvgStore } from './SvgController/Svg';
 
-export { useStatesStore, useSelectStore, useMainStore, useSvgStore };
+export { useStatesStore, useSelectStore, useDataStore, useSvgStore };

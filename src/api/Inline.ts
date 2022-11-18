@@ -16,6 +16,6 @@ export interface PostParams {
   id?: number;
   line_id?: number;
   sort?: number;
-  text?: number;
-  action?: number;
+  text?: string;
+  action?: string;
 }

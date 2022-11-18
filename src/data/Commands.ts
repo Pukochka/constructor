@@ -16,42 +16,22 @@ export const Commands: Command[] =
                   "label": "52345234",
                   "id": 1668202996983,
                   "sort": 1668202996983,
-                  "element": 0,
+                  type: 6,
                   "connection": {
-                    "to": null,
-                    "type": 0,
-                    "info": null,
-                    "reverse": false,
-                    "coords": {
-                      "start_x": 0,
-                      "start_y": 0,
-                      "end_x": 0,
-                      "end_y": 0,
-                      "path": "",
-                      "polygon": ""
-                    },
-                    "toRoute": null
+                    connected_with: null,
+                    route: '',
+                    reverse: false,
                   }
                 },
                 {
                   "label": "1323",
                   "id": 1668203021491,
                   "sort": 1668203021491,
-                  "element": 0,
+                  type: 6,
                   "connection": {
-                    "to": null,
-                    "type": 0,
-                    "info": null,
-                    "reverse": false,
-                    "coords": {
-                      "start_x": 0,
-                      "start_y": 0,
-                      "end_x": 0,
-                      "end_y": 0,
-                      "path": "",
-                      "polygon": ""
-                    },
-                    "toRoute": null
+                    connected_with: null,
+                    route: '',
+                    reverse: false,
                   }
                 }
               ],
@@ -71,42 +51,22 @@ export const Commands: Command[] =
                   "label": "52345234",
                   "id": 1668202999299,
                   "sort": 1668202999299,
-                  "element": 0,
+                  type: 6,
                   "connection": {
-                    "to": null,
-                    "type": 0,
-                    "info": null,
-                    "reverse": false,
-                    "coords": {
-                      "start_x": 0,
-                      "start_y": 0,
-                      "end_x": 0,
-                      "end_y": 0,
-                      "path": "",
-                      "polygon": ""
-                    },
-                    "toRoute": null
+                    connected_with: null,
+                    route: '',
+                    reverse: false,
                   }
                 },
                 {
                   "label": "32132",
                   "id": 1668203028576,
                   "sort": 1668203028576,
-                  "element": 0,
+                  type: 6,
                   "connection": {
-                    "to": null,
-                    "type": 0,
-                    "info": null,
-                    "reverse": false,
-                    "coords": {
-                      "start_x": 0,
-                      "start_y": 0,
-                      "end_x": 0,
-                      "end_y": 0,
-                      "path": "",
-                      "polygon": ""
-                    },
-                    "toRoute": null
+                    connected_with: null,
+                    route: '',
+                    reverse: false,
                   }
                 }
               ],
@@ -132,63 +92,33 @@ export const Commands: Command[] =
                   "label": "543254",
                   "id": 1668203008602,
                   "sort": 1668203008602,
-                  "element": 0,
+                  type: 6,
                   "connection": {
-                    "to": null,
-                    "type": 0,
-                    "info": null,
-                    "reverse": false,
-                    "coords": {
-                      "start_x": 0,
-                      "start_y": 0,
-                      "end_x": 0,
-                      "end_y": 0,
-                      "path": "",
-                      "polygon": ""
-                    },
-                    "toRoute": null
+                    connected_with: null,
+                    route: '',
+                    reverse: false,
                   }
                 },
                 {
                   "label": "23452345",
                   "id": 1668203010957,
                   "sort": 1668203010957,
-                  "element": 0,
+                  type: 6,
                   "connection": {
-                    "to": null,
-                    "type": 0,
-                    "info": null,
-                    "reverse": false,
-                    "coords": {
-                      "start_x": 0,
-                      "start_y": 0,
-                      "end_x": 0,
-                      "end_y": 0,
-                      "path": "",
-                      "polygon": ""
-                    },
-                    "toRoute": null
+                    connected_with: null,
+                    route: '',
+                    reverse: false,
                   }
                 },
                 {
                   "label": "3123",
                   "id": 1668203025553,
                   "sort": 1668203025553,
-                  "element": 0,
+                  type: 6,
                   "connection": {
-                    "to": null,
-                    "type": 0,
-                    "info": null,
-                    "reverse": false,
-                    "coords": {
-                      "start_x": 0,
-                      "start_y": 0,
-                      "end_x": 0,
-                      "end_y": 0,
-                      "path": "",
-                      "polygon": ""
-                    },
-                    "toRoute": null
+                    connected_with: null,
+                    route: '',
+                    reverse: false,
                   }
                 }
               ],
@@ -208,21 +138,11 @@ export const Commands: Command[] =
                   "label": "52345234",
                   "id": 1668203013189,
                   "sort": 1668203013189,
-                  "element": 0,
+                  type: 6,
                   "connection": {
-                    "to": null,
-                    "type": 0,
-                    "info": null,
-                    "reverse": false,
-                    "coords": {
-                      "start_x": 0,
-                      "start_y": 0,
-                      "end_x": 0,
-                      "end_y": 0,
-                      "path": "",
-                      "polygon": ""
-                    },
-                    "toRoute": null
+                    connected_with: null,
+                    route: '',
+                    reverse: false,
                   }
                 }
               ],
@@ -242,42 +162,22 @@ export const Commands: Command[] =
                   "label": "5234524",
                   "id": 1668203015359,
                   "sort": 1668203015359,
-                  "element": 0,
+                  type: 6,
                   "connection": {
-                    "to": null,
-                    "type": 0,
-                    "info": null,
-                    "reverse": false,
-                    "coords": {
-                      "start_x": 0,
-                      "start_y": 0,
-                      "end_x": 0,
-                      "end_y": 0,
-                      "path": "",
-                      "polygon": ""
-                    },
-                    "toRoute": null
+                    connected_with: null,
+                    route: '',
+                    reverse: false,
                   }
                 },
                 {
                   "label": "1234123",
                   "id": 1668203017871,
                   "sort": 1668203017871,
-                  "element": 0,
+                  type: 6,
                   "connection": {
-                    "to": null,
-                    "type": 0,
-                    "info": null,
-                    "reverse": false,
-                    "coords": {
-                      "start_x": 0,
-                      "start_y": 0,
-                      "end_x": 0,
-                      "end_y": 0,
-                      "path": "",
-                      "polygon": ""
-                    },
-                    "toRoute": null
+                    connected_with: null,
+                    route: '',
+                    reverse: false,
                   }
                 }
               ],
@@ -318,42 +218,22 @@ export const Commands: Command[] =
                   "label": "Согласен",
                   "id": 10,
                   "sort": 0,
-                  "element": 0,
+                  type: 6,
                   "connection": {
-                    "to": null,
-                    "type": 0,
-                    "reverse": false,
-                    "info": null,
-                    "coords": {
-                      "start_x": 0,
-                      "start_y": 0,
-                      "end_x": 0,
-                      "end_y": 0,
-                      "path": "",
-                      "polygon": ""
-                    },
-                    "toRoute": null
+                    connected_with: null,
+                    route: '',
+                    reverse: false,
                   }
                 },
                 {
                   "label": "Не согласен",
                   "sort": 1,
                   "id": 11,
-                  "element": 0,
+                  type: 6,
                   "connection": {
-                    "to": null,
-                    "type": 0,
-                    "reverse": false,
-                    "info": null,
-                    "coords": {
-                      "start_x": 0,
-                      "start_y": 0,
-                      "end_x": 0,
-                      "end_y": 0,
-                      "path": "",
-                      "polygon": ""
-                    },
-                    "toRoute": null
+                    connected_with: null,
+                    route: '',
+                    reverse: false,
                   }
                 }
               ]

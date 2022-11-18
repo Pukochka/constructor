@@ -145,10 +145,10 @@ watch(main_end_route, (val) =>
 );
 
 onMounted(() => {
-  if (props.route && store.Dialogs.set_route) {
+  if (props.route && store.Dialogs.set_route && select.SelectedButton.type !== 6) {
     const parser_sintax = {
-      route: select.SelectedButton.connection.to,
-      text: select.SelectedButton.label,
+      route: select.SelectedButton.data.action,
+      text: select.SelectedButton.data.text,
     };
     main.value = ParseRoute(main.value, parser_sintax);
     nextTick((main.value = WatchParseRoute(main.value, parser_sintax)));

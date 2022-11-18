@@ -1,0 +1,41 @@
+<template>
+  <div class="col-12 rounded-borders custom-outline">
+    <div class="q-pl-md q-pr-sm q-pt-sm flex items-center justify-between">
+      <div class="flex items-center">
+        <q-icon name="text_fields" />
+        <div class="q-ml-sm">Текст</div>
+      </div>
+      <q-btn
+        size="11px"
+        color="primary"
+        flat
+        round
+        dense
+        icon="edit_note"
+        @click="EditTextMessage"
+      >
+        <q-tooltip anchor="top middle" self="bottom middle">
+          Редактировать текст
+        </q-tooltip>
+      </q-btn>
+    </div>
+    <div class="q-pa-md ellipsis">{{ message.text.content }}</div>
+  </div>
+</template>
+<script setup lang="ts">
+import { defineProps, PropType } from "vue";
+import { MessageInstance } from "../../../types";
+import { useStatesStore, useSelectStore } from "../../../stores";
+
+const props = defineProps({
+  message: Object as PropType<MessageInstance>,
+});
+
+const { ChangeVisibilityDialogs } = useStatesStore();
+const { SelectState } = useSelectStore();
+
+const EditTextMessage = () => {
+  SelectState(props.message, "message");
+  ChangeVisibilityDialogs(true, "edit_message");
+};
+</script>

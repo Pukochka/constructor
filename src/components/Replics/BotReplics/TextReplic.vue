@@ -28,7 +28,7 @@
 </template>
 <script setup lang="ts">
 import { onUnmounted, defineProps, PropType, onMounted } from "vue";
-import { useMainStore, useStatesStore, useSelectStore } from "../../../stores";
+import { useDataStore, useStatesStore, useSelectStore } from "../../../stores";
 import { DialogNames } from "../../../types";
 
 defineProps({
@@ -36,7 +36,7 @@ defineProps({
   no_header: Boolean,
 });
 
-const main = useMainStore();
+const main = useDataStore();
 const store = useStatesStore();
 const select = useSelectStore();
 const { ChangeVisibilityDialogs } = useStatesStore();

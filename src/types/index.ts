@@ -1,9 +1,84 @@
 import { DialogNames } from "../stores/StateStore/model";
-import { TextInput, Required, Uploader } from "../stores/MainStore/model";
+import { TextInput, Required, Uploader } from "../stores/DataStore/model";
 import { StateTypes, NameReplics } from "../stores/SelectStore/model";
 import { AssamblyElements, ScrollCustomEvent, ScrollEffect } from "../stores/SvgController/model";
 
 export type { DialogNames, TextInput, Required, Uploader, StateTypes, NameReplics, AssamblyElements, ScrollCustomEvent, ScrollEffect }
+
+
+export interface ResponseInstanse {
+  message?: string;
+  result: boolean;
+  data?: RouteInstance[] | null;
+}
+
+export interface RouteInstance {
+  bot_id: number;
+  id: number;
+  label: string;
+  route: string;
+}
+
+export interface SelectRouteInstance {
+  bot_id: number;
+  columns: ColumnInstance[];
+  id: number;
+  label: string;
+  route: string
+}
+
+export interface ColumnInstance {
+  id: number;
+  route_id: number;
+  messages: MessageInstance[];
+  sort: number;
+}
+
+export interface MessageInstance {
+  active: boolean;
+  color: string;
+  column_id: number;
+  id: number;
+  inline_menu: InlineMenuInstance | null;
+  link: string;
+  sort: number;
+  specType: { id: number };
+  text: { content: string, length: number };
+  title: string;
+  type: { id: number, title: string };
+}
+
+export interface InlineMenuInstance {
+  id: number;
+  title: string;
+  lines: InlineMenuLineInstance[];
+}
+
+export interface InlineMenuLineInstance {
+  buttons: InlineMenuButtonInstance[];
+  id: number;
+  keyboard_id: number;
+  sort: number;
+}
+
+export interface InlineMenuButtonInstance {
+  data: { text: string, action: string };
+  id: number;
+  line_id: number;
+  sort: number;
+  type: number;
+}
+
+export interface ColorsInstance {
+  id: number;
+  title: string;
+  color: string;
+}
+
+export interface MessageTypes {
+  id: number;
+  title: string;
+}
 
 export interface Command {
   /** message - название команды */
@@ -86,10 +161,6 @@ export interface Button {
   connection: Connection | null | undefined;
   /** */
   sort: number;
-  element: number;
-}
-
-export interface Connection {
   /**
    * type:
    * 0 -- Ссылка;
@@ -98,43 +169,34 @@ export interface Connection {
    * 3 -- Выбрать текст;
    * 4 -- Web;
    * 5 -- Связь с блоком 
+   * 6 -- Не активированная кнопка
    * */
   type: number;
-  /** to - для отрисовки линии или парса routes */
-  to: string;
+}
+
+export interface Connection {
   /** info - инфо про связанный с кнопкой экран/свободного сообщение */
-  info: ConnectionInfo;
   /** */
-  coords: Coords;
+  connected_with: Connected;
   /** */
-  toRoute: RouteTo;
+  route: string;
   /** */
   reverse: boolean;
-
 }
 
-export interface Coords {
-  start_x: number;
-  start_y: number;
-  end_x: number;
-  end_y: number;
-  path: string;
-  polygon: string;
-}
-
-export interface RouteTo {
+export interface Connected {
   /** block_id - id экрана/свободного сообщения */
   block_id: number;
   /** column_id - id колонки*/
   column_id: number;
 }
 
-export interface ConnectionInfo {
-  /** block_name - название экрана/свободного сообщения */
-  block_name: string;
-  /** button_name - название кнопки */
-  button_name: string;
-}
+// export interface ConnectionInfo {
+//   /** block_name - название экрана/свободного сообщения */
+//   block_name: string;
+//   /** button_name - название кнопки */
+//   button_name: string;
+// }
 
 export interface RoutesSelect {
   select: MainRoutes,

@@ -12,10 +12,16 @@ export interface Svg {
 }
 
 export interface AssamblyElements {
+  block_id: number,
+  column_id: number;
+  id: number;
+  position: number;
   start_x: number;
   start_y: number;
+  end_x: number;
+  end_y: number;
   path: string;
-  polygon_points: string;
+  polygon: string;
 }
 
 export interface ScrollEffect {
