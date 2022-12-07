@@ -1,6 +1,11 @@
 <template>
-  <div class="">
-    <BlockView v-for="message in columns.messages" :key="message.id" :message="message" />
+  <div>
+    <MessageItem
+      v-for="(message, index) in columns.messages"
+      :key="message.id"
+      :message="message"
+      :index="index"
+    />
     <div class="row">
       <q-btn
         rounded
@@ -11,32 +16,30 @@
         @click="AddMessageInColumn"
       />
     </div>
+    <DragHelperHorizontal :column_id="columns.id" :sort="columns.messages.length" />
   </div>
 </template>
 <script lang="ts" setup>
-import { defineProps, PropType } from "vue";
-import BlockView from "./Block/MessageItem.vue";
+import { defineProps, PropType, onUpdated } from "vue";
+
 import { ColumnInstance } from "../types";
 import { useSelectStore, useStatesStore, useDataStore } from "../stores";
+
+import MessageItem from "./Message/MessageItem.vue";
+import DragHelperHorizontal from "./Dragging/DragHelperHorizontal.vue";
+import { useUpdateLines } from "../helpers";
 
 const props = defineProps({
   columns: Object as PropType<ColumnInstance>,
 });
-// @click="AddBlockInColumn(columns)"
-const { SelectState } = useSelectStore();
-// const { UpdateButtons } = useSvgStore();
-const { ChangeVisibilityDialogs } = useStatesStore();
+const select = useSelectStore();
+const state = useStatesStore();
 const main = useDataStore();
 
 const AddMessageInColumn = () => {
-  SelectState(props.columns, "column");
+  select.SelectState(props.columns, "column");
   main.ChangeIsColumn(false);
-  ChangeVisibilityDialogs(true, "add_message");
+  state.ChangeVisibilityDialogs(true, "add_message");
 };
-// const AddBlockInColumn = (item: ColumnInstance) => {
-//   select.SelectState(item, "column");
-//   ChangeVisibilityDialogs(true, "add_block");
-// };
-
-// onUpdated(() => UpdateButtons());
+onUpdated(() => useUpdateLines(false));
 </script>

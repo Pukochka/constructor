@@ -12,31 +12,53 @@
         clickable
         v-for="(item, index) in main.AllColors"
         :key="index"
-        class="col rounded-borders custom-outline q-pa-md cursor-pointer"
+        class="col rounded-borders custom-outline q-pa-md cursor-pointer relative-position"
         :style="{ 'background-color': '#' + item.color }"
-      ></div>
+        @click="SetColor(item)"
+      >
+        <div class="absolute-center" v-if="set_color_id === item.id && set_color_loading">
+          <q-spinner color="white" size="2em" />
+        </div>
+      </div>
     </div>
     <div
-      class="rounded-borders custom-outline q-pa-xs q-mx-sm q-mb-sm cursor-pointer text-center"
+      @click="SetColor(null)"
+      class="rounded-borders custom-outline q-pa-xs q-mx-sm q-mb-sm cursor-pointer text-center relative-position"
     >
+      <div class="absolute-left" v-if="!set_color_id && set_color_loading">
+        <q-spinner color="primary" size="2em" />
+      </div>
       Без заливки
     </div>
   </q-menu>
 </template>
 <script setup lang="ts">
-import { useDataStore /*, useSelectStore */ } from "../../stores";
+import { ref } from "vue";
+import { useDataStore, useSelectStore } from "../../stores";
+import { GetMessage } from "../../api";
+import { ColorsInstance } from "src/types";
 
 const main = useDataStore();
-// const select = useSelectStore();
+const select = useSelectStore();
 
-// const EditColor = (color: string) => {
-//   main.all_commands
-//     .find((item) => item.id === select.SelectedCommand.id)
-//     .columns.find((item) => item.id === select.SelectedBlock.column_id)
-//     .blocks.find(
-//       (item) => item.id === select.SelectedBlock.id
-//     ).block_options.color = color;
-// };
+const set_color_loading = ref<boolean>(false);
+const set_color_id = ref<number>(-1);
+const SetColor = (color: ColorsInstance) => {
+  set_color_loading.value = true;
+  if (color) {
+    set_color_id.value = color.id;
+  } else {
+    set_color_id.value = null;
+  }
+
+  GetMessage("set-color", {
+    message_id: select.SelectedMessage.id,
+    color_id: set_color_id.value,
+  }).then((response) => {
+    set_color_loading.value = false;
+    main.SetSelectRoute(response.data);
+  });
+};
 </script>
 <style lang="scss">
 .mw-370 {

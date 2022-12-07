@@ -78,6 +78,16 @@
           dense
           rounded
           flat
+          label="Удалить инлайн меню"
+          color="red"
+          :loading="delete_menu_loading"
+          @click="DeleteMenu"
+        />
+        <q-btn
+          class="q-px-md"
+          dense
+          rounded
+          flat
           label="Закрыть"
           color="primary"
           v-close-popup
@@ -91,19 +101,18 @@ import { computed, ref } from "vue";
 import { useStatesStore, useSelectStore, useDataStore } from "../../../stores";
 import { useQuasar } from "quasar";
 
-import { GetInlineMenu } from "../../../api";
+import { GetInlineMenu, GetMessage } from "../../../api";
 import { InlineMenuLineInstance, InlineMenuButtonInstance } from "../../../types";
 
 const state = useStatesStore();
 const select = useSelectStore();
+const main = useDataStore();
+
 const $q = useQuasar();
 
-const { SelectState } = useSelectStore();
-const { ChangeIsLine, UpdateInlineMenu } = useDataStore();
-const { ChangeVisibilityDialogs } = useStatesStore();
-
-const is_sm_screen = computed(() => !$q.screen.sm);
+const is_sm_screen = computed(() => !$q.screen.lt.sm);
 const loading = ref<boolean>(false);
+const delete_menu_loading = ref<boolean>(false);
 const loading_line = ref<number>(-1);
 
 const lines = computed(() => select.SelectedMessage.inline_menu.lines);
@@ -114,26 +123,37 @@ const DeleteLine = (line_id: number) => {
   GetInlineMenu("delete-line", { line_id: line_id }).then((response) => {
     if (JSON.parse(response.data).result) {
       loading.value = false;
-      UpdateInlineMenu(select.SelectedMessage.id, JSON.parse(response.data).data[0]);
+      main.UpdateInlineMenu(select.SelectedMessage.id, JSON.parse(response.data).data[0]);
     } else {
       console.warn("eeerrr");
     }
   });
 };
 
+const DeleteMenu = () => {
+  delete_menu_loading.value = true;
+  GetMessage("delete-inline-menu", { message_id: select.SelectedMessage.id }).then(
+    (response) => {
+      delete_menu_loading.value = false;
+      main.SetSelectRoute(response.data);
+      state.ChangeVisibilityDialogs(false, "settings_buttons");
+    }
+  );
+};
+
 const EditButton = (button: InlineMenuButtonInstance) => {
-  SelectState(button, "button");
-  ChangeVisibilityDialogs(true, "edit_button");
+  select.SelectState(button, "button");
+  state.ChangeVisibilityDialogs(true, "edit_button");
 };
 
 const AddButtonWithLine = () => {
-  ChangeIsLine(false);
-  ChangeVisibilityDialogs(true, "add_button");
+  main.ChangeIsLine(false);
+  state.ChangeVisibilityDialogs(true, "add_button");
 };
 
 const AddButtonInLine = (line: InlineMenuLineInstance) => {
-  SelectState(line, "line");
-  ChangeIsLine(true);
-  ChangeVisibilityDialogs(true, "add_button");
+  select.SelectState(line, "line");
+  main.ChangeIsLine(true);
+  state.ChangeVisibilityDialogs(true, "add_button");
 };
 </script>

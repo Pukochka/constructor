@@ -1,5 +1,10 @@
 <template>
-  <q-dialog v-model="state.Dialogs.change_type" position="top" persistent>
+  <q-dialog
+    v-model="state.Dialogs.change_type"
+    position="top"
+    persistent
+    @keydown="EnterDown"
+  >
     <q-card style="width: 50%" class="q-pa-md">
       <div class="q-py-sm row justify-between items-center">
         <div class="text-h5">Изменение типа сообщения</div>
@@ -55,9 +60,9 @@ import { ref, onUpdated } from "vue";
 import { useStatesStore, useDataStore, useSelectStore } from "../../stores";
 import { MessageTypes } from "../../types";
 
-import { GetMessage, GetRoutes } from "../../api";
+import { GetMessage } from "../../api";
+
 const state = useStatesStore();
-const { ChangeVisibilityDialogs } = useStatesStore();
 const main = useDataStore();
 const select = useSelectStore();
 
@@ -68,17 +73,19 @@ const select_type = ref<MessageTypes>({
   title: "",
 });
 
+const EnterDown = (evt: KeyboardEvent) => {
+  if (evt.key === "Enter") ChangeType();
+};
+
 const ChangeType = () => {
   loading.value = true;
   GetMessage("update-type", {
     message_id: select.SelectedMessage.id,
     type: select_type.value.id,
-  }).then(() => {
+  }).then((response) => {
     loading.value = false;
-    ChangeVisibilityDialogs(false, "change_type");
-    GetRoutes("view", { route_id: main.SELECT_ROUTE.id }).then((res) => {
-      main.SetSelectRoute(res.data, "view");
-    });
+    state.ChangeVisibilityDialogs(false, "change_type");
+    main.SetSelectRoute(response.data);
   });
 };
 

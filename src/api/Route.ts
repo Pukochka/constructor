@@ -1,17 +1,26 @@
 import axios from 'axios';
-import { useStatesStore } from "../stores";
+import CONFIG from '../../botconfig';
 
-const TOKEN = '2109328710:AAGFynAUSvPhYwDCXkmp14HUsmC8h1ap3FI';
-const BOT_ID = 12845;
-const HOST = 'https://api.bot-t.com';
-const { ChangeLoadingRoute } = useStatesStore()
+const TOKEN = CONFIG.BOT.token;
+const BOT_ID = CONFIG.BOT.id;
+const HOST = CONFIG.HOST;
 
 export default function (METHOD: RouteMethods, POST_PARAMS?: PostParams) {
-  ChangeLoadingRoute(true, METHOD)
-  return axios.post(`${HOST}/v1/bot/route/route/${METHOD}?token=${TOKEN}`, { bot_id: BOT_ID, ...POST_PARAMS });
+  return axios.post(`${HOST}/v1/bot/route/route/${METHOD}?token=${TOKEN}`, {
+    bot_id: BOT_ID,
+    ...POST_PARAMS,
+  });
 }
 
-export type RouteMethods = 'index' | 'view' | 'update-message' | 'update-route' | 'delete' | 'create' | 'create-with-column';
+export type RouteMethods =
+  | 'index'
+  | 'view'
+  | 'update-message'
+  | 'update-route'
+  | 'delete'
+  | 'create'
+  | 'create-with-column'
+  | 'set-active';
 
 export interface PostParams {
   route_id?: number;
@@ -19,4 +28,5 @@ export interface PostParams {
   message?: string;
   message_type?: number;
   route?: string;
+  message_id?: number;
 }

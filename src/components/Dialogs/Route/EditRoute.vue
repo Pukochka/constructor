@@ -1,8 +1,17 @@
 <template>
-  <q-dialog v-model="store.Dialogs.edit_route" position="top" persistent>
+  <q-dialog
+    v-model="state.Dialogs.edit_route"
+    position="top"
+    persistent
+    @keydown="EnterDown"
+  >
     <q-card style="width: 50%" class="q-pa-md">
-      <div class="q-py-sm">
-        <div class="q-pb-sm text-h5">Изменение маршрута</div>
+      <div class="q-pb-sm">
+        <div class="row justify-between items-center">
+          <div class="q-pb-sm text-h5">Изменение маршрута</div>
+          <q-btn color="primary" flat round icon="close" dense v-close-popup />
+        </div>
+
         <div class="text-caption text-grey">Название не должно повторяться</div>
         <q-input
           autofocus
@@ -31,8 +40,8 @@
           rounded
           label="Сохранить"
           color="primary"
-          v-close-popup
-          @click="CreateRoute"
+          :loading="loading"
+          @click="EditRoute"
         />
       </div>
     </q-card>
@@ -44,9 +53,11 @@ import { useStatesStore, useDataStore, useSelectStore } from "../../../stores";
 import { TextInput } from "../../../types";
 import { GetRoutes } from "../../../api";
 
-const store = useStatesStore();
+const state = useStatesStore();
 const select = useSelectStore();
-const { SetRoutes } = useDataStore();
+const main = useDataStore();
+
+const loading = ref<boolean>(false);
 
 const text = ref<TextInput>({
   value: "",
@@ -57,13 +68,21 @@ const text = ref<TextInput>({
   },
 });
 
-const CreateRoute = () => {
+const EnterDown = (evt: KeyboardEvent) => {
+  if (evt.key === "Enter" && text.value.required()) EditRoute();
+};
+
+const EditRoute = () => {
+  loading.value = true;
   GetRoutes("update-message", {
     message: text.value.value,
     route_id: select.SelectedRoute.id,
-  }).then(() => {
+  }).then((response) => {
+    console.log(response);
     GetRoutes("index").then((response) => {
-      SetRoutes(response.data, "index");
+      loading.value = false;
+      state.ChangeVisibilityDialogs(false, "edit_route");
+      main.SetRoutes(response.data);
     });
   });
 };

@@ -1,8 +1,8 @@
 // app global css in SCSS form
 .custom-outline {
-  outline: 1px solid rgba(0, 0, 0, 0.2);
+  outline: 1px solid rgba(0, 0, 0, 0.2) !important;
 }
-.scroll-style-default{
+.scroll-style-default {
   &::-webkit-scrollbar {
     width: 8px;
     background: rgb(255, 255, 255);
@@ -24,7 +24,7 @@
     top: 5px;
   }
 }
-.flex-grow{
+.flex-grow {
   flex-grow: 1;
 }
 .z-100 {
@@ -32,10 +32,14 @@
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.2s ease;
+  transition: opacity 0.1s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.all-caps {
+  text-transform: uppercase;
 }

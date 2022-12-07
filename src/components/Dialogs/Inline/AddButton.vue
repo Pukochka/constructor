@@ -1,5 +1,10 @@
 <template>
-  <q-dialog v-model="store.Dialogs.add_button" position="top" persistent>
+  <q-dialog
+    v-model="store.Dialogs.add_button"
+    position="top"
+    persistent
+    @keydown="EnterDown"
+  >
     <q-card style="width: 50%" class="q-pa-md">
       <div class="flex justify-between items-center">
         <div class="text-h5">Добавление кнопки</div>
@@ -60,6 +65,10 @@ const text = ref<TextInput>({
     return this.max > this.value.length && this.min < this.value.length;
   },
 });
+
+const EnterDown = (evt: KeyboardEvent) => {
+  if (evt.key === "Enter" && text.value.required()) AddButton();
+};
 
 const AddButton = () => {
   loading.value = true;

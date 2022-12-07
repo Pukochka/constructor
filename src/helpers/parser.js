@@ -1,5 +1,5 @@
-import { Routes } from '../data/Routes';
-const ROUTES = Routes;
+import CONFIG from '../../botconfig';
+const ROUTES = CONFIG.ROUTES;
 
 const CategoryRoutes = () => ROUTES.filter((item) => item.type == 'category');
 

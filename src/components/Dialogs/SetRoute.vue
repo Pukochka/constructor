@@ -1,5 +1,10 @@
 <template>
-  <q-dialog v-model="store.dialogs.set_route" position="top" persistent>
+  <q-dialog
+    v-model="state.dialogs.set_route"
+    position="top"
+    persistent
+    @keydown="EnterDown"
+  >
     <q-card class="q-pa-md" style="width: 50%">
       <div class="flex justify-between items-center">
         <div class="text-h5">Путь кнопки</div>
@@ -35,7 +40,8 @@
           <Action
             v-if="select_button_type === 1"
             @watch_end_route="SaveEndRoute"
-            :route="route"
+            :parse="parse"
+            :condition="condition"
           />
           <Share
             v-if="select_button_type === 2"
@@ -77,7 +83,7 @@
   </q-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, onBeforeUpdate } from "vue";
+import { ref, onBeforeUpdate, computed } from "vue";
 import { useStatesStore, useSelectStore, useDataStore } from "../../stores";
 
 import Action from "./ButtonTypes/TypeAction.vue";
@@ -87,9 +93,10 @@ import Share from "./ButtonTypes/TypeShare.vue";
 import Web from "./ButtonTypes/TypeWeb.vue";
 
 import { GetInlineMenu } from "../../api";
-const store = useStatesStore();
+
+const state = useStatesStore();
 const select = useSelectStore();
-const { UpdateInlineMenu } = useDataStore();
+const main = useDataStore();
 
 const button_types = ref([
   {
@@ -114,6 +121,17 @@ const button_types = ref([
   },
 ]);
 
+const parse = computed(() => {
+  return {
+    route: select.SelectedButton.data.action,
+    text: select.SelectedButton.data.text,
+  };
+});
+
+const condition = computed(
+  () => route.value && state.Dialogs.set_route && select.SelectedButton.type !== 6
+);
+
 const select_button_type = ref<number>(0);
 const route = ref<boolean>(false);
 const loading = ref<boolean>(false);
@@ -129,6 +147,10 @@ function SaveEndRoute(route) {
   end_route.value = route;
 }
 
+const EnterDown = (evt: KeyboardEvent) => {
+  if (evt.key === "Enter" && !end_route.value.required()) SaveConnection();
+};
+
 const SaveConnection = () => {
   loading.value = true;
   if (!end_route.value.required()) {
@@ -140,8 +162,11 @@ const SaveConnection = () => {
     }).then((response) => {
       if (JSON.parse(response.data).result) {
         loading.value = false;
-        UpdateInlineMenu(select.SelectedMessage.id, JSON.parse(response.data).data[0]);
-        store.ChangeVisibilityDialogs(false, "set_route");
+        main.UpdateInlineMenu(
+          select.SelectedMessage.id,
+          JSON.parse(response.data).data[0]
+        );
+        state.ChangeVisibilityDialogs(false, "set_route");
       } else {
         console.warn("eeerrr");
       }
@@ -149,7 +174,7 @@ const SaveConnection = () => {
   }
 };
 onBeforeUpdate(() => {
-  if (store.Dialogs.set_route && select.SelectedButton.type !== 6) {
+  if (state.Dialogs.set_route && select.SelectedButton.type !== 6) {
     select_button_type.value = select.SelectedButton.type;
     route.value = true;
   } else {

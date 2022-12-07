@@ -2,7 +2,7 @@
   <q-dialog
     transition-hide="slide-down"
     transition-show="slide-up"
-    v-model="store.Dialogs.test_constructor"
+    v-model="state.Dialogs.test_constructor"
     full-height
     full-width
     persistent
@@ -15,5 +15,5 @@
 <script lang="ts" setup>
 import { useStatesStore } from "../../stores";
 
-const store = useStatesStore();
+const state = useStatesStore();
 </script>

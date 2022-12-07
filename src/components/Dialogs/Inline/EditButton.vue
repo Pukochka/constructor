@@ -1,5 +1,10 @@
 <template>
-  <q-dialog v-model="store.Dialogs.edit_button" position="top" persistent>
+  <q-dialog
+    v-model="store.Dialogs.edit_button"
+    position="top"
+    persistent
+    @keydown="EnterDown"
+  >
     <q-card style="width: 50%" class="q-pa-md">
       <div class="flex justify-between items-center">
         <div class="text-h5">Изменение текста кнопки</div>
@@ -49,7 +54,7 @@ import { GetInlineMenu } from "../../../api";
 
 const store = useStatesStore();
 const select = useSelectStore();
-const { UpdateInlineMenu } = useDataStore();
+const main = useDataStore();
 
 const loading = ref<boolean>(false);
 
@@ -66,6 +71,10 @@ onUpdated(() => {
   text.value.value = select.SelectedButton.data.text;
 });
 
+const EnterDown = (evt: KeyboardEvent) => {
+  if (evt.key === "Enter" && text.value.required()) EditButton();
+};
+
 const EditButton = () => {
   loading.value = true;
   GetInlineMenu("update-button-text", {
@@ -74,7 +83,7 @@ const EditButton = () => {
   }).then((response) => {
     if (JSON.parse(response.data).result) {
       loading.value = false;
-      UpdateInlineMenu(select.SelectedMessage.id, JSON.parse(response.data).data[0]);
+      main.UpdateInlineMenu(select.SelectedMessage.id, JSON.parse(response.data).data[0]);
       store.ChangeVisibilityDialogs(false, "edit_button");
     } else {
       console.warn("eeerrr");

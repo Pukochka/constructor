@@ -1,7 +1,12 @@
 <template>
-  <q-dialog v-model="store.Dialogs.add_route" position="top" persistent>
+  <q-dialog
+    v-model="state.Dialogs.add_route"
+    position="top"
+    persistent
+    @keydown="EnterDown"
+  >
     <q-card style="width: 50%" class="q-pa-md">
-      <div class="q-py-sm">
+      <div class="q-pb-sm">
         <div class="row justify-between items-center">
           <div class="text-h5">Добавление нового маршрута</div>
           <q-btn color="primary" flat round icon="close" dense v-close-popup />
@@ -15,20 +20,7 @@
           label="Название нового маршрута"
           :rules="[() => text.required() || 'Введено неверное количество символов']"
         />
-        <div class="text-h5 q-py-sm">Тип первого сообщения</div>
-        <q-list class="text-subtitle1 q-my-sm" separator>
-          <q-item
-            clickable
-            v-ripple
-            class="items-center rounded-borders"
-            :class="{ 'bg-primary text-white': select_type.id == item.id }"
-            @click="select_type = item"
-            v-for="item in main.AllTypes"
-            :key="item.id"
-          >
-            <div class="q-pl-sm">{{ item.title }}</div>
-          </q-item>
-        </q-list>
+        <TypeAction :condition="false" :parse="{}" @watch_end_route="SaveEndRoute" />
       </div>
 
       <div class="row q-gutter-sm justify-end">
@@ -45,31 +37,28 @@
           class="q-px-md"
           dense
           unelevated
-          :disable="!text.required()"
+          :disable="!is_add"
           rounded
           label="Добавить"
           color="primary"
-          v-close-popup
-          @click="CreateRoute"
+          :loading="loading"
+          @click="AddRoute"
         />
       </div>
     </q-card>
   </q-dialog>
 </template>
 <script setup lang="ts">
-import { ref, onUpdated } from "vue";
+import { ref, onUpdated, computed } from "vue";
 import { useStatesStore, useDataStore } from "../../../stores";
-import { TextInput, MessageTypes } from "../../../types";
+import { TextInput } from "../../../types";
 import { GetRoutes } from "../../../api";
+import TypeAction from "../ButtonTypes/TypeAction.vue";
 
-const store = useStatesStore();
+const state = useStatesStore();
 const main = useDataStore();
-const { SetRoutes } = useDataStore();
 
-const select_type = ref<MessageTypes>({
-  id: 0,
-  title: "",
-});
+const loading = ref<boolean>(false);
 
 const text = ref<TextInput>({
   value: "",
@@ -80,13 +69,33 @@ const text = ref<TextInput>({
   },
 });
 
-const CreateRoute = () => {
-  GetRoutes("create-with-column", {
+const end_route = ref({
+  value: "",
+  required() {
+    return false;
+  },
+});
+
+const EnterDown = (evt: KeyboardEvent) => {
+  if (evt.key === "Enter" && is_add.value) AddRoute();
+};
+
+const is_add = computed(() => text.value.required() && !end_route.value.required());
+
+function SaveEndRoute(route) {
+  end_route.value = route;
+}
+
+const AddRoute = () => {
+  loading.value = true;
+  GetRoutes("create", {
     message: text.value.value,
-    message_type: select_type.value.id,
+    route: end_route.value.value,
   }).then(() => {
     GetRoutes("index").then((response) => {
-      SetRoutes(response.data, "index");
+      main.SetRoutes(response.data);
+      loading.value = false;
+      state.ChangeVisibilityDialogs(false, "add_route");
     });
   });
 };

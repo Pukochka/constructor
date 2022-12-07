@@ -58,7 +58,6 @@
 </template>
 <script lang="ts" setup>
 import { ref, watch, computed, nextTick, onMounted, defineEmits, defineProps } from "vue";
-import { useStatesStore, useSelectStore } from "../../../stores";
 import {
   RoutesSelect,
   RoutesOptionsStatic,
@@ -67,17 +66,14 @@ import {
 } from "../../../types";
 import { WatchParseRoute, ParseRoute } from "../../../helpers/parser.js";
 
-import DefinedMenu from "../ActionMenus/DefinedMenu.vue";
-import SearchMenu from "../ActionMenus/SearchMenu.vue";
-import RouteMenu from "../ActionMenus/RoutesMenu.vue";
-
-const store = useStatesStore();
-const select = useSelectStore();
+import DefinedMenu from "./ActionMenus/DefinedMenu.vue";
+import SearchMenu from "./ActionMenus/SearchMenu.vue";
+import RouteMenu from "./ActionMenus/RoutesMenu.vue";
 
 const search_state = ref<boolean>(false);
 const route_state = ref<boolean>(false);
 
-const props = defineProps({ route: Boolean });
+const props = defineProps({ condition: Boolean, parse: Object });
 
 const text = ref<TextInput>({
   value: "",
@@ -145,13 +141,9 @@ watch(main_end_route, (val) =>
 );
 
 onMounted(() => {
-  if (props.route && store.Dialogs.set_route && select.SelectedButton.type !== 6) {
-    const parser_sintax = {
-      route: select.SelectedButton.data.action,
-      text: select.SelectedButton.data.text,
-    };
-    main.value = ParseRoute(main.value, parser_sintax);
-    nextTick((main.value = WatchParseRoute(main.value, parser_sintax)));
+  if (props.condition) {
+    main.value = ParseRoute(main.value, props.parse);
+    nextTick((main.value = WatchParseRoute(main.value, props.parse)));
   } else {
     route_state.value = false;
     search_state.value = false;

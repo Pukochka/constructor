@@ -1,124 +1,78 @@
 <template>
-  <div class="row justify-between items-center q-pa-sm" style="height: 50px">
-    <div class="flex">
-      <q-btn
-        color="primary"
-        dense
-        class="q-px-md"
-        text-color="primary"
-        icon="chevron_left"
-        label="Назад"
-        unelevated
-        flat
-        rounded
-        @click="ChangeTemplate('select')"
-      >
-        <!-- <q-menu fit v-model="menu_state">
-          <q-list class="q-py-xs">
-            <q-item
-              @click="select_state = item"
-              clickable
-              v-close-popup
-              class="text-primary text-bold"
-              :class="{ 'bg-primary text-white': select_state.label === item.label }"
-              v-for="(item, index) in main.Commands"
-              :key="index"
-            >
-              <q-item-section>{{ item.label }}</q-item-section>
-            </q-item>
-            <q-item
-              @click="ChangeVisibilityDialogs(true, 'add_command')"
-              clickable
-              v-close-popup
-              class="flex items-center text-secondary rotate-animation"
-            >
-              <div class="rotate-animation-item">
-                <q-icon size="24px" name="add" />
-              </div>
+  <div class="q-px-md flex items-center" id="header" style="height: 50px">
+    <q-btn
+      padding="2px 4px"
+      no-caps
+      text-color="primary"
+      label="Все маршруты"
+      flat
+      @click="BackToSelect"
+    />
+    <q-btn
+      class="q-ml-sm"
+      padding="2px 4px"
+      no-caps
+      text-color="primary"
+      label="Премиум настройки"
+      :href="`/lk/common/main/redirect?bot_id=${CONFIG.BOT.id}`"
+      flat
+    />
 
-              <q-item-section class="q-pl-sm">Добавить команду</q-item-section>
-            </q-item>
-          </q-list>
-        </q-menu> -->
-      </q-btn>
-    </div>
-    <div class="row q-gutter-sm">
-      <!-- <div class="rounded-borders custom-outline">
-        <q-btn color="primary" dense flat icon="image" @click="CreateColumn" />
-        <q-btn color="primary" dense flat icon="fullscreen" @click="GetItems" />
-        <q-btn color="primary" dense flat icon="check" @click="Get" />
-        <q-btn color="primary" dense flat icon="delete" @click="Delete" />
-      </div> -->
-      <!-- <q-btn dense color="white" text-color="black" label="Standard" @click="Show" /> -->
-
-      <!-- <q-btn
-        dense
-        flat
-        color="primary"
-        text-color="primary"
-        icon="mode_comment"
-        label="Тестировать"
-        class="q-px-md"
-        rounded
-        @click="ChangeVisibilityDialogs(true, 'test_constructor')"
-      /> -->
-
-      <!-- <div class="rounded-borders custom-outline">
-        <q-btn color="primary" dense flat icon="add" @click="main.AddScale" />
-        <q-btn color="primary" dense flat icon="remove" @click="main.RemoveScale" />
-      </div> -->
-    </div>
+    <q-btn
+      class="q-ml-sm"
+      padding="2px 4px"
+      color="white"
+      no-caps
+      flat
+      text-color="primary"
+      icon="refresh"
+      @click="useUpdateLines(false)"
+    >
+      <q-tooltip anchor="top middle" self="bottom middle" max-width="200px">
+        Используйте эту кнопку, если линии отображены некорректно
+      </q-tooltip>
+    </q-btn>
+    <q-btn
+      flat
+      class="q-ml-sm"
+      padding="2px 4px"
+      no-caps
+      text-color="primary"
+      icon="add"
+      :disable="vector.Scale >= 1"
+      @click="vector.IncreaseScale"
+    />
+    <q-btn
+      flat
+      class="q-ml-sm"
+      padding="2px 4px"
+      no-caps
+      text-color="primary"
+      icon="remove"
+      :disable="vector.Scale <= 0.7"
+      @click="vector.DecreaseScale"
+    />
   </div>
 </template>
 <script setup lang="ts">
-// import { ref, watch } from "vue";
-// import type { Command } from "../types";
-// import { GetRoutes } from "../api";
-import { /*useSelectStore,*/ useDataStore } from "../stores";
+import { useDataStore, useVectorStore } from "../stores";
+import CONFIG from "../../botconfig";
+import { useUpdateLines } from "../helpers";
+const main = useDataStore();
+const vector = useVectorStore();
 
-// const select = useSelectStore();
-const { ChangeTemplate } = useDataStore();
-// const { ChangeVisibilityDialogs } = useStatesStore();
-// const store = useStatesStore();
-
-// const select_state = ref<Command>(main.Commands[0]);
-// const menu_state = ref<boolean>(false);
-
-// const Show = () => {
-//   console.log(main.all_commands);
-// };
-
-// const GetItems = () => {
-//   GetRoutes("index").then((response) => {
-//     console.log(response);
-//   });
-// };
-
-// const Get = () => {
-//   GetRoutes("view", { route_id: 1058682 }).then((response) => {
-//     console.log(response);
-//   });
-// };
-
-// const Delete = () => {
-//   GetRoutes("delete", { route_id: 148523 }).then((response) => {
-//     console.log(response);
-//   });
-// };
-// const CreateColumn = () => {
-//   GetRoutes("create", {
-//     route: "index",
-//     message: "пе",
-//   }).then((response) => {
-//     console.log(response.data);
-//   });
-// };
+const BackToSelect = () => {
+  let id: number;
+  for (const [key, value] of Array.from(new URLSearchParams(window.location.search))) {
+    if (key == "bot_id") id = Number(value);
+  }
+  window.history.replaceState(null, document.title, `route?bot_id=${id}`);
+  main.ChangeTemplate("select");
+  vector.buttons = [];
+};
 </script>
 <style lang="scss">
-.rotate-animation-item {
-  transition: 0.3s transform ease;
-}
-.rotate-animation:hover .rotate-animation-item {
-  transform: rotate(180deg);
+.mw-300 {
+  max-width: 300px !important;
 }
 </style>

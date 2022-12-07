@@ -1,27 +1,28 @@
-export default function (start_x: number, start_y: number, offsetX: number, offsetY: number, is_reverse: boolean) {
-  const cffc_l_cur = 1.15;
-  const cffc_l_init = 1.3;
-  const cffc_s_cur = 1.04;
-  const cffc_s_init = 1.17;
+const REVERSE_DIFF = 86;
+const CURSOR_CFF_LONG = 120;
+const START_CFF_LONG = 160;
+const CURSOR_CFF_SHORT = 60;
+const START_CFF_SHORT = 100;
 
-  let cursor = offsetX / cffc_l_cur
-  let init = start_x * cffc_l_init
+export default function (start_x: number, start_y: number, end_x: number, end_y: number, is_reverse: boolean) {
+  let cursor = end_x - CURSOR_CFF_LONG
+  let start = start_x + START_CFF_LONG
 
-  if (is_reverse && offsetX > start_x - 86) {
-    cursor = offsetX / 1.1
-    init = start_x / 1.3
+  if (is_reverse && end_x > start_x - REVERSE_DIFF) {
+    cursor = end_x - CURSOR_CFF_SHORT
+    start = start_x - START_CFF_SHORT
   }
-  else if (!is_reverse && offsetX < start_x + 86) {
-    cursor = offsetX * cffc_s_cur
-    init = start_x * cffc_s_init
+  else if (!is_reverse && end_x < start_x + REVERSE_DIFF) {
+    cursor = end_x + CURSOR_CFF_SHORT
+    start = start_x + START_CFF_SHORT
   }
-  else if (!is_reverse && offsetX > start_x + 86) {
-    cursor = offsetX / cffc_l_cur
-    init = start_x * cffc_l_init
+  else if (!is_reverse && end_x > start_x + REVERSE_DIFF) {
+    cursor = end_x - CURSOR_CFF_LONG
+    start = start_x + START_CFF_LONG
   }
-  else if (is_reverse && offsetX < start_x - 86) {
-    cursor = offsetX * cffc_l_cur
-    init = start_x / cffc_l_init
+  else if (is_reverse && end_x < start_x - REVERSE_DIFF) {
+    cursor = end_x + CURSOR_CFF_LONG
+    start = start_x - START_CFF_LONG
   }
 
   return "M" +
@@ -30,16 +31,16 @@ export default function (start_x: number, start_y: number, offsetX: number, offs
     start_y +
     " " +
     "C" +
-    init +
+    start +
     " " +
     start_y +
     "," +
     cursor +
     " " +
-    offsetY +
+    end_y +
     "," +
-    offsetX +
+    end_x +
     " " +
-    offsetY;
+    end_y;
 }
 
