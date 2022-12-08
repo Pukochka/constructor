@@ -80,6 +80,7 @@ const EditRoute = () => {
   loading.value = true;
   select.SelectState(props.route, "route");
   GetRoutes("view", { route_id: props.route.id }).then((response) => {
+    console.log(response.data.data);
     loading.value = false;
     if (response.data.data.is_column) {
       main.SetSelectRoute(response.data);

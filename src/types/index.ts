@@ -87,6 +87,8 @@ export interface InlineMenuButtonInstance {
   line_id: number;
   sort: number;
   type: number;
+  line: number;
+  link: null | string;
 }
 
 export interface ColorsInstance {

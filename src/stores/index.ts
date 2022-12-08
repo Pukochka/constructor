@@ -35,5 +35,6 @@ import { useStatesStore } from './StateStore/States';
 import { useDataStore } from './DataStore/Data';
 import { useSelectStore } from './SelectStore/Select';
 import { useVectorStore } from './VectorStore/Vector';
+import { useTestStore } from './TestStore/Test';
 
-export { useStatesStore, useSelectStore, useDataStore, useVectorStore };
+export { useStatesStore, useSelectStore, useDataStore, useVectorStore, useTestStore };

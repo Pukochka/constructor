@@ -28,6 +28,7 @@ import { defineProps, PropType, ref, watch, onMounted, computed } from "vue";
 import { MessageInstance } from "../../types";
 import { useDataStore } from "../../stores";
 import { GetMessage } from "../../api";
+
 const props = defineProps({
   message: Object as PropType<MessageInstance>,
 });

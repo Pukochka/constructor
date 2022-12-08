@@ -154,7 +154,7 @@ import AddRoute from "../components/Dialogs/Route/AddRoute.vue";
 import AddButton from "../components/Dialogs/Inline/AddButton.vue";
 import EditButton from "../components/Dialogs/Inline/EditButton.vue";
 import EditMessageText from "../components/Dialogs/Message/EditMessageText.vue";
-import TestConstructor from "../components/Dialogs/TestConstructor.vue";
+import TestConstructor from "../components/Dialogs/Test/TestConstructor.vue";
 import EditRoute from "../components/Dialogs/Route/EditRoute.vue";
 import SetRoute from "../components/Dialogs/SetRoute.vue";
 import ChangeType from "../components/Dialogs/ChangeType.vue";

@@ -1,10 +1,5 @@
 <template>
-  <q-dialog
-    v-model="store.Dialogs.edit_message"
-    position="top"
-    persistet
-    @keydown="EnterDown"
-  >
+  <q-dialog v-model="store.Dialogs.edit_message" position="top" persistet>
     <q-card style="width: 50%" class="q-pa-md">
       <div class="flex justify-between items-center">
         <div class="text-h5">Изменение текста сообщения</div>
@@ -69,10 +64,6 @@ const text = ref<TextInput>({
     return max_value.value > this.value.length && this.min < this.value.length;
   },
 });
-
-const EnterDown = (evt: KeyboardEvent) => {
-  if (evt.key === "Enter" && text.value.required()) SaveBlock();
-};
 
 const SaveBlock = () => {
   loading.value = true;

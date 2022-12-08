@@ -52,14 +52,30 @@
       :disable="vector.Scale <= 0.7"
       @click="vector.DecreaseScale"
     />
+    <q-btn
+      flat
+      class="q-ml-sm"
+      padding="2px 4px"
+      text-color="primary"
+      icon="chat_bubble"
+      label="Тестировать"
+      :loading="loading"
+      @click="ToTest"
+    />
   </div>
 </template>
 <script setup lang="ts">
-import { useDataStore, useVectorStore } from "../stores";
+import { ref } from "vue";
+import { useDataStore, useStatesStore, useTestStore, useVectorStore } from "../stores";
 import CONFIG from "../../botconfig";
 import { useUpdateLines } from "../helpers";
+
 const main = useDataStore();
 const vector = useVectorStore();
+const state = useStatesStore();
+const test = useTestStore();
+
+const loading = ref<boolean>(false);
 
 const BackToSelect = () => {
   let id: number;
@@ -69,6 +85,16 @@ const BackToSelect = () => {
   window.history.replaceState(null, document.title, `route?bot_id=${id}`);
   main.ChangeTemplate("select");
   vector.buttons = [];
+};
+
+const ToTest = () => {
+  loading.value = true;
+  test.FirstMessage();
+  test.ConnectedMessages();
+  setTimeout(() => {
+    loading.value = false;
+    state.ChangeVisibilityDialogs(true, "test_constructor");
+  }, 500);
 };
 </script>
 <style lang="scss">
