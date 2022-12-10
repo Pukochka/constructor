@@ -18,6 +18,8 @@ export interface Dialogs {
   test_constructor: boolean;
   route_without_column: boolean;
   sure_reset: boolean;
+  edit_feed_back: boolean;
+  edit_image: boolean;
 }
 
 export type DialogNames =
@@ -34,4 +36,6 @@ export type DialogNames =
   | 'test_constructor'
   | 'edit_message'
   | 'add_route_with_column'
-  | 'sure_reset';
+  | 'sure_reset'
+  | 'edit_feed_back'
+  | 'edit_image';

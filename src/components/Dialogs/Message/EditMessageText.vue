@@ -45,13 +45,19 @@
 </template>
 <script lang="ts" setup>
 import { ref, onUpdated } from "vue";
-import { useStatesStore, useSelectStore, useDataStore } from "../../../stores";
+import {
+  useStatesStore,
+  useSelectStore,
+  useDataStore,
+  useErrorStore,
+} from "../../../stores";
 import { GetMessage, GetRoutes } from "../../../api";
 import { TextInput } from "../../../types";
 
 const store = useStatesStore();
 const select = useSelectStore();
 const main = useDataStore();
+const error = useErrorStore();
 
 const loading = ref<boolean>(false);
 const max_value = ref<number>(1024);
@@ -70,7 +76,8 @@ const SaveBlock = () => {
   GetMessage("update-text", {
     message_id: select.SelectedMessage.id,
     text: text.value.value,
-  }).then(() => {
+  }).then((res) => {
+    if (!res.data.result) error.handleErrorRes(res.data.message);
     GetRoutes("view", { route_id: main.SELECT_ROUTE.id }).then((res) => {
       loading.value = false;
       main.SetSelectRoute(res.data);

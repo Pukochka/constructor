@@ -46,7 +46,12 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { useStatesStore, useSelectStore, useDataStore } from "../../../stores";
+import {
+  useStatesStore,
+  useSelectStore,
+  useDataStore,
+  useErrorStore,
+} from "../../../stores";
 import { TextInput } from "../../../types";
 
 import { GetInlineMenu } from "../../../api";
@@ -54,6 +59,7 @@ import { GetInlineMenu } from "../../../api";
 const store = useStatesStore();
 const select = useSelectStore();
 const main = useDataStore();
+const error = useErrorStore();
 
 const loading = ref<boolean>(false);
 
@@ -87,7 +93,7 @@ const AddButton = () => {
           JSON.parse(response.data).data[0]
         );
       } else {
-        console.warn("eeerrr");
+        error.handleErrorRes(response.data?.message);
       }
       store.ChangeVisibilityDialogs(false, "add_button");
       text.value.value = "";
@@ -106,7 +112,7 @@ const AddButton = () => {
           JSON.parse(response.data).data[0]
         );
       } else {
-        console.warn("eeerrr");
+        error.handleErrorRes(response.data?.message);
       }
       store.ChangeVisibilityDialogs(false, "add_button");
       text.value.value = "";

@@ -84,19 +84,25 @@
 </template>
 <script lang="ts" setup>
 import { ref, onBeforeUpdate, computed } from "vue";
-import { useStatesStore, useSelectStore, useDataStore } from "../../stores";
+import {
+  useStatesStore,
+  useSelectStore,
+  useDataStore,
+  useErrorStore,
+} from "../../../stores";
 
-import Action from "./ButtonTypes/TypeAction.vue";
-import ChooseText from "./ButtonTypes/ChooseText.vue";
-import Link from "./ButtonTypes/TypeLink.vue";
-import Share from "./ButtonTypes/TypeShare.vue";
-import Web from "./ButtonTypes/TypeWeb.vue";
+import Action from "./TypeAction.vue";
+import ChooseText from "./ChooseText.vue";
+import Link from "./TypeLink.vue";
+import Share from "./TypeShare.vue";
+import Web from "./TypeWeb.vue";
 
-import { GetInlineMenu } from "../../api";
+import { GetInlineMenu } from "../../../api";
 
 const state = useStatesStore();
 const select = useSelectStore();
 const main = useDataStore();
+const error = useErrorStore();
 
 const button_types = ref([
   {
@@ -168,7 +174,7 @@ const SaveConnection = () => {
         );
         state.ChangeVisibilityDialogs(false, "set_route");
       } else {
-        console.warn("eeerrr");
+        error.handleErrorRes(response.data?.message);
       }
     });
   }

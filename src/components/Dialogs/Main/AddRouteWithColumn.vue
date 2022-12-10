@@ -21,19 +21,21 @@
           :rules="[() => text.required() || 'Введено неверное количество символов']"
         />
         <div class="text-h5 q-py-sm">Тип первого сообщения</div>
-        <q-list class="text-subtitle1 q-my-sm" separator>
-          <q-item
-            clickable
-            v-ripple
-            class="items-center rounded-borders"
-            :class="{ 'bg-primary text-white': select_type.id == item.id }"
-            @click="select_type = item"
-            v-for="item in main.AllTypes"
-            :key="item.id"
-          >
-            <div class="q-pl-sm">{{ item.title }}</div>
-          </q-item>
-        </q-list>
+        <div class="row q-col-gutter-sm">
+          <div class="col-6 col-sm-4" v-for="item in main.AllTypes" :key="item.id">
+            <q-item
+              clickable
+              v-ripple
+              class="column items-center justify-center text-center rounded-borders no-padding"
+              :class="{ 'bg-primary text-white': select_type.id == item.id }"
+              style="height: 70px"
+              @click="select_type = Object.assign({}, item)"
+            >
+              <q-icon :name="icons[item.id]" size="20px" />
+              <div class="">{{ item.title }}</div>
+            </q-item>
+          </div>
+        </div>
       </div>
 
       <div class="row q-gutter-sm justify-end">
@@ -63,12 +65,13 @@
 </template>
 <script setup lang="ts">
 import { ref, onUpdated } from "vue";
-import { useStatesStore, useDataStore } from "../../../stores";
+import { useStatesStore, useDataStore, useErrorStore } from "../../../stores";
 import { TextInput, MessageTypes } from "../../../types";
 import { GetRoutes } from "../../../api";
 
 const state = useStatesStore();
 const main = useDataStore();
+const error = useErrorStore();
 
 const loading = ref<boolean>(false);
 
@@ -76,6 +79,8 @@ const select_type = ref<MessageTypes>({
   id: 0,
   title: "",
 });
+
+const icons = ["text_fields", "image", "forum", "description", "movie", "gif_box"]; // ПЕРЕДЕЛАТЬ
 
 const text = ref<TextInput>({
   value: "",
@@ -95,7 +100,8 @@ const AddRoute = () => {
   GetRoutes("create-with-column", {
     message: text.value.value,
     message_type: select_type.value.id,
-  }).then(() => {
+  }).then((res) => {
+    if (!res.data.result) error.handleErrorRes(res.data.message);
     GetRoutes("index").then((response) => {
       main.SetRoutes(response.data);
       loading.value = false;

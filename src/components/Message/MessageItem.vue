@@ -107,6 +107,7 @@
       />
 
       <div
+        v-if="message.type.id !== 2"
         class="row q-mt-sm"
         :class="{
           'active-blur': vector.is_active && select.SelectedMessage.id !== message.id,

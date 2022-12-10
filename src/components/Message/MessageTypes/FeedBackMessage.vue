@@ -9,7 +9,7 @@
       class="fit"
     />
   </div>
-  <div class="col-12 rounded-borders custom-outline">
+  <!-- <div class="col-12 rounded-borders custom-outline">
     <div class="q-pl-md q-pr-sm q-pt-sm flex items-center justify-between">
       <div class="flex items-center">
         <q-icon name="forum" />
@@ -30,22 +30,22 @@
       </q-btn>
     </div>
     <div class="q-pa-md"><div class="ellipsis" v-html="message.text.content"></div></div>
-  </div>
+  </div> -->
 </template>
 <script lang="ts" setup>
 import { defineProps, PropType } from "vue";
 import { MessageInstance } from "../../../types";
-import { useStatesStore, useSelectStore } from "../../../stores";
+// import { useStatesStore, useSelectStore } from "../../../stores";
 
-const props = defineProps({
+/*const props = */ defineProps({
   message: Object as PropType<MessageInstance>,
 });
 
-const state = useStatesStore();
-const select = useSelectStore();
+// const state = useStatesStore();
+// const select = useSelectStore();
 
-const EditTextMessage = () => {
-  select.SelectState(props.message, "message");
-  state.ChangeVisibilityDialogs(true, "edit_message");
-};
+// const EditTextMessage = () => {
+//   select.SelectState(props.message, "message");
+//   state.ChangeVisibilityDialogs(true, "edit_message");
+// };
 </script>

@@ -13,8 +13,8 @@
         <div
           class="rounded-borders bg-grey-3 row relative-position"
           :class="{
-            'treangle-sent': is_sent,
-            'treangle-send': is_send,
+            'treangle-sent': is_send,
+            'treangle-send': is_sent,
           }"
         >
           <div class="text-subtitle2 q-pt-sm q-px-sm">
@@ -26,7 +26,7 @@
         </div>
         <div class="q-mt-xs column q-gutter-xs">
           <div
-            class="row no-wrap"
+            class="row no-wrap q-col-gutter-x-xs"
             v-for="line in message.inline_menu?.lines"
             :key="line.id"
           >
@@ -53,9 +53,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useTestStore } from "src/stores";
+import { useTestStore } from "stores";
+import { InlineMenuButtonInstance, MessageInstance } from "c-types";
+
 import { defineProps, PropType, ref, onMounted, computed, defineEmits } from "vue";
-import { InlineMenuButtonInstance, MessageInstance } from "../../../types";
 
 const props = defineProps({
   message: Object as PropType<MessageInstance>,

@@ -133,9 +133,13 @@
   <TestConstructor />
   <EditMessageText />
   <SettingsButtons />
-  <ChangeType />
+  <ChangeTypeMessage />
   <RouteSettings />
   <SureResetRoutes />
+  <ErrorReq />
+  <ErrorRes />
+  <EditImage />
+  <EditFeedBack />
 </template>
 <script lang="ts" setup>
 import { ref, computed } from "vue";
@@ -148,19 +152,30 @@ import MainLinks from "./links/MainLinks";
 import { useQuasar } from "quasar";
 import { useStatesStore } from "../stores";
 
+import AddRouteWithColumn from "../components/Dialogs/Main/AddRouteWithColumn.vue";
+import AddRoute from "../components/Dialogs/Main/AddRoute.vue";
+import EditRoute from "../components/Dialogs/Main/EditRoute.vue";
+import RouteSettings from "../components/Dialogs/Main/RouteSettings.vue";
+
 import AddMessage from "../components/Dialogs/Message/AddMessage.vue";
-import AddRouteWithColumn from "../components/Dialogs/Route/AddRouteWithColumn.vue";
-import AddRoute from "../components/Dialogs/Route/AddRoute.vue";
+import ChangeTypeMessage from "../components/Dialogs/Message/ChangeType.vue";
+import EditMessageText from "../components/Dialogs/Message/EditMessageText.vue";
+
 import AddButton from "../components/Dialogs/Inline/AddButton.vue";
 import EditButton from "../components/Dialogs/Inline/EditButton.vue";
-import EditMessageText from "../components/Dialogs/Message/EditMessageText.vue";
-import TestConstructor from "../components/Dialogs/Test/TestConstructor.vue";
-import EditRoute from "../components/Dialogs/Route/EditRoute.vue";
-import SetRoute from "../components/Dialogs/SetRoute.vue";
-import ChangeType from "../components/Dialogs/ChangeType.vue";
 import SettingsButtons from "../components/Dialogs/Inline/SettingsButtons.vue";
-import RouteSettings from "../components/Dialogs/RouteWithoutColumn/RouteSettings.vue";
+
+import TestConstructor from "../components/Dialogs/Test/TestConstructor.vue";
+
+import SetRoute from "../components/Dialogs/Route/SetRoute.vue";
+
 import SureResetRoutes from "../components/Dialogs/Sure/SureResetRoutes.vue";
+
+import ErrorReq from "../components/Dialogs/Error/ErrorRequest.vue";
+import ErrorRes from "../components/Dialogs/Error/ErrorResponse.vue";
+
+import EditFeedBack from "../components/Dialogs/Edit/EditFeedBack.vue";
+import EditImage from "../components/Dialogs/Edit/EditImage.vue";
 
 const $q = useQuasar();
 const state = useStatesStore();

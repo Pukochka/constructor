@@ -50,14 +50,14 @@
 </template>
 <script setup lang="ts">
 import { ref, onUpdated, computed } from "vue";
-import { useStatesStore, useDataStore } from "../../../stores";
+import { useStatesStore, useDataStore, useErrorStore } from "../../../stores";
 import { TextInput } from "../../../types";
 import { GetRoutes } from "../../../api";
-import TypeAction from "../ButtonTypes/TypeAction.vue";
+import TypeAction from "../Route/TypeAction.vue";
 
 const state = useStatesStore();
 const main = useDataStore();
-
+const error = useErrorStore();
 const loading = ref<boolean>(false);
 
 const text = ref<TextInput>({
@@ -91,7 +91,8 @@ const AddRoute = () => {
   GetRoutes("create", {
     message: text.value.value,
     route: end_route.value.value,
-  }).then(() => {
+  }).then((res) => {
+    if (!res.data.result) error.handleErrorRes(res.data.message);
     GetRoutes("index").then((response) => {
       main.SetRoutes(response.data);
       loading.value = false;

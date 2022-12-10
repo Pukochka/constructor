@@ -49,13 +49,19 @@
 </template>
 <script setup lang="ts">
 import { ref, onUpdated } from "vue";
-import { useStatesStore, useDataStore, useSelectStore } from "../../../stores";
+import {
+  useStatesStore,
+  useDataStore,
+  useSelectStore,
+  useErrorStore,
+} from "../../../stores";
 import { TextInput } from "../../../types";
 import { GetRoutes } from "../../../api";
 
 const state = useStatesStore();
 const select = useSelectStore();
 const main = useDataStore();
+const error = useErrorStore();
 
 const loading = ref<boolean>(false);
 
@@ -77,8 +83,9 @@ const EditRoute = () => {
   GetRoutes("update-message", {
     message: text.value.value,
     route_id: select.SelectedRoute.id,
-  }).then((response) => {
-    console.log(response);
+  }).then((res) => {
+    console.log(res);
+    if (!res.data.result) error.handleErrorRes(res.data.message);
     GetRoutes("index").then((response) => {
       loading.value = false;
       state.ChangeVisibilityDialogs(false, "edit_route");

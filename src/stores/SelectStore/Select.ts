@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import type { SelectStore } from './model';
-// import { Commands } from '../../data/Commands';
+
 import { NameReplics, StateValues, StateTypes } from './model';
 
 export const useSelectStore = defineStore({

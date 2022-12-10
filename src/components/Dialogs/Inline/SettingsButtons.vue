@@ -98,7 +98,12 @@
 </template>
 <script lang="ts" setup>
 import { computed, ref } from "vue";
-import { useStatesStore, useSelectStore, useDataStore } from "../../../stores";
+import {
+  useStatesStore,
+  useSelectStore,
+  useDataStore,
+  useErrorStore,
+} from "../../../stores";
 import { useQuasar } from "quasar";
 
 import { GetInlineMenu, GetMessage } from "../../../api";
@@ -107,7 +112,7 @@ import { InlineMenuLineInstance, InlineMenuButtonInstance } from "../../../types
 const state = useStatesStore();
 const select = useSelectStore();
 const main = useDataStore();
-
+const error = useErrorStore();
 const $q = useQuasar();
 
 const is_sm_screen = computed(() => !$q.screen.lt.sm);
@@ -125,7 +130,7 @@ const DeleteLine = (line_id: number) => {
       loading.value = false;
       main.UpdateInlineMenu(select.SelectedMessage.id, JSON.parse(response.data).data[0]);
     } else {
-      console.warn("eeerrr");
+      error.handleErrorRes(response.data?.message);
     }
   });
 };

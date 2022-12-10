@@ -12,19 +12,21 @@
         </div>
         <q-btn color="primary" flat round icon="close" dense v-close-popup />
       </div>
-      <q-list class="text-subtitle1 q-mb-sm" separator>
-        <q-item
-          clickable
-          v-ripple
-          class="items-center rounded-borders"
-          :class="{ 'bg-primary text-white': select_type.id == item.id }"
-          @click="select_type = item"
-          v-for="item in main.AllTypes"
-          :key="item.id"
-        >
-          <div class="q-pl-sm">{{ item.title }}</div>
-        </q-item>
-      </q-list>
+      <div class="row q-col-gutter-sm q-my-md">
+        <div class="col-6 col-sm-4" v-for="item in main.AllTypes" :key="item.id">
+          <q-item
+            clickable
+            v-ripple
+            class="column items-center justify-center text-center rounded-borders no-padding"
+            :class="{ 'bg-primary text-white': select_type.id == item.id }"
+            style="height: 70px"
+            @click="select_type = Object.assign({}, item)"
+          >
+            <q-icon :name="icons[item.id]" size="20px" />
+            <div class="">{{ item.title }}</div>
+          </q-item>
+        </div>
+      </div>
       <div class="q-pt-md row q-gutter-x-sm justify-end">
         <q-btn
           class="q-px-md"
@@ -70,6 +72,8 @@ const select_type = ref<MessageTypes>({
   id: 0,
   title: "",
 });
+
+const icons = ["text_fields", "image", "forum", "description", "movie", "gif_box"]; // ПЕРЕДЕЛАТЬ
 
 const AddMessage = () => {
   loading_add.value = true;

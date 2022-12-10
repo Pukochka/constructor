@@ -1,16 +1,21 @@
 import axios from 'axios';
-
+import { useErrorStore } from "../stores";
 import CONFIG from '../../botconfig';
 
 const TOKEN = CONFIG.BOT.token;
 const BOT_ID = CONFIG.BOT.id;
 const HOST = CONFIG.HOST;
 
-export default function (METHOD: MessageMethods, POST_PARAMS?: PostParams) {
-  return axios.post(`${HOST}/v1/bot/message/message/${METHOD}?token=${TOKEN}`, {
-    bot_id: BOT_ID,
-    ...POST_PARAMS,
-  });
+export default async function (METHOD: MessageMethods, POST_PARAMS?: PostParams) {
+  const error = useErrorStore();
+  try {
+    return await axios.post(`${HOST}/v1/bot/message/message/${METHOD}?token=${TOKEN}`, {
+      bot_id: BOT_ID,
+      ...POST_PARAMS
+    });
+  } catch {
+    error.handleErrorReq();
+  }
 }
 
 export type MessageMethods =

@@ -62,6 +62,22 @@
       :loading="loading"
       @click="ToTest"
     />
+    <q-btn
+      flat
+      class="q-ml-sm"
+      padding="2px 4px"
+      text-color="primary"
+      label="Обратная связь"
+      @click="state.ChangeVisibilityDialogs(true, 'edit_feed_back')"
+    />
+    <q-btn
+      flat
+      class="q-ml-sm"
+      padding="2px 4px"
+      text-color="primary"
+      label="Изображение"
+      @click="state.ChangeVisibilityDialogs(true, 'edit_image')"
+    />
   </div>
 </template>
 <script setup lang="ts">

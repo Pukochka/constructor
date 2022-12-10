@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, watch } from "vue";
-import { useDataStore, useStatesStore, useVectorStore } from "../stores";
+import { useDataStore, useStatesStore, useVectorStore } from "stores";
 import { useUpdateLines } from "../helpers";
 
 import HeaderOptions from "../components/HeaderOptions.vue";

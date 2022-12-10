@@ -1,3 +1,4 @@
+import { useErrorStore } from './../ErrorStore/Error';
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import type { DataStore } from './model';
@@ -63,6 +64,9 @@ export const useDataStore = defineStore('DataStore', {
             window.location.search + `&route_id=${this.SELECT_ROUTE.id}`
           );
         }
+      } else {
+        const error = useErrorStore();
+        error.handleErrorRes(response?.message);
       }
     },
     SetMessage(message_id: number, value: MessageInstance) {

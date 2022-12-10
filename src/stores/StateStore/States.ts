@@ -23,6 +23,8 @@ export const useStatesStore = defineStore({
         test_constructor: false,
         route_without_column: false,
         sure_reset: false,
+        edit_feed_back: false,
+        edit_image: false,
       },
     } as StatesStore),
   getters: {

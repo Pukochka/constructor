@@ -39,12 +39,18 @@
 <script setup lang="ts">
 import { GetRoutes } from "../../../api";
 import { ref, computed, onBeforeUpdate } from "vue";
-import { useDataStore, useSelectStore, useStatesStore } from "../../../stores";
-import TypeAction from "../ButtonTypes/TypeAction.vue";
+import {
+  useDataStore,
+  useSelectStore,
+  useStatesStore,
+  useErrorStore,
+} from "../../../stores";
+import TypeAction from "../Route/TypeAction.vue";
 
 const select = useSelectStore();
 const state = useStatesStore();
 const main = useDataStore();
+const error = useErrorStore();
 
 const end_route = ref({
   value: "",
@@ -82,7 +88,8 @@ const EditRoute = () => {
   GetRoutes("update-route", {
     route: end_route.value.value,
     route_id: select.SelectedRoute.id,
-  }).then(() => {
+  }).then((res) => {
+    if (!res.data.result) error.handleErrorRes(res.data.message);
     GetRoutes("index").then((response) => {
       loading.value = false;
       main.SetRoutes(response.data);

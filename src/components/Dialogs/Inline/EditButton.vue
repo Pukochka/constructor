@@ -47,7 +47,12 @@
 </template>
 <script setup lang="ts">
 import { ref, onUpdated } from "vue";
-import { useStatesStore, useSelectStore, useDataStore } from "../../../stores";
+import {
+  useStatesStore,
+  useSelectStore,
+  useDataStore,
+  useErrorStore,
+} from "../../../stores";
 import { TextInput } from "../../../types";
 
 import { GetInlineMenu } from "../../../api";
@@ -55,7 +60,7 @@ import { GetInlineMenu } from "../../../api";
 const store = useStatesStore();
 const select = useSelectStore();
 const main = useDataStore();
-
+const error = useErrorStore();
 const loading = ref<boolean>(false);
 
 const text = ref<TextInput>({
@@ -86,7 +91,7 @@ const EditButton = () => {
       main.UpdateInlineMenu(select.SelectedMessage.id, JSON.parse(response.data).data[0]);
       store.ChangeVisibilityDialogs(false, "edit_button");
     } else {
-      console.warn("eeerrr");
+      error.handleErrorRes(response.data?.message);
     }
   });
 };
