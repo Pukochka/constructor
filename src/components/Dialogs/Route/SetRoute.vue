@@ -53,7 +53,11 @@
             @watch_end_route="SaveEndRoute"
             :route="route"
           />
-          <Web v-if="select_button_type === 4" @watch_end_route="SaveEndRoute" />
+          <Web
+            v-if="select_button_type === 4"
+            @watch_end_route="SaveEndRoute"
+            :route="route"
+          />
         </div>
       </div>
       <div class="row q-gutter-sm justify-end">

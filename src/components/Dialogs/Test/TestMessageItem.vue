@@ -53,8 +53,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useTestStore } from "stores";
-import { InlineMenuButtonInstance, MessageInstance } from "c-types";
+import { useTestStore } from "../../../stores";
+import { InlineMenuButtonInstance, MessageInstance } from "../../../types";
 
 import { defineProps, PropType, ref, onMounted, computed, defineEmits } from "vue";
 

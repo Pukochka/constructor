@@ -9,8 +9,8 @@ export default {
   ROUTES: [
     {
       text: '\u0412\u0441\u0435 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438',
+      route: 'category/main',
       type_value: 0,
-      route: 'category/main?isNewMessage=true',
     },
     {
       text: '\u041e\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u043d\u0430\u044f \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f/\u043f\u043e\u0434\u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f',
@@ -18,43 +18,55 @@ export default {
       type_value: 2,
       text_value:
         '\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044e',
-      identifier: '&id=',
-      options: [],
-      value: [[]],
+      identifier: '?id=',
+      options: [
+        {
+          id: 602400,
+          title: '\u041a\u043e\u043c\u0431\u043e',
+          description: '\u0413\u043b\u0430\u0432\u043d\u0430\u044f',
+        },
+      ],
+      value: [
+        {
+          602400: '\u041a\u043e\u043c\u0431\u043e',
+        },
+      ],
     },
     {
       text: '\u041e\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u043d\u044b\u0439 \u0442\u043e\u0432\u0430\u0440',
-      route: 'category/count',
+      route: 'category/product',
       text_value:
         '\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0442\u043e\u0432\u0430\u0440',
       type_value: 2,
-      identifier: '&id=',
-      options: [],
-      value: [[]],
+      identifier: '?id=',
+      options: [
+        {
+          id: 602402,
+          title:
+            '\u0412\u043e\u043f\u043f\u0435\u0440 \u041a\u0438\u043d\u0433 \u041a\u043e\u043c\u0431\u043e',
+          description: '\u041a\u043e\u043c\u0431\u043e',
+        },
+      ],
+      value: [
+        {
+          602402:
+            '\u0412\u043e\u043f\u043f\u0435\u0440 \u041a\u0438\u043d\u0433 \u041a\u043e\u043c\u0431\u043e',
+        },
+      ],
     },
     {
-      text: '\u041d\u0430\u043b\u0438\u0447\u0438\u0435 \u0442\u043e\u0432\u0430\u0440\u0430',
+      text: '\u0412\u0438\u0442\u0440\u0438\u043d\u0430',
       route: 'category/all',
       type_value: 0,
     },
     {
-      text: '\u0412\u0432\u0435\u0441\u0442\u0438 \u043f\u0440\u043e\u043c\u043e\u043a\u043e\u0434',
+      text: '\u041a\u043e\u0440\u0437\u0438\u043d\u0430',
+      route: 'cart/index?index=0',
+      type_value: 0,
+    },
+    {
+      text: '\u0410\u043a\u0442\u0438\u0432\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u043a\u0443\u043f\u043e\u043d',
       route: 'profile/activateCode',
-      type_value: 0,
-    },
-    {
-      text: '\u041e \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0435',
-      route: 'shop/info',
-      type_value: 0,
-    },
-    {
-      text: '\u041f\u043e\u043c\u043e\u0449\u044c',
-      route: 'shop/help',
-      type_value: 0,
-    },
-    {
-      text: '\u041f\u0440\u0430\u0432\u0438\u043b\u0430',
-      route: 'shop/rules',
       type_value: 0,
     },
     {
@@ -95,24 +107,18 @@ export default {
       identifier: '?id=',
       options: [
         {
-          id: 7,
+          id: 14214,
           title:
-            '\u0421\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435 \u0441 \u043a\u0430\u0440\u0442\u0438\u043d\u043a\u043e\u0439',
-          description: '\u0422\u0435\u043a\u0441\u0442',
-        },
-        {
-          id: 10,
-          title:
-            '\u0422\u0435\u043a\u0441\u0442\u043e\u0432\u043e\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435',
-          description: '\u0422\u0435\u043a\u0441\u0442',
-        },
-        {
-          id: 11,
-          title:
-            '\u0421\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435 \u0441 \u043a\u0430\u0440\u0442\u0438\u043d\u043a\u043e\u0439',
-          description: '\u0422\u0435\u043a\u0441\u0442',
+            '\u0412 \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0435',
+          description:
+            '\u0412 \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0435',
+          type_value: 0,
         },
       ],
+      value: {
+        14214:
+          '\u0412 \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0435',
+      },
     },
     {
       text: '\u0410\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435(\u0414\u043e\u0441\u0442\u0443\u043f \u0442\u043e\u043b\u044c\u043a\u043e \u043c\u0435\u043d\u0435\u0434\u0436\u0435\u0440\u0430\u043c \u0438 \u0441\u043e\u0437\u0434\u0430\u0442\u0435\u043b\u044e)',
@@ -159,7 +165,23 @@ export default {
       ],
     },
   ],
-  WEBS: [],
+
+  WEBS: [
+    {
+      id: 1,
+      text: 'SHOP WEB',
+      value:
+        'https://shopdigital.bot-t.com/?bot_id=12845&secretKey=db0b766fdbc2274841d28673d0f4cf15dc311b9827f7c7cb2539d05a0f1c317e',
+      type: 'single',
+    },
+    {
+      id: 193,
+      text: 'SHOP WEB',
+      value:
+        'https://shopdigital.bot-t.com/?bot_id=12845&secretKey=db0b766fdbc2274841d28673d0f4cf15dc311b9827f7c7cb2539d05a0f1c317e',
+      type: 'single',
+    },
+  ],
 };
 // export default {
 //   HOST: host,

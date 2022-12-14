@@ -22,7 +22,7 @@
               'transform-origin': 'left top',
             }"
           >
-            <VectorTemplate v-show="!is_dragging" />
+            <VectorTemplate />
             <div class="row no-wrap fit q-pa-lg">
               <div
                 class="flex no-wrap"
@@ -54,8 +54,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, watch } from "vue";
-import { useDataStore, useStatesStore, useVectorStore } from "stores";
+import { onMounted } from "vue";
+import { useDataStore, useStatesStore, useVectorStore } from "../stores";
 import { useUpdateLines } from "../helpers";
 
 import HeaderOptions from "../components/HeaderOptions.vue";
@@ -90,12 +90,6 @@ function ScrollPositionEffect(e) {
     vertical: verticalPosition,
   });
 }
-
-const is_dragging = computed(() => state.is_dragging);
-
-watch(is_dragging, (val) => {
-  if (!val) setTimeout(() => useUpdateLines(false), 180);
-});
 
 onMounted(() => {
   setTimeout(() => useUpdateLines(true), 310);

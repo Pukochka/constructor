@@ -1,6 +1,11 @@
 <template>
   <transition name="fade">
-    <div class="q-py-sm" @mouseup="Enter" v-if="is_dragging">
+    <div
+      class="q-py-sm drag"
+      :class="{ 'drag-helper-horizontal': position }"
+      @mouseup="Enter"
+      v-if="is_dragging"
+    >
       <q-tooltip anchor="top middle" self="top middle" class="bg-red text-subtitle2">
         Отпустите чтобы переместить
       </q-tooltip>
@@ -17,6 +22,7 @@ import { useUpdateLines } from "../../helpers";
 const props = defineProps({
   sort: Number,
   column_id: Number,
+  position: Boolean,
 });
 const state = useStatesStore();
 const select = useSelectStore();
@@ -40,6 +46,13 @@ const Enter = () => {
 .drag-helper {
   background: rgb(255, 204, 0);
   width: 100%;
-  height: 4px;
+  height: 2px;
+  &-horizontal {
+    top: -22px;
+  }
+}
+.drag {
+  width: 370px;
+  position: absolute;
 }
 </style>

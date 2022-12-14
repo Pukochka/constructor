@@ -18,7 +18,7 @@
             clickable
             v-ripple
             class="column items-center justify-center text-center rounded-borders no-padding"
-            :class="{ 'bg-primary text-white': select_type.id == item.id }"
+            :class="{ 'bg-blue-6 text-white': select_type.id == item.id }"
             style="height: 70px"
             @click="select_type = Object.assign({}, item)"
           >

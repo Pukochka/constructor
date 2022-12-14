@@ -154,3 +154,10 @@ export interface RoutesOptionsStatic {
   type: string;
   type_value: number;
 }
+
+export interface WebsRoute {
+  id: number;
+  text: string;
+  value: string;
+  type: string
+}

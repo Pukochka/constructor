@@ -149,6 +149,7 @@ function ParseRoute(
     });
     if (!find) {
       select = CategoryRoutes().find((item) => item.text == select_route.text);
+      console.log(select_route);
       current = {
         data: select.options,
         select: select.options[0],

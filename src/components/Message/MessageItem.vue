@@ -1,14 +1,10 @@
 <template>
-  <DragHelperHorizontal
-    :column_id="message.column_id"
-    :sort="index"
-    v-if="drag_id !== message.id"
-  />
   <div
     :id="`message_${message.id}`"
-    class="shadow-1 rounded-borders q-mb-md bg-white relative-position"
+    class="shadow-1 rounded-borders q-mb-lg bg-white relative-position"
     style="max-width: 370px; min-width: 370px"
   >
+    <DragHelperHorizontal :column_id="message.column_id" :sort="index" position />
     <div class="absolute-top-left q-pt-sm cursor-move" @mousedown="DragStart">
       <q-icon color="grey" name="drag_indicator" size="18px">
         <q-tooltip anchor="top middle" self="bottom middle">
